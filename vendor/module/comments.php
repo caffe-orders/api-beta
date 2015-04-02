@@ -87,6 +87,7 @@ class Comments extends Module
                 else
                 {
                     $response->SetStatusCode(400, 'Failed to create comment (are you logged in?)');
+                    $response->SetJsonContent($_SESSION);
                 }
             }
             else

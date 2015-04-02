@@ -1,8 +1,8 @@
 <?php
-session_start();
 ini_set('display_errors', 1);
+session_start();
   //error_reporting(E_ALL);
-$start = microtime(true);
+//$start = microtime(true);
 //$
 //defines pathmap
 //$
@@ -40,6 +40,6 @@ require_once VENDOR_PATH . 'autoloader.php';
 //init data handler (recieve and send client data)
 //
 $dataHandler = new DataHandler();
-$end = microtime(true);
+//$end = microtime(true);
 //echo ($end-$start) * 1000;
 ?>

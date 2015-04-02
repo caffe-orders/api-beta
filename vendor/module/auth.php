@@ -78,7 +78,6 @@ class Auth extends Module
             {                
                 $response->SetStatusCode(400, 'Arguments not found(email, password) or Incorrect arguments type');
             }
-            
             return $response;
         });
     }

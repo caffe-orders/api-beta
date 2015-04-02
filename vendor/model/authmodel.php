@@ -26,6 +26,7 @@ class AuthModel
         {
             if($response['pwdHash'] === md5($password))
             {
+                session_start();
                 $_SESSION['id'] = $response['id'];
                 $addHashQuery = $this->connection->prepare(
                    'UPDATE
