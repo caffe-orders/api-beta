@@ -58,8 +58,8 @@ class CommentsModel
                 Comment.text,
                 Comment.pubDate,
                 User.id,
-                User.firstname,
-                User.Lastname
+                User.firstName,
+                User.lastName
             FROM
                 comments Comment,
                 users User

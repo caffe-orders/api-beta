@@ -36,12 +36,12 @@ class AuthModel
                         id = :id'
                 );
                 $hash = md5($response['email'] . date('Y-m'));
+                $_SESSION['hash'] = $hash;
                 $id = $response['id'];
                 $addHashQuery->execute(array(
                     ':hash' => $hash,
                     ':id' => $id
                 ));
-                $_SESSION['hash'] = $hash;
                 $state = true;
             }
         }

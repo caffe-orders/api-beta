@@ -79,7 +79,8 @@ class Response
     public function Send()
     {
         //we use only json output
-        $this->SetHeader('Access-Control-Allow-Origin', '*'); //FIX FIXF XFIXFIXFIXI
+        $this->SetHeader('Access-Control-Allow-Origin', 'http://caffe.ru'); //FIX FIXF XFIXFIXFIXI
+        $this->SetHeader('Access-Control-Allow-Credentials', 'true');
         $this->SetHeader('Content-Type', 'application/javascript; charset=utf8');
         //send headers
         foreach($this->headers as $header)
