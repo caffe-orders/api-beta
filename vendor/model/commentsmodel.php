@@ -35,7 +35,7 @@ class CommentsModel
         $queryArgsList = array(
             ':senderId' => $senderId,
             ':placeId' => $placeId,
-            ':state' => ($state == 'true') ? true : false,
+            ':state' => ($state == 'true') ? 1 : 2,
             ':text' => $text,
             ':pubDate' => date('Y.m.d')
         );
