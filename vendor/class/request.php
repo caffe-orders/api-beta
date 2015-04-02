@@ -77,9 +77,9 @@ class Request
         $normalizedGetData = array();
         foreach($rawGetData as $key => $value)
         {
-            $normalizedKey = addslashes(htmlentities(strip_tags(trim($key)), ENT_QUOTES));
+            $normalizedKey = addslashes(htmlspecialchars(strip_tags(trim($key)), ENT_QUOTES));
             //$normalizedKey = mysqli_escape_string($normalizedKey); bug
-            $normalizedValue = addslashes(htmlentities(strip_tags(trim($value)), ENT_QUOTES));
+            $normalizedValue = addslashes(htmlspecialchars(strip_tags(trim($value)), ENT_QUOTES));
             //$normalizedValue = mysqli_escape_string($normalizedValue); bug
             $normalizedGetData[$normalizedKey] = $normalizedValue;
         }
@@ -93,9 +93,9 @@ class Request
         $normalizedPostData = array();
         foreach($rawPostData as $key => $value)
         {
-            $normalizedKey =addslashes(htmlentities(strip_tags(trim($key)), ENT_QUOTES));
+            $normalizedKey =addslashes(htmlspecialchars(strip_tags(trim($key)), ENT_QUOTES));
             //$normalizedKey = mysql_real_escape_string($normalizedKey); bug
-            $normalizedValue = addslashes(htmlentities(strip_tags(trim($value)), ENT_QUOTES));
+            $normalizedValue = addslashes(htmlspecialchars(strip_tags(trim($value)), ENT_QUOTES));
             //$normalizedValue = mysql_real_escape_string($normalizedValue); bug
             $normalizedPostData[$normalizedKey] = $normalizedValue;
         }

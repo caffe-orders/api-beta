@@ -11,6 +11,7 @@ class PlacesModel
     public function AddNewPlace(
         $name,
         $ownerId,
+        $gmap,
         $address,
         $phones,
         $workTime,
@@ -30,6 +31,7 @@ class PlacesModel
                 places(
                     name,
                     ownerId,
+                    gmap,
                     address,
                     phones,
                     workTime,
@@ -47,6 +49,7 @@ class PlacesModel
             VALUES(
                 :name,
                 :ownerId,
+                :gmap,
                 :address,
                 :phones,
                 :workTime,
@@ -65,6 +68,7 @@ class PlacesModel
         $queryArgsList = array(
             ':name' => $name,
             ':ownerId' => $ownerId,
+            ':gmap' => $gmap,
             ':address' => $address, 
             ':phones' => $phones, 
             ':workTime' => $workTime, 
@@ -142,5 +146,23 @@ class PlacesModel
         $query->bindValue(':limit', (int)$limit, PDO::PARAM_INT); 
         $query->execute();
         return $query->fetchAll();
+    }
+    //
+    //$id - int
+    //return data if data exists, false if no data
+    //
+    public function GetFullInfo($id)
+    {
+        $query = $this->connection->prepare(
+           'SELECT
+                *
+            FROM
+                places
+            WHERE
+                id = :id'
+        );
+        $query->bindValue('id', (int)$id, PDO::PARAM_INT); 
+        $query->execute();
+        return $query->fetch();
     }
 }

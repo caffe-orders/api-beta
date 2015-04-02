@@ -139,7 +139,7 @@ class UsersModel
                 ':phone' => $phone, 
                 ':pwdHash' => md5($password),
                 ':access' => 1,                             
-                ':regDate' => date('Y-m-d H:i:s'),
+                ':regDate' => date('Y.m.d'),
                 ':isActive' => false
             );
             if($query->execute($queryArgsList))

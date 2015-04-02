@@ -6,7 +6,6 @@ class Places extends Module
     //
     public function __construct()
     {        
-        $this->model = new UsersModel();
         $this->SetGetFunctions();
         $this->SetPostFunctions();
     }
@@ -128,22 +127,24 @@ class Places extends Module
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $query = DbWorker::GetInstance()->prepare('SELECT * FROM caffes WHERE id = :id');
-                if($query->execute(array(':id' => $args['id'])))
+                $id = $args['id'];
+                $model = new PlacesModel();
+                if($placeInfo = $model->GetFullInfo($id))
                 {
-                      $queryResponseData = array('err_code' => '200', 'data' => $query->fetch());
+                    $response->SetJsonContent($placeInfo);
+                    $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $queryResponseData = array('err_code' => '604');
+                    $response->SetStatusCode(204, 'No content');
                 }
             }
             else
             {                
-                $queryResponseData = array('err_code' => '602');
+                $response->SetStatusCode(400, 'Arguments not found(limit,offset) or Incorrect arguments type');
             }
             
-            return $queryResponseData;
+            return $response;
         });
     }
     //
@@ -153,13 +154,14 @@ class Places extends Module
     {
         //
         //
-        //
+        // POSSIBLE BUG IN GMAP (NOT CHECK CORRECT GMAP)
         $this->get('new', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
                 'name' => '',
                 'ownerId' => 'int',
+                'gmap' => '',
                 'address' => '',
                 'phones' => '',
                 'workTime' => '',
@@ -177,6 +179,7 @@ class Places extends Module
                 $model = new PlacesModel();
                 $name = $args['name'];
                 $ownerId = $args['ownerId'];
+                $gmap = $args['gmap'];
                 $address = $args['address'];
                 $phones = $args['phones'];
                 $workTime = $args['workTime'];
@@ -191,6 +194,7 @@ class Places extends Module
                 if($model->AddNewPlace(
                     $name,
                     $ownerId,
+                    $gmap,
                     $address,
                     $phones,
                     $workTime,

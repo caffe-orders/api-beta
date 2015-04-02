@@ -202,7 +202,7 @@ class Users extends Module
                 }
                 else
                 {
-                    $response->SetStatusCode(400, 'Failed to add new user');
+                    $response->SetStatusCode(400, 'Failed to add new user(already exists)');
                 }
             }
             else
