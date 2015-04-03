@@ -14,7 +14,7 @@ class CommentsModel
     //
     public function AddComment($senderId, $placeId, $state, $text) //FIXFIXFIXFIXFIXFIX (check the user for sending comemnt)
     {
-        $state = false;
+        $queryState = false;
         $query = $this->connection->prepare(
            'INSERT
                 comments(
@@ -35,15 +35,15 @@ class CommentsModel
         $queryArgsList = array(
             ':senderId' => $senderId,
             ':placeId' => $placeId,
-            ':state' => ($state == 'true') ? 1 : 2,
+            ':state' => ($state) ? true : false,
             ':text' => $text,
             ':pubDate' => date('Y.m.d')
         );
         if($query->execute($queryArgsList))
         {
-            $state = true;
+            $queryState = true;
         } 
-        return state;
+        return $queryState;
     }
     //
     //$id - int
