@@ -191,11 +191,11 @@ class PlacesModel
                 outdoors = :outdoors
             AND
                 parking = :parking
-            AND
+            OR
                 type = :type
             AND
                 smoking = :smoking
-            AND
+            OR
                 cuisine = :cuisine
             ORDER BY
                 id
