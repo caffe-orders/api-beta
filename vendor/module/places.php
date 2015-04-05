@@ -146,6 +146,36 @@ class Places extends Module
             
             return $response;
         });
+        //
+        //
+        //
+        $this->get('info', 0, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'id' => 'int'
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $id = $args['id'];
+                $model = new PlacesModel();
+                if($placeInfo = $model->GetFullInfo($id))
+                {
+                    $response->SetJsonContent($placeInfo);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'No content');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(limit,offset) or Incorrect arguments type');
+            }
+            
+            return $response;
+        });
     }
     //
     //

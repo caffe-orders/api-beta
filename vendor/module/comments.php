@@ -124,6 +124,32 @@ class Comments extends Module
             }
             return $response;
         });
+      
+        $this->get('delete', 0, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'senderId' => 'int'
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $model = new CommentsModel();
+                $senderId = $args['senderId'];
+                if($model->DeleteComment($senderId))
+                {
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed to delete comment');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(senderId) or Incorrect arguments type');
+            }
+            return $response;
+        });
     }
     
 }

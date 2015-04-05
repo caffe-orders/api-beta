@@ -113,7 +113,6 @@ class PlacesModel
         $query->execute();
         return $query->fetchAll();
     }
-    
     //
     //$limit - int
     //$offset - int
@@ -164,5 +163,52 @@ class PlacesModel
         $query->bindValue('id', (int)$id, PDO::PARAM_INT); 
         $query->execute();
         return $query->fetch();
+    }
+  //
+    //$limit - int
+    //$offset - int
+    //return array if data exists, false if no data
+    //
+    public function Search($wifi, $outdoors, $parking, $type, $smoking, $cuisine)
+    {
+        $query = $this->connection->prepare(
+           'SELECT
+                id,
+                name,
+                address,
+                phones,
+                type,
+                sumRating,
+                countRating,
+                cuisine,
+                wifi,
+                avgBill
+            FROM
+                places
+            WHERE
+                wifi = :wifi
+            AND
+                outdoors = :outdoors
+            AND
+                parking = :parking
+            AND
+                type = :type
+            AND
+                smoking = :smoking
+            AND
+                cuisine = :cuisine
+            ORDER BY
+                id
+            DESC'
+        );
+        $queryArgsList = array(  
+            ':type' => $type, 
+            ':outdoors' => $outdoors,
+            ':cuisine' => $cuisine,
+            ':parking' => $parking,
+            ':smoking' => $smoking,
+            ':wifi' => $wifi
+        );
+        return $query->fetchAll();
     }
 }

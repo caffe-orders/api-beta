@@ -22,14 +22,16 @@ class CommentsModel
                     placeId,
                     state,
                     text,
-                    pubDate
+                    pubDate,
+                    deleted
                 )
             VALUES(
                 :senderId,
                 :placeId,
                 :state,
                 :text,
-                :pubDate
+                :pubDate,
+                :deleted
             )'
         );
         $queryArgsList = array(
@@ -37,7 +39,8 @@ class CommentsModel
             ':placeId' => $placeId,
             ':state' => ($state) ? true : false,
             ':text' => $text,
-            ':pubDate' => date('Y.m.d')
+            ':pubDate' => date('Y.m.d'),
+            ':deleted' => false
         );
         if($query->execute($queryArgsList))
         {
@@ -64,6 +67,8 @@ class CommentsModel
                 comments Comment,
                 users User
             WHERE
+                Comment.deleted = false
+            AND
                 Comment.placeId = :id
             AND
                 Comment.senderId = User.id'
@@ -71,6 +76,31 @@ class CommentsModel
         $query->bindValue('id', (int)$id, PDO::PARAM_INT); 
         $query->execute();
         return $query->fetchAll();
+    }
+    //
+    //$senderId - int
+    //return true if comment deleted, false if s.w.w FIX FIX FIX FIX need to check hwo is owner BUG BUG BUG
+    //
+    public function DeleteComment($senderId)
+    {
+        $query = $this->connection->prepare(
+           'UPDATE
+                comments
+            SET
+                deleted = true
+            WHERE
+                senderId = :id'
+        );
+        $query->bindValue('id', (int)$senderId, PDO::PARAM_INT); 
+        if($query->execute())
+        {
+            $state = true;
+        }
+        else
+        {
+            $state = false;
+        }
+        return $state;
     }
 }
     
