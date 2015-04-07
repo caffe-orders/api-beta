@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Апр 02 2015 г., 22:35
+-- Время создания: Апр 07 2015 г., 00:19
 -- Версия сервера: 5.5.38
 -- Версия PHP: 5.3.13
 
@@ -29,22 +29,68 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `comments` (
   `senderId` int(11) NOT NULL,
   `placeId` int(11) NOT NULL,
-  `state` int(11) NOT NULL,
+  `state` tinyint(1) NOT NULL,
   `text` varchar(500) NOT NULL,
-  `pubDate` date NOT NULL
+  `pubDate` date NOT NULL,
+  `deleted` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `comments`
 --
 
-INSERT INTO `comments` (`senderId`, `placeId`, `state`, `text`, `pubDate`) VALUES
-(1, 5, 0, 'sample comment text', '2002-04-20'),
-(1, 5, 0, 'sample comment text', '2015-04-02'),
-(1, 5, 0, 'ewetwe', '2015-04-02'),
-(1, 5, 2, 'awdawd', '2015-04-02'),
-(1, 5, 2, 'awdawd', '2015-04-02'),
-(1, 5, 2, 'wadawd', '2015-04-02');
+INSERT INTO `comments` (`senderId`, `placeId`, `state`, `text`, `pubDate`, `deleted`) VALUES
+(1, 5, 0, 'sample comment text', '2002-04-20', 1),
+(1, 5, 0, 'sample comment text', '2015-04-02', 1),
+(1, 5, 0, 'ewetwe', '2015-04-02', 1),
+(1, 5, 1, 'Я просто обязан написать этот ахуенный комментарий, ведь баг фиксед :D', '2015-04-02', 1),
+(1, 5, 0, 'tryrth', '2015-04-02', 1),
+(1, 5, 0, 'dddddddddd', '2015-04-02', 1),
+(1, 5, 0, 'xcv', '2015-04-02', 1),
+(1, 5, 0, 'укеку', '2015-04-02', 1),
+(1, 5, 0, 'укеку435', '2015-04-02', 1),
+(1, 5, 0, '45', '2015-04-02', 1),
+(2, 5, 0, 'цук', '2015-04-02', 0),
+(1, 5, 0, 'цуауц', '2015-04-02', 1),
+(2, 5, 0, '', '2015-04-02', 0),
+(2, 5, 0, '', '2015-04-02', 0),
+(1, 5, 0, 'sdfdsd', '2015-04-02', 1),
+(1, 5, 1, '234', '2015-04-04', 1),
+(1, 5, 1, 'wefew', '2015-04-04', 1),
+(1, 5, 1, 'wefeweeee', '2015-04-04', 1),
+(1, 5, 1, 'sdfdsfЛалка', '2015-04-04', 1),
+(1, 5, 1, 'sdfdsfЛалка', '2015-04-04', 1),
+(1, 5, 1, 'Лалкаааа', '2015-04-04', 1),
+(1, 5, 1, 'Лалкаааа', '2015-04-04', 1),
+(1, 5, 1, 'retyutrewrtyu', '2015-04-05', 1),
+(1, 5, 1, 'Тестовый коммент с крилицей', '2015-04-05', 1),
+(1, 5, 1, 'vfffubz', '2015-04-05', 1),
+(1, 5, 1, 'увучцу', '2015-04-05', 1),
+(1, 5, 1, 'увучцуусу', '2015-04-05', 1),
+(1, 5, 1, 'увучцуусу', '2015-04-05', 1),
+(1, 5, 0, 'htbrgvefc', '2015-04-05', 1),
+(1, 5, 1, 'htbrgvefc', '2015-04-05', 1),
+(1, 5, 1, 'wqewqewqewqe', '2015-04-05', 1),
+(1, 5, 1, 'wqewqewqewqe', '2015-04-05', 1),
+(1, 5, 1, 'wqewqewqewqe', '2015-04-05', 1),
+(1, 5, 1, 'wqesrdfghj', '2015-04-05', 1),
+(1, 5, 1, 'wwef', '2015-04-05', 1),
+(1, 5, 1, 'wwef', '2015-04-05', 1),
+(1, 5, 0, 'de', '2015-04-05', 0),
+(1, 5, 1, '4y54', '2015-04-05', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `complex_dinner`
+--
+
+CREATE TABLE IF NOT EXISTS `complex_dinner` (
+`id` int(11) NOT NULL,
+  `placeId` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `serialisedData` varchar(4000) CHARACTER SET latin1 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -87,6 +133,17 @@ CREATE TABLE IF NOT EXISTS `dish_category` (
 `id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `menu`
+--
+
+CREATE TABLE IF NOT EXISTS `menu` (
+  `placeId` int(11) NOT NULL,
+  `dishId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -158,12 +215,40 @@ CREATE TABLE IF NOT EXISTS `place_rated` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `place_statistics`
+--
+
+CREATE TABLE IF NOT EXISTS `place_statistics` (
+`id` int(11) NOT NULL,
+  `placeId` int(11) NOT NULL,
+  `allViews` int(11) NOT NULL,
+  `todayViews` int(11) NOT NULL,
+  `allVisited` int(11) NOT NULL,
+  `todayVisited` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `prohibited_names`
 --
 
 CREATE TABLE IF NOT EXISTS `prohibited_names` (
   `value` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `rooms`
+--
+
+CREATE TABLE IF NOT EXISTS `rooms` (
+`id` int(11) NOT NULL,
+  `placeId` int(11) NOT NULL,
+  `number` int(11) NOT NULL,
+  `capacity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -197,6 +282,22 @@ CREATE TABLE IF NOT EXISTS `statistic_tables` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `tables`
+--
+
+CREATE TABLE IF NOT EXISTS `tables` (
+`id` int(11) NOT NULL,
+  `placeId` int(11) NOT NULL,
+  `roomId` int(11) NOT NULL,
+  `type` smallint(6) NOT NULL,
+  `posX` int(11) NOT NULL,
+  `posY` int(11) NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `users`
 --
 
@@ -211,18 +312,25 @@ CREATE TABLE IF NOT EXISTS `users` (
   `regDate` datetime NOT NULL,
   `isActive` tinyint(1) NOT NULL,
   `sessionHash` char(255) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Дамп данных таблицы `users`
 --
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `phone`, `pwdHash`, `access`, `regDate`, `isActive`, `sessionHash`) VALUES
-(1, 'Ыгар', 'Жоржев', 'clain@sample.com', 375291269934, 'cb6474b4e2f29b95654296bda17da524', 1, '2015-04-01 19:10:20', 0, '3f848383aca7fb2835963842aad617e5');
+(1, 'Ыгар', 'Жоржев', 'clain@sample.com', 375291269934, 'cb6474b4e2f29b95654296bda17da524', 1, '2015-04-01 19:10:20', 0, '3f848383aca7fb2835963842aad617e5'),
+(2, 'Лалка', 'Лалалай', 'clain1@sample.com', 37529126993466, 'cb6474b4e2f29b95654296bda17da524', 1, '2015-04-02 00:00:00', 0, '9687b677556f8bd95c63c78fc9836b99');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `complex_dinner`
+--
+ALTER TABLE `complex_dinner`
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `corporate_orders`
@@ -261,6 +369,18 @@ ALTER TABLE `place_rated`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `place_statistics`
+--
+ALTER TABLE `place_statistics`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `rooms`
+--
+ALTER TABLE `rooms`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `statistic_corporate`
 --
 ALTER TABLE `statistic_corporate`
@@ -273,6 +393,12 @@ ALTER TABLE `statistic_tables`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tables`
+--
+ALTER TABLE `tables`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -282,6 +408,11 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `complex_dinner`
+--
+ALTER TABLE `complex_dinner`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `corporate_orders`
 --
@@ -313,6 +444,16 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `place_rated`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `place_statistics`
+--
+ALTER TABLE `place_statistics`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `rooms`
+--
+ALTER TABLE `rooms`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `statistic_corporate`
 --
 ALTER TABLE `statistic_corporate`
@@ -323,10 +464,15 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `statistic_tables`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `tables`
+--
+ALTER TABLE `tables`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
