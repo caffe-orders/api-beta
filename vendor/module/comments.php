@@ -61,7 +61,7 @@ class Comments extends Module
     //
     public function SetPostFunctions()
     {
-        $this->get('new', 0, function($args)
+        $this->post('new', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -87,12 +87,11 @@ class Comments extends Module
                 else
                 {
                     $response->SetStatusCode(400, 'Failed to create comment (are you logged in?)');
-                    $response->SetJsonContent($_SESSION);
                 }
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(placeId, state, text, pubDate) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(placeId, state, text) or Incorrect arguments type');
             }
             
             return $response;       

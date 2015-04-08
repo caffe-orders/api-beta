@@ -80,8 +80,9 @@ class Response
     {
         //we use only json output
         $this->SetHeader('Access-Control-Allow-Origin', 'http://caffe.ru');
-        $this->SetHeader('Access-Control-Allow-Headers', 'Cookie');
+        $this->SetHeader('Access-Control-Allow-Headers', 'Cookie, origin, x-requested-with, content-type');
         $this->SetHeader('Access-Control-Allow-Credentials', 'true');
+        $this->SetHeader('Access-Control-Allow-Methods', 'GET,POST');
         $this->SetHeader('Content-Type', 'application/javascript; charset=utf8');
         //send headers
         foreach($this->headers as $header)

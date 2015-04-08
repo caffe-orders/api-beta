@@ -1,6 +1,11 @@
 <?php
 ini_set('display_errors', 1);
 session_start();
+ob_implicit_flush(0);
+        //header('Access-Control-Allow-Origin: http://caffe.ru');
+       //header('Access-Control-Allow-Headers: Cookie, origin, x-requested-with, content-type');
+        //header('Access-Control-Allow-Credentials: true');
+        //header('Access-Control-Allow-Methods: GET,POST');
 date_default_timezone_set("Europe/Moscow");
 //error_reporting(E_ALL);
 //$start = microtime(true);

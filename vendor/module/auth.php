@@ -6,7 +6,6 @@ class Auth extends Module
     //
     public function __construct()
     {        
-        $this->model = new UsersModel();
         $this->SetGetFunctions();
         $this->SetPostFunctions();
     }
@@ -53,7 +52,7 @@ class Auth extends Module
     
     public function SetGetFunctions()
     {   
-        $this->get('login', 0, function($args)
+        $this->post('login', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -68,14 +67,16 @@ class Auth extends Module
                 if($model->Login($email, $password))
                 {
                     $response->SetStatusCode(200, 'OK');
+                    $response->SetJsonContent($_SESSION['hash']);
                 }
                 else
                 {
                     $response->SetStatusCode(400, 'Failed to auth');
+                  $response->SetJsonContent($args);
                 }
             }
             else
-            {                
+            {
                 $response->SetStatusCode(400, 'Arguments not found(email, password) or Incorrect arguments type');
             }
             return $response;
