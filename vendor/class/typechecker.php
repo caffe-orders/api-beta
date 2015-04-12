@@ -78,7 +78,8 @@ class TypeChecker
     {
         $whiteList = array(
             'Кафе',
-            'Ресторан'
+            'Ресторан',
+            'Бар'
         );
         if(in_array($value, $whiteList))
         {

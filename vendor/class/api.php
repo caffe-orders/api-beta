@@ -9,7 +9,7 @@ class Api
     //return void
     //
     public function __construct($request)
-    {;
+    {
         $this->requestData = $request->GetData();
         if($this->loadModule($this->requestData['MODULE_NAME']))
         {

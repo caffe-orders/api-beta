@@ -28,11 +28,11 @@ class DataHandler
     {
       if(strtolower($_SERVER['REQUEST_METHOD']) == 'post')
       {
-      $rawPost = json_decode(file_get_contents("php://input"));
-      foreach($rawPost as $key => $value)
-      {
-        $_POST[$key] = $value;
-      }
+        $rawPost = json_decode(file_get_contents("php://input"));
+        foreach($rawPost as $key => $value)
+        {
+          $_POST[$key] = $value;
+        }
       }
       return new Request($_SERVER['REQUEST_URI'], $_GET, $_POST);
     }

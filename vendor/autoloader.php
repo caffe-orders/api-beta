@@ -4,7 +4,7 @@ function autoload($className)
     $className = strtolower($className);
     $className = str_replace('_', '', $className);
     $className = str_replace('-', '', $className);
-    $pathMap = array(VENDOR_PATH, CLASS_PATH, INTERFACE_PATH, MODEL_PATH, MODULE_PATH);
+    $pathMap = array(VENDOR_PATH, CLASS_PATH, INTERFACE_PATH, MODEL_PATH, MODULE_PATH, EXTENTION_PATH);
     $fileExtension = '.php';
     foreach($pathMap as $path)
     {
