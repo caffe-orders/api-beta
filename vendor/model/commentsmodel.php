@@ -40,7 +40,7 @@ class CommentsModel
             ':state' => ($state == 'true') ? 1 : 0,
             ':text' => $text,
             ':pubDate' => date('Y.m.d'),
-            ':deleted' => false
+            ':deleted' => 0
         );
         if($query->execute($queryArgsList))
         {
