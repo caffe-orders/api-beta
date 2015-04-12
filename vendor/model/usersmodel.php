@@ -140,7 +140,7 @@ class UsersModel
                 ':pwdHash' => md5($password),
                 ':access' => 1,                             
                 ':regDate' => date('Y.m.d'),
-                ':isActive' => false
+                ':isActive' => 0
             );
             if($query->execute($queryArgsList))
             {
@@ -188,12 +188,12 @@ class UsersModel
                 id =:id';
         $query =  $this->connection->prepare($str);
         $queryArgsList = array(
-            ':id' => $args['id'], 
-            ':email' => $args['email'], 
-            ':phone' => $args['phone'], 
-            ':access' => $args['access'], 
-            ':firstname' => $args['firstname'], 
-            ':lastname' => $args['lastname']
+            ':id' => $id, 
+            ':email' => $email, 
+            ':phone' => $phone, 
+            ':access' => $access, 
+            ':firstname' => $firstname, 
+            ':lastname' => $lastname
         ); 
                 
         if($query->execute($queryArgsList))
