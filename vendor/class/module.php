@@ -5,7 +5,7 @@ abstract class Module
     protected $_postFunctionsList = array();
     protected $_putFunctionsList = array();
     protected $_deleteFunctionsList = array();
-    protected $_accessLevel;
+    public static $_accessLevel;
     //
     //return void
     //

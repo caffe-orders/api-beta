@@ -6,14 +6,12 @@ class DishCategoryModel
         $this->connection = DatabaseProvider::GetConnection();
     }
     //
-    // $sessionId - int
-    // $senderId - int
+    // $name    - string
     //
-    public function AddDishCategory($acessLevel, $name)
+    public function AddDishCategory($name)
     {
         $queryState = false;
-        if($acessLevel >= 3)
-        {
+        
             $query = $this->connection->prepare(
                 'INSERT
                     dish_category(
@@ -33,19 +31,20 @@ class DishCategoryModel
             {
                 $queryState = true;
             } 
-        }
+        
         return $queryState;
     }
+    
     //
-    //$sessionId - int
+    //$accessLevel - int
     //return list of dish category or false if no data
     //
-    public function GetDishCategoryList($sessionId) // NEED ADDED check access level 
+    public function GetDishCategoryList($accessLevel)
     {
         $queryString = 'SELECT id, name 
                         FROM dish_category
                         WHERE deleted = 0';
-        if($sessionId < 8)                        //FIX HERE!!!
+        if($accessLevel < 3)                        
         {
            $queryString = 'SELECT id, name FROM dish_category
                             WHERE deleted = 0';
@@ -58,17 +57,84 @@ class DishCategoryModel
         $query->execute();
         return $query->fetchAll();
     }
+    
     //
-    //$id - int
-    //return true if dish category deleted, false
+    //$id           - int
+    //$name         - string
+    //return true if dish category Reestablish
     //
-    public function DeleteDishCategory($sessionId, $id)// NEED FIX access level check
+    public function UpdateDishCategory($id, $name)
     {
         $query = $this->connection->prepare(
-           'UPDATE
+            'UPDATE
                 dish_category
             SET
-                deleted = 1
+                name = :name
+            WHERE
+                id = :id'
+        );
+        $query->bindValue('id', (int)$id, PDO::PARAM_INT); 
+        $query->bindValue('name', (string)$name, PDO::PARAM_STR); 
+        if($query->execute())
+        {
+            $state = true;
+        }  
+        else
+        {
+            $state = false;
+        }
+        
+        return $state;        
+    }
+    
+    //
+    //$id           - int
+    //return true if dish category deleted
+    //
+    public function DeleteDishCategory($id)//not finished
+    {
+        $state = false;
+        $query1 = $this->connection->prepare(
+            'SELECT * FROM dish
+                WHERE dishCategoryId = :id'
+        );
+        $query1->bindValue('id', (int)$id, PDO::PARAM_INT); 
+        $query1->execute();
+        if($query1->fetchAll() == null)
+        {
+            $query = $this->connection->prepare(
+                'UPDATE
+                    dish_category
+                SET
+                    deleted = 1
+                WHERE
+                    id = :id'
+            );
+            $query->bindValue('id', (int)$id, PDO::PARAM_INT); 
+            
+            if($query->execute())
+            {
+                $state = true;
+            }  
+            else
+            {
+                $state = false;
+            }
+        }
+        return $state;
+    }
+    
+    //
+    //$id           - int
+    //return true if dish category Reestablish
+    //
+    public function ReestablishDishCategory($id)
+    {
+        $query = $this->connection->prepare(
+            'UPDATE
+                dish_category
+            SET
+                deleted = 0
             WHERE
                 id = :id'
         );
@@ -76,12 +142,13 @@ class DishCategoryModel
         if($query->execute())
         {
             $state = true;
-        }
+        }  
         else
         {
             $state = false;
         }
-        return $state;
+        
+        return $state;        
     }
 }
 

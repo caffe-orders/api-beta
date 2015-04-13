@@ -1,5 +1,15 @@
 <?php
-class DishCategory extends Module
+
+/*
+ * Class for addition dishs in DB
+ */
+
+/**
+ * Description of dish
+ *
+ * @author Broff
+ */
+class Dish extends Module
 {    
     //
     //return void
@@ -15,8 +25,8 @@ class DishCategory extends Module
     public function RunModuleFunction($functionType, $functionName,  $functionArgs,  $accessLevel)
     {
         $functionName = strtolower($functionName);
-        $functionType = strtolower($functionType);
-        DishCategory::$_accessLevel = $accessLevel;
+        $functionType = strtolower($functionType);        
+        Dish::$_accessLevel = $accessLevel;
         $outputData = function($args)
         {
             $response = new Response();
@@ -55,89 +65,101 @@ class DishCategory extends Module
     //
     public function SetGetFunctions()
     {
-        $this->get('list', 0, function($args)
-        {
-            $response = new Response();
-           
-            $model = new DishCategoryModel();
-            $dishCategoryList = $model->GetDishCategoryList(DishCategory::$_accessLevel);
-            if($dishCategoryList)
-            {
-                $response->SetJsonContent($dishCategoryList);
-                $response->SetStatusCode(200, 'OK');
-            }
-            else
-            {
-                $response->SetStatusCode(204, 'No content');
-            }
-            
-            return $response;
-        });
+        
     }
     //
     //
     //
     public function SetPostFunctions()
     {
-        $this->post('new', 3, function($args)
+        $this->get('new', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
-                'name' => ''
+                'name' => '',
+                'description' => '',
+                'cost' => 'int',
+                'imgSrc' => '',
+                'dishCategoryId' => 'int'               
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $model = new DishCategoryModel();
-                $categoryName = $args['name'];
+                $model = new DishModel();
+                $name = $args['name'];
+                $description = $args['description'];
+                $cost = $args['cost'];
+                $imgSrc = $args['imgSrc'];
+                $dishCategoryId = $args['dishCategoryId'];
                 
-                if($model->AddDishCategory($categoryName))
+                if(isset($_SESSION['id']) && $model->AddDish(
+                        $name,
+                        $description,
+                        $cost, 
+                        $imgSrc, 
+                        $dishCategoryId 
+                ))
                 {
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(400, 'Failed to create dish category (are you logged in?)');
-                    $response->SetJsonContent($_SESSION);
+                    $response->SetStatusCode(400, 'Failed to create dish (are you logged in?)');
                 }
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(name) or Incorrect argument type');
+                $response->SetStatusCode(400, 'Arguments not found(name[str],description[str],cost[int],imgSrc[str],dishCategoryId[int]) or Incorrect arguments type');
             }
             
             return $response;       
-        });   
-      
-        $this->post('update', 3, function($args)
+        });
+        
+        $this->get('update', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
                 'id' => 'int',
-                'name' => ''
+                'name' => '',
+                'description' => '',
+                'cost' => 'int',
+                'imgSrc' => '',
+                'dishCategoryId' => 'int'               
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $model = new DishCategoryModel();
+                $model = new DishModel();
                 $id = $args['id'];
-                $categoryName = $args['name'];
-                if($model->UpdateDishCategory($id, $categoryName))
+                $name = $args['name'];
+                $description = $args['description'];
+                $cost = $args['cost'];
+                $imgSrc = $args['imgSrc'];
+                $dishCategoryId = $args['dishCategoryId'];
+                
+                if(isset($_SESSION['id']) && $model->UpdateDish(
+                        $id,
+                        $name,
+                        $description,
+                        $cost, 
+                        $imgSrc, 
+                        $dishCategoryId 
+                ))
                 {
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(400, 'Failed to update dish category (are you logged in?).You can not remove the used category.');
-                    $response->SetJsonContent($_SESSION);
+                    $response->SetStatusCode(400, 'Failed to update dish (are you logged in?)');
                 }
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(id[int], name[string]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(id[int],name[str],description[str],cost[int],imgSrc[str],dishCategoryId[int]) or Incorrect arguments type');
             }
-            return $response;
+            
+            return $response;       
         });
         
-        $this->post('delete', 3, function($args)
+        $this->get('list', 0, function($args)///awdawd
         {
             $response = new Response();
             $parametersArray = array(
@@ -145,48 +167,47 @@ class DishCategory extends Module
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $model = new DishCategoryModel();
+                $model = new CommentsModel();
                 $id = $args['id'];
-                if($model->DeleteDishCategory($id))
+                if($commentsList = $model->GetCommentsList($id))
                 {
+                    $response->SetJsonContent($commentsList);
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(400, 'Failed to delete dish category (are you logged in?).You can not remove the used category.');
-                    $response->SetJsonContent($_SESSION);
+                    $response->SetStatusCode(204, 'No content');
                 }
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(id[int]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(id) or Incorrect arguments type');
             }
             return $response;
         });
-        
-        $this->post('reestablish', 3, function($args)
+      
+        $this->get('delete', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
-                'id' => 'int'
+                'senderId' => 'int'
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $model = new DishCategoryModel();
-                $id = $args['id'];
-                if($model->ReestablishDishCategory($id))
+                $model = new CommentsModel();
+                $senderId = $args['senderId'];
+                if($model->DeleteComment($senderId))
                 {
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(400, 'Failed to reestablish dish category (are you logged in?)');
-                    $response->SetJsonContent($_SESSION);
+                    $response->SetStatusCode(400, 'Failed to delete comment');
                 }
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(id[int]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(senderId) or Incorrect arguments type');
             }
             return $response;
         });
