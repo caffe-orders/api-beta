@@ -1,13 +1,9 @@
 <?php
-
-/*
- * Class for addition dishs in DB
- */
-
 /**
- * Description of dish
+ * Last amended | 17.04.2015 14.03 |
  *
  * @author Broff
+ * Class to perform operations with the dishes in the database
  */
 class Dish extends Module
 {    
@@ -65,14 +61,138 @@ class Dish extends Module
     //
     public function SetGetFunctions()
     {
+        $this->get('search', 0, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'name' => ''               
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $model = new DishModel();
+                $name = $args['name'];
+                $searchList = $model->SearchDish($name);
+                if($searchList!=null)
+                {
+                    $response->SetJsonContent($searchList);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed to show serched dish list');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(limit[str], offset[int]) or Incorrect arguments type');
+            }
+            
+            return $response;       
+        });
         
+        $this->get('info', 0, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'dishId' => 'int'               
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $model = new DishModel();
+                $dishId = $args['dishId'];
+                
+                if($dishInfo = $model->GetDish($dishId))
+                {
+                    $response->SetJsonContent($dishInfo);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed to show dish');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(dishId[int]) or Incorrect arguments type');
+            }
+            
+            return $response;       
+        });
+        
+        $this->get('infolist', 3, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'limit' => 'int',
+                'offset' => 'int'               
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $model = new DishModel();
+                $limit = $args['limit'];
+                $offset = $args['offset'];
+                
+                if($dishInfoList = $model->GetFullListDish(
+                        $limit,
+                        $offset
+                ))
+                {
+                    $response->SetJsonContent($dishInfoList);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed to show dish list');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(limit[str], offset[int]) or Incorrect arguments type');
+            }
+            
+            return $response;       
+        });
+        
+        $this->get('list', 0, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'limit' => 'int',
+                'offset' => 'int'               
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $model = new DishModel();
+                $limit = $args['limit'];
+                $offset = $args['offset'];
+                
+                if($dishInfoList = $model->GetPreviewListDish(
+                        $limit,
+                        $offset
+                ))
+                {
+                    $response->SetJsonContent($dishInfoList);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed to show dish list');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(limit[str], offset[int]) or Incorrect arguments type');
+            }
+            
+            return $response;       
+        });
     }
     //
     //
     //
     public function SetPostFunctions()
     {
-        $this->get('new', 2, function($args)
+        $this->post('new', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -103,7 +223,7 @@ class Dish extends Module
                 }
                 else
                 {
-                    $response->SetStatusCode(400, 'Failed to create dish (are you logged in?)');
+                    $response->SetStatusCode(400, 'Failed to create dish');
                 }
             }
             else
@@ -114,7 +234,7 @@ class Dish extends Module
             return $response;       
         });
         
-        $this->get('update', 2, function($args)
+        $this->post('update', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -148,7 +268,7 @@ class Dish extends Module
                 }
                 else
                 {
-                    $response->SetStatusCode(400, 'Failed to update dish (are you logged in?)');
+                    $response->SetStatusCode(400, 'Failed to update dish');
                 }
             }
             else
@@ -159,7 +279,7 @@ class Dish extends Module
             return $response;       
         });
         
-        $this->get('list', 0, function($args)///awdawd
+        $this->post('reestablis', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -167,47 +287,47 @@ class Dish extends Module
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $model = new CommentsModel();
-                $id = $args['id'];
-                if($commentsList = $model->GetCommentsList($id))
+                $model = new DishModel();
+                $senderId = $args['id'];
+                if($model->ReestablisDish($senderId))
                 {
-                    $response->SetJsonContent($commentsList);
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
+                    
                 {
-                    $response->SetStatusCode(204, 'No content');
+                    $response->SetStatusCode(400, 'Failed to reestablis dish');
                 }
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(id) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(id[int]) or Incorrect arguments type');
             }
             return $response;
         });
       
-        $this->get('delete', 0, function($args)
+        $this->post('delete', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
-                'senderId' => 'int'
+                'id' => 'int'
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $model = new CommentsModel();
-                $senderId = $args['senderId'];
-                if($model->DeleteComment($senderId))
+                $model = new DishModel();
+                $senderId = $args['id'];
+                if($model->DeleteDish($senderId))
                 {
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(400, 'Failed to delete comment');
+                    $response->SetStatusCode(400, 'Failed to delete dish');
                 }
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(senderId) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(id[int]) or Incorrect arguments type');
             }
             return $response;
         });

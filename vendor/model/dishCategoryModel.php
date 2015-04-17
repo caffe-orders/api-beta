@@ -14,14 +14,16 @@ class DishCategoryModel
         
             $query = $this->connection->prepare(
                 'INSERT
-                    dish_category(
+                    dish_category
+                    (
                         name,
                         deleted
                     )
-                VALUES(
-                    :name,
-                    :deleted
-                )'
+                VALUES
+                    (
+                        :name,
+                        :deleted
+                    )'
             );
             $queryArgsList = array(
                 ':name' => $name,

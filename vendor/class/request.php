@@ -51,7 +51,7 @@ class Request
     //
     private function getRequestMethod()
     {
-        return addslashes(htmlentities(strip_tags(trim($_SERVER['REQUEST_METHOD'])), ENT_QUOTES));;
+        return addslashes(htmlentities(strip_tags(trim($_SERVER['REQUEST_METHOD'])), ENT_QUOTES));
     }
     //
     //
@@ -129,7 +129,7 @@ class Request
             {
                 foreach (explode(',', $_SERVER[$key]) as $ip)
                 {
-                    $ip = addslashes(htmlentities(strip_tags(trim($ip)), ENT_QUOTES));; // just to be safe
+                    $ip = addslashes(htmlentities(strip_tags(trim($ip)), ENT_QUOTES)); // just to be safe
                     if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false)
                     {
                         return $ip;
