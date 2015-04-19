@@ -139,7 +139,7 @@ class Request
         }
     }
     //
-    //
+    // BUG BUG BUG need check column 'isActive'
     //
     private function checkAccessLevel()
     {

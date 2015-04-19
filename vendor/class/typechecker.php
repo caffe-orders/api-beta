@@ -87,8 +87,26 @@ class TypeChecker
         }
         else
         {
+            return false;
+        }
+    }
+    //
+    //return bool
+    //
+    public function IsHitCategory($value)
+    {
+        $whiteList = array(
+            'place',
+            'order'
+        );
+        if(in_array($value, $whiteList))
+        {
             return true;
         }
-    }    
+        else
+        {
+            return false;
+        }
+    }
 }
 ?>
