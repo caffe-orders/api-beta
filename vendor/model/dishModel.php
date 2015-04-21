@@ -143,31 +143,7 @@ class DishModel {
             } 
         }
         return $state;
-    }
-    //
-    //$limit - int
-    //$offset - int
-    //
-    public function GetFullListDish($limit, $offset)
-    {
-        $query = $this->connection->prepare(
-           'SELECT
-                *
-            FROM
-                dish
-            ORDER BY
-                id
-            DESC
-            LIMIT
-                :offset, 
-                :limit'
-        );
-        $query->bindValue(':offset',(int)$offset , PDO::PARAM_INT); 
-        $query->bindValue(':limit', (int)$limit, PDO::PARAM_INT); 
-        $query->execute();
-        return $query->fetchAll();
-    }
-    
+    }   
     //
     //$limit - int
     //$offset - int

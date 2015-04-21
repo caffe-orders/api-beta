@@ -22,7 +22,7 @@ class Menu extends Module
     {
         $functionName = strtolower($functionName);
         $functionType = strtolower($functionType);        
-        Dish::$_accessLevel = $accessLevel;
+        Menu::$_accessLevel = $accessLevel;
         $outputData = function($args)
         {
             $response = new Response();
@@ -55,10 +55,21 @@ class Menu extends Module
         }
         
         return $outputData($functionArgs);
-    }     
+    }  
+    //return
     //
-    //
-    //
+    //array( 
+    //      id = array( categoryName = "name" ,
+    //                  dishlist     = array( id = array(id
+    //                                                   name,
+    //                                                   description,
+    //                                                   cost,
+    //                                                   imgSrc,
+    //                                                   dishCategoryId
+    //                                                   )
+    //                                      )
+    //                 )                                 
+    //     )    
     public function SetGetFunctions()
     { 
         $this->get('list', 0, function($args)
@@ -69,7 +80,7 @@ class Menu extends Module
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $model = new DishModel();
+                $model = new MenuModel();
                 $placeId = $args['placeId'];
                 if($menuInfoList = $model->GetListMenu($placeId))
                 {
@@ -97,15 +108,18 @@ class Menu extends Module
         {
             $response = new Response();
             $parametersArray = array(
-                'dishId' => 'int'               
+                'dishId' => 'int',
+                'placeId' => 'int'
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
                 $model = new MenuModel();
                 $dishId = $args['dishId'];
-                
+                $placeId = $args['placeId'];
                 if(isset($_SESSION['id']) && $model->AddDishInMenu(
-                        $_SESSION['id'], 
+                        $_SESSION['id'],
+                        Menu::$_accessLevel,
+                        $placeId,
                         $dishId
                 ))
                 {
@@ -124,18 +138,22 @@ class Menu extends Module
             return $response;       
         });    
         
-        $this->post('reestablis', 2, function($args)
+        $this->get('reestablis', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
-                'dishId' => 'int'
+                'dishId' => 'int',
+                'placeId' => 'int'
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
                 $model = new MenuModel();
                 $dishId = $args['dishId'];
+                $placeId = $args['placeId'];
                 if(isset($_SESSION['id']) && $model->ReestablisDishInMenu(
                         $_SESSION['id'], 
+                        Menu::$_accessLevel,
+                        $placeId,
                         $dishId
                 ))
                 {
@@ -154,18 +172,22 @@ class Menu extends Module
             return $response;
         });
       
-        $this->post('delete', 2, function($args)
+        $this->get('delete', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
-                'dishId' => 'int'
+                'dishId' => 'int',
+                'placeId' => 'int'
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $model = new DishModel();
+                $model = new MenuModel();
                 $dishId = $args['dishId'];
+                $placeId = $args['placeId'];
                 if(isset($_SESSION['id']) && $model->DeleteDishFromMenu(
                         $_SESSION['id'], 
+                        Menu::$_accessLevel,
+                        $placeId,
                         $dishId
                 ))
                 {
