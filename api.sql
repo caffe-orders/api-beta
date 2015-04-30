@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Апр 17 2015 г., 18:04
+-- Время создания: Апр 30 2015 г., 15:48
 -- Версия сервера: 5.5.38
 -- Версия PHP: 5.3.13
 
@@ -143,21 +143,24 @@ CREATE TABLE IF NOT EXISTS `dish` (
   `imgSrc` varchar(150) NOT NULL,
   `dishCategoryId` int(11) NOT NULL,
   `deleted` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Дамп данных таблицы `dish`
 --
 
 INSERT INTO `dish` (`id`, `name`, `description`, `cost`, `imgSrc`, `dishCategoryId`, `deleted`) VALUES
-(1, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0),
-(2, 'a234234', 'awdawd', 123, 'dawda', 2, 0),
-(3, 'a22wwdw234', 'awdawd', 123, 'dawda', 2, 1),
-(4, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0),
+(1, 'a3334', 'awdawd', 123, 'dawda', 2, 0),
+(2, 'a234234', 'awdawd', 123, 'dawda', 1, 0),
+(3, 'a22wwdw234', 'awdawd', 123, 'dawda', 2, 0),
+(4, 'aфцвwdw234', 'awdawd', 123, 'dawda', 1, 0),
 (5, 'wadawd', 'wadwad', 234, '234234', 2, 0),
-(6, 'wadawd', 'wadwad', 234, '234234', 2, 0),
+(6, 'wadawd', 'wadwad', 234, '234234', 1, 0),
 (7, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0),
-(8, 'аааааа', 'awdawd', 123, 'dawda', 2, 0);
+(8, 'аааааа', 'awdawd', 123, 'dawda', 2, 0),
+(9, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0),
+(10, 'a3334', 'awdawd', 123, 'dawda', 2, 0),
+(11, 'фцвфцвфцв', 'awdawd', 123, 'dawda', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -187,14 +190,21 @@ INSERT INTO `dish_category` (`id`, `name`, `deleted`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `file_token`
+-- Структура таблицы `files_token`
 --
 
-CREATE TABLE IF NOT EXISTS `file_token` (
-  `userid` int(11) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `dateExpiries` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `files_token` (
+  `token` varchar(64) COLLATE utf8_bin NOT NULL,
+  `sessionHash` varchar(64) COLLATE utf8_bin NOT NULL,
+  `deleteDate` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Дамп данных таблицы `files_token`
+--
+
+INSERT INTO `files_token` (`token`, `sessionHash`, `deleteDate`) VALUES
+('b4860d4092b40a04148171bf11d13762', '3f848383aca7fb2835963842aad617e5', '2015-04-30 13:00:06');
 
 -- --------------------------------------------------------
 
@@ -207,6 +217,14 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `dishId` int(11) NOT NULL,
   `deleted` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `menu`
+--
+
+INSERT INTO `menu` (`placeId`, `dishId`, `deleted`) VALUES
+(3, 11, 0),
+(3, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -445,7 +463,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `dish`
 --
 ALTER TABLE `dish`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `dish_category`
 --
