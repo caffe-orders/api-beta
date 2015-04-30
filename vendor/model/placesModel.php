@@ -211,4 +211,19 @@ class PlacesModel
         );
         return $query->fetchAll();
     }
+    
+    public function GetOwned($userId)
+    {
+        $query = $this->connection->prepare(
+           'SELECT
+                *
+            FROM
+                places            
+            WHERE 
+                ownerId = :ownerId'
+        );
+        $query->bindValue(':ownerId',(int)$userId , PDO::PARAM_INT); 
+        $query->execute();
+        return $query->fetchAll();
+    }
 }

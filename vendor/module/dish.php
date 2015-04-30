@@ -192,7 +192,7 @@ class Dish extends Module
     //
     public function SetPostFunctions()
     {
-        $this->post('new', 2, function($args)
+        $this->get('new', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -234,7 +234,7 @@ class Dish extends Module
             return $response;       
         });
         
-        $this->post('update', 2, function($args)
+        $this->get('update', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -243,7 +243,8 @@ class Dish extends Module
                 'description' => '',
                 'cost' => 'int',
                 'imgSrc' => '',
-                'dishCategoryId' => 'int'               
+                'dishCategoryId' => 'int'  ,
+                'placeId' => 'int'
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
@@ -254,14 +255,17 @@ class Dish extends Module
                 $cost = $args['cost'];
                 $imgSrc = $args['imgSrc'];
                 $dishCategoryId = $args['dishCategoryId'];
-                
+                $placeId = $args['placeId'];
+                        
                 if(isset($_SESSION['id']) && $model->UpdateDish(
                         $id,
                         $name,
                         $description,
                         $cost, 
                         $imgSrc, 
-                        $dishCategoryId 
+                        $dishCategoryId,
+                        $_SESSION['id'],
+                        $placeId
                 ))
                 {
                     $response->SetStatusCode(200, 'OK');
@@ -273,7 +277,7 @@ class Dish extends Module
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(id[int],name[str],description[str],cost[int],imgSrc[str],dishCategoryId[int]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(id[int],name[str],description[str],cost[int],imgSrc[str],dishCategoryId[int],placeId[int]) or Incorrect arguments type');
             }
             
             return $response;       

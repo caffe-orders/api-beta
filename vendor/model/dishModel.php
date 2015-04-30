@@ -64,49 +64,148 @@ class DishModel {
         return $state;
     }
     
-    public function UpdateDish($id, $name, $description, $cost, $imgSrc, $dishCategoryId)
+    public function UpdateDish($id, $name, $description, $cost, $imgSrc, $dishCategoryId, $userId, $placeId)
     {
         $state = false;
         
-        $query1 = $this->connection->prepare(
+        $queryDish = $this->connection->prepare(
             'SELECT * FROM dish
                 WHERE id = :id'
         );
-        $query1->bindValue('id', (int)$id, PDO::PARAM_INT); 
-        $query1->execute();
+        $queryDish->bindValue('id', (int)$id, PDO::PARAM_INT); 
+        $queryDish->execute();
         
-        $query2 = $this->connection->prepare(
+        $queryDishCategory = $this->connection->prepare(
             'SELECT * FROM dish_category
                 WHERE id = :id'
         );
-        $query2->bindValue('id', (int)$dishCategoryId, PDO::PARAM_INT); 
-        $query2->execute();
+        $queryDishCategory->bindValue('id', (int)$dishCategoryId, PDO::PARAM_INT); 
+        $queryDishCategory->execute();
         
-        if($query1->fetchAll() != null && $query2->fetchAll() != null)
+        if($queryDish->fetchAll() != null && $queryDishCategory->fetchAll() != null)
         {
-            $query = $this->connection->prepare(
-                'UPDATE dish SET
-                    name = :name,
-                    description = :description,
-                    cost = :cost,
-                    imgSrc = :imgSrc,
-                    dishCategoryId = :dishCategoryId
-                    WHERE
-                    id = :id
-                '
-            );
-            $queryArgsList = array(
-                ':id' => $id,
-                ':name' => $name,
-                ':description' => $description,
-                ':cost' => $cost,
-                ':imgSrc' => $imgSrc,
-                ':dishCategoryId' => $dishCategoryId
-            );
-            if($query->execute($queryArgsList))
+            $placesModel = new PlacesModel();
+            $places = $placesModel->GetOwned($userId);
+            $ownedPlace = false;
+            if($places != null)
+            {                
+                foreach($places as $place)
+                {
+                    if($place['id'] == $placeId)
+                    {
+                        $ownedPlace = true;
+                    }
+                }
+            }
+            else
             {
-                $state = true;
-            } 
+                $state = false;
+            }
+            
+            if($ownedPlace)
+            {
+                $queryMenu = $this->connection->prepare(
+                    'SELECT 
+                        placeId
+                    FROM
+                        menu
+                    WHERE                     
+                        dishId = :dishId'
+                );
+                $queryMenu->bindValue('dishId', (int)$id, PDO::PARAM_INT); 
+                $queryMenu->execute();
+                $menu = $queryMenu->fetch();
+                
+                if($menu == null || (count($menu)==1 && $menu['placeId']==$placeId))
+                {
+                    $query = $this->connection->prepare(
+                        'UPDATE dish SET
+                            name = :name,
+                            description = :description,
+                            cost = :cost,
+                            imgSrc = :imgSrc,
+                            dishCategoryId = :dishCategoryId
+                            WHERE
+                            id = :id
+                        '
+                    );
+                    $queryArgsList = array(
+                        ':id' => $id,
+                        ':name' => $name,
+                        ':description' => $description,
+                        ':cost' => $cost,
+                        ':imgSrc' => $imgSrc,
+                        ':dishCategoryId' => $dishCategoryId
+                    );
+                    if($query->execute($queryArgsList))
+                    {
+                        $state = true;
+                    } 
+                }
+                else
+                {                    
+                    $query = $this->connection->prepare(
+                        'INSERT
+                        dish(
+                            name,
+                            description,
+                            cost,
+                            imgSrc,
+                            dishCategoryId,
+                            deleted
+                            )
+                        VALUES(
+                            :name,
+                            :description,
+                            :cost,
+                            :imgSrc,
+                            :dishCategoryId,
+                            0
+                        )'
+                    );
+                    $queryArgsList = array(
+                        ':name' => $name,
+                        ':description' => $description,
+                        ':cost' => $cost,
+                        ':imgSrc' => $imgSrc,
+                        ':dishCategoryId' => $dishCategoryId
+                    );
+                    if($query->execute($queryArgsList))
+                    {
+                        $newId = $this->connection->lastInsertId();
+                        
+                        foreach($menu as $menuItem)
+                        {
+                            if($menuItem['placeId'] == $placeId)
+                            {
+                                $query = $this->connection->prepare(
+                                        'UPDATE menu SET
+                                        dishId = :dishId
+                                        WHERE
+                                            placeId = :placeId
+                                        AND
+                                            dishId = :oldDishId
+                                    '
+                                );
+                                 $queryArgsList = array(
+                                    ':dishId' => $newId,
+                                    ':placeId' => $placeId,
+                                    ':oldDishId' => $id
+                                );
+                                if($query->execute($queryArgsList))
+                                {
+                                    $state = true;
+                                } 
+                            }
+                        }
+                        $state = true;
+                    }
+                }
+            }
+            else
+            {
+                $state = false;
+            }
         }
         return $state;
     }
