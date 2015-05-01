@@ -48,6 +48,24 @@ class UsersModel
         $query->execute(array($id));
         return $query->fetch();
     }
+    
+    //
+    //$id - int
+    //return array if data exists, false if no data
+    //
+    public function GetId($sessionHash)
+    {
+        $query = $this->connection->prepare(
+           'SELECT
+                id, access, isActive 
+            FROM
+                users
+            WHERE
+                sessionHash = ?'
+        );
+        $query->execute(array($sessionHash));
+        return $query->fetch();
+    }
     //
     //$id - int
     //return array if data exists, false if no data

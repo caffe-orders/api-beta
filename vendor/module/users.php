@@ -5,8 +5,7 @@ class Users extends Module
     //return void
     //
     public function __construct()
-    {        
-        $this->model = new UsersModel();
+    {     
         $this->SetGetFunctions();
         $this->SetPostFunctions();
     }
@@ -129,6 +128,35 @@ class Users extends Module
                 $model = new UsersModel();
                 $id = $args['id'];
                 if($userInfo = $model->GetPublicInfo($id))
+                {
+                    $response->SetJsonContent($userInfo);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'No content');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(limit,offset) or Incorrect arguments type');
+            }
+            return $response;
+        });
+        //
+        //
+        //
+        $this->get('id', 0, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'sessionHash' => ''
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $model = new UsersModel();
+                $sessionHash = $args['sessionHash'];
+                if($userInfo = $model->GetId($sessionHash))
                 {
                     $response->SetJsonContent($userInfo);
                     $response->SetStatusCode(200, 'OK');

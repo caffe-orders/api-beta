@@ -106,7 +106,7 @@ class FilesToken extends Module
             return $response;       
         });    
         
-        $this->get('get', 2, function($args)
+        $this->get('get', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -139,7 +139,7 @@ class FilesToken extends Module
             return $response;
         });
       
-        $this->get('delete', 2, function($args)
+        $this->get('delete', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
