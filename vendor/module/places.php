@@ -252,6 +252,36 @@ class Places extends Module
             
             return $response;
         });
-        
+        //
+        //
+        //
+        $this->post('rate', 1, function($args) 
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int',
+                'mark' => 'int'
+            );
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $model = new PlacesModel();
+                $placeId = $args['placeId'];
+                $mark = $args['mark'];
+                $userId = $_SESSION['id'];
+                if($isRated = $model->Rate($placeId, $userId, $mark))
+                {
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Something went wrong (api error or vote already exists)');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int], mark[int]) or Incorrect arguments type');
+            }
+            return $response;
+        });
     }
 }

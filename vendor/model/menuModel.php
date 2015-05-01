@@ -30,7 +30,7 @@ class MenuModel {
         if($dishList != null)
         {
             $dishMenuList = array();            
-            foreach($dishList as $dish)
+            foreach($dishList as $dish) //ОЧЕНЬ ОЧЕНЬ УЗКОЕ МЕСТО, МНОГО МЕЛКИХ ЗАПРОСОВ ФИКС :D
             {
                 $query = $this->connection->prepare(
                     'SELECT
