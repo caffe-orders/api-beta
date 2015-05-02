@@ -210,7 +210,7 @@ class Users extends Module
         //
         //
         //
-        $this->get('new', 0, function($args)
+        $this->post('new', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -242,7 +242,7 @@ class Users extends Module
         //
         //
         //
-        $this->get('edit', 1, function($args)
+        $this->post('edit', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -278,7 +278,103 @@ class Users extends Module
             }
             else
             {                
-                $queryResponseData = array('err_code' => '602');
+                $response->SetStatusCode(400, 'Arguments not found(firstname[string],lastname[string]) or Incorrect arguments type');
+            }
+            
+            return $response;
+        });
+        //
+        //
+        //
+        $this->post('changeuname', 1, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'firstname' => '', 
+                'lastname' => '' 
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $firstname = $args['firstname'];
+                $lastname = $args['lastname'];
+                $userId = $_SESSION['id'];
+                $model = new UsersModel();
+                if($model->ChangeName($firstname,$lastname, $userId))
+                {
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed to edit user data');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(firstname[string],lastname[string]) or Incorrect arguments type');
+            }
+            
+            return $response;
+        });
+        //
+        //
+        //
+        $this->post('changephone', 1, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'oldphone' => 'phone', 
+                'newphone' => 'phone' 
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $oldPhone = $args['oldphone'];
+                $newPhone = $args['newphone'];
+                $userId = $_SESSION['id'];
+                $model = new UsersModel();
+                if($tst = $model->ChangePhone($oldPhone, $newPhone, $userId))
+                {
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed to edit user data');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(oldphone[phone],newphone[phone]) or Incorrect arguments type');
+            }
+            
+            return $response;
+        });
+        //
+        //
+        //
+        $this->post('changepass', 1, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'oldpass' => 'password', 
+                'newpass' => 'password' 
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $oldPass = $args['oldpass'];
+                $newPass = $args['newpass'];
+                $userId = $_SESSION['id'];
+                $model = new UsersModel();
+                if($model->ChangePassword($oldPass, $newPass, $userId))
+                {
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed to edit user data');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(oldpass[password],newpass[password]) or Incorrect arguments type');
             }
             
             return $response;

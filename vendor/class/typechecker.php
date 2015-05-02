@@ -34,7 +34,35 @@ class TypeChecker
     //
     public static function IsPassword($value)
     {
-        if(preg_match("/^[a-z0-9_-]{3,16}$/", $value))
+        if(preg_match("/^((\d)|(\w)){5,18}$/", $value))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    //
+    //
+    //
+    public static function IsString($value)
+    {
+        if(preg_match("/^\w{1,}$/", $value))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    //
+    //
+    //
+    public static function IsPhone($value)
+    {
+        if(preg_match("/^\d{12}$/", $value))
         {
             return true;
         }
@@ -46,7 +74,7 @@ class TypeChecker
     //
     //return bool
     //
-    public function IsEmail($value)
+    public static function IsEmail($value)
     {
         if(filter_var($value, FILTER_VALIDATE_EMAIL))
         {
@@ -60,7 +88,7 @@ class TypeChecker
     //
     //return bool
     //
-    public function IsBool($value)
+    public static function IsBool($value)
     {
         if(filter_var($value, FILTER_VALIDATE_BOOLEAN))
         {
@@ -74,7 +102,7 @@ class TypeChecker
     //
     //return bool FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX FIX
     //
-    public function IsPlace($value)
+    public static function IsPlace($value)
     {
         $whiteList = array(
             'Кафе',
@@ -93,7 +121,7 @@ class TypeChecker
     //
     //return bool
     //
-    public function IsHitCategory($value)
+    public static function IsHitCategory($value)
     {
         $whiteList = array(
             'place',

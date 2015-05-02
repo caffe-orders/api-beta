@@ -220,5 +220,95 @@ class UsersModel
         }
         return $state;
     }
+    //
+    //
+    //
+    public function ChangePassword($oldPass, $newPass, $userId)
+    {
+        $getPassQuery = $this->connection->prepare(
+           'SELECT
+                *
+            FROM
+                users
+            WHERE
+                id = ?'
+        );
+        $getPassQuery->execute(array($userId));
+        $state = false;
+        if($userData = $getPassQuery->fetch())
+        {
+            if($userData['pwdHash'] == md5($oldPass))
+            {
+                $updatePassQuery = $this->connection->prepare(
+                    'UPDATE
+                        users
+                     SET
+                        pwdHash = ?
+                     WHERE
+                        id = ?'
+                );
+                if($updatePassQuery->execute(array(md5($newPass), $userId)))
+                {
+                    $state = true;
+                }
+            }
+        }
+        return $state;          
+    }
+    //
+    //
+    //
+    public function ChangeName($firstName, $lastName, $id)
+    {
+        $updateUnameQuery = $this->connection->prepare(
+            'UPDATE
+                users
+             SET
+                firstName = ?,
+                lastName = ?
+             WHERE
+                id = ?'
+        );
+        if($updateUnameQuery->execute(array($firstName, $lastName, $id)))
+        {
+            return true;
+        }
+        else return false;
+    }
+    //
+    //
+    //
+    public function ChangePhone($oldPhone, $newPhone, $userId)
+    {
+        $getPhoneQuery = $this->connection->prepare(
+           'SELECT
+                *
+            FROM
+                users
+            WHERE
+                id = ?'
+        );
+        $getPhoneQuery->execute(array($userId));
+        $state = false;
+        if($userData = $getPhoneQuery->fetch())
+        {
+            if($userData['phone'] == $oldPhone)
+            {
+                $updatePhoneQuery = $this->connection->prepare(
+                    'UPDATE
+                        users
+                     SET
+                        phone = ?
+                     WHERE
+                        id = ?'
+                );
+                if($updatePhoneQuery->execute(array($newPhone, $userId)))
+                {
+                    $state = true;
+                }
+            }
+        }
+        return $state; 
+    }
 }
 ?>

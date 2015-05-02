@@ -67,12 +67,12 @@ class Auth extends Module
                 if($model->Login($email, $password))
                 {
                     $response->SetStatusCode(200, 'OK');
-                    $response->SetJsonContent($_SESSION['hash']);
+                    $usersModel = new UsersModel();
+                    $response->SetJsonContent($usersModel->GetFullInfo($_SESSION['id']));
                 }
                 else
                 {
                     $response->SetStatusCode(400, 'Failed to auth');
-                  $response->SetJsonContent($args);
                 }
             }
             else

@@ -69,6 +69,16 @@ abstract class Module
                     $argsIsCorrect = false;
                     break;
                 }
+                elseif($value === 'string' && !TypeChecker::IsString($args[$key]))
+                {
+                    $argsIsCorrect = false;
+                    break;
+                }
+                elseif($value === 'phone' && !TypeChecker::IsPhone($args[$key]))
+                {
+                    $argsIsCorrect = false;
+                    break;
+                }
             }
         }
         return $argsIsCorrect;
