@@ -17,8 +17,7 @@ class Rooms extends Module
     //return void
     //
     public function __construct()
-    {        
-        $this->model = new RoomsModel();
+    {  
         $this->SetGetFunctions();
         $this->SetPostFunctions();
     }
@@ -70,7 +69,7 @@ class Rooms extends Module
         //
         //return users list GET responce type
         //
-        $this->get('list', 0, function($args)
+        $this->get('publiclist', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -78,9 +77,9 @@ class Rooms extends Module
             );
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $model = new RoomsModel();
                 $placeId = $args['placeId'];
-                if($roomsList = $model->GetInfoList($placeId))
+                $model = new RoomsModel();
+                if($roomsList = $model->GetPublicInfoList($placeId))
                 {
                     $response->SetJsonContent($roomsList);
                     $response->SetStatusCode(200, 'OK');
@@ -97,10 +96,37 @@ class Rooms extends Module
             return $response;
         });
         
+        
+        $this->get('list', 2, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int'
+            );
+            if(Module::CheckArgs($parametersArray, $args))
+            {                
+                $placeId = $args['placeId'];
+                $model = new RoomsModel();
+                if($roomsList = $model->GetInfoList($placeId))
+                {
+                    $response->SetJsonContent($roomsList);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'No content');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int]) or Incorrect arguments type');
+            }
+            return $response;
+        });
         //
         //
         //
-        $this->get('info', 1, function($args)
+        $this->get('info', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -109,7 +135,8 @@ class Rooms extends Module
             if(Module::CheckArgs($parametersArray, $args))
             {
                 $id = $args['id'];
-                if($roomInfo = $this->model->GetInfo($id))
+                $model = new RoomsModel();
+                if($roomInfo = $model->GetInfo($id))
                 {
                     $response->SetJsonContent($roomInfo);
                     $response->SetStatusCode(200, 'OK');
@@ -121,14 +148,18 @@ class Rooms extends Module
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(limit,offset) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(id[int]) or Incorrect arguments type');
             }
             return $response;
-        });
+        });        
+    }
+    
+    public function SetPostFunctions()
+    {
         //
         //
         //
-        $this->get('update', 2, function($args)
+        $this->post('update', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -141,15 +172,23 @@ class Rooms extends Module
             {
                 $id = $args['id'];
                 $placeId = $args['placeId'];
-                $number = $args['number'];
+                if($args['number'] >= 1)
+                {
+                    $number = $args['number'];
+                }
+                else
+                {
+                    $number = 1;
+                }
                 $capacity = $args['capacity'];
-                if($this->model->UpdateRoom($id, $placeId, $number, $capacity))
+                $model = new RoomsModel();
+                if($model->UpdateRoom($id, $placeId, $number, $capacity))
                 {                    
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(204, 'No content');
+                    $response->SetStatusCode(204, 'Update can not be any room, the room is already occupied');
                 }
             }
             else
@@ -161,7 +200,7 @@ class Rooms extends Module
         //
         //
         //
-        $this->get('delete', 2, function($args)
+        $this->post('delete', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -170,59 +209,79 @@ class Rooms extends Module
             if(Module::CheckArgs($parametersArray, $args))
             {
                 $roomId = $args['roomId'];
-                if($this->model->DeleteRoom($roomId))
+                $model = new RoomsModel();
+                if($model->DeleteRoom($roomId))
                 {
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(204, 'No content');
+                    $response->SetStatusCode(204, 'Delete error');
                 }
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(limit,offset) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(roomId[int]) or Incorrect arguments type');
             }
             return $response;
         });
-        
         //
         //
         //
-        $this->get('add', 2, function($args)
+        $this->post('reestablis', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
-                'id' => 'int',
+                'roomId' => 'int'
+            );
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $roomId = $args['roomId'];
+                $model = new RoomsModel();
+                if($model->ReestablisRoom($roomId))
+                {
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'Reestablis error');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(roomId[int]) or Incorrect arguments type');
+            }
+            return $response;
+        });
+        //
+        //
+        //
+        $this->post('add', 2, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
                 'placeId' => 'int',
-                'number' => 'int',
                 'capacity' => 'int'
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
-                $id = $args['id'];
                 $placeId = $args['placeId'];
-                $number = $args['number'];
                 $capacity = $args['capacity'];
-                if($this->model->AddRoom($id, $placeId, $number, $capacity))
+                $model = new RoomsModel();
+                if($model->AddRoom($placeId, $capacity))
                 {                    
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(204, 'No content');
+                    $response->SetStatusCode(204, 'Error added room');
                 }
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(limit,offset) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int], capacity[int]) or Incorrect arguments type');
             }
             return $response;
         });
-    }
-    
-    public function SetPostFunctions()
-    {
-        
     }    
 }
