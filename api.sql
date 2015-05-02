@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Май 02 2015 г., 09:40
+-- Время создания: Май 02 2015 г., 21:03
 -- Версия сервера: 5.5.38
 -- Версия PHP: 5.3.13
 
@@ -119,10 +119,20 @@ INSERT INTO `comments` (`senderId`, `placeId`, `state`, `text`, `pubDate`, `dele
 CREATE TABLE IF NOT EXISTS `complex_dinner` (
 `id` int(11) NOT NULL,
   `placeId` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL,
-  `serialisedData` varchar(4000) NOT NULL,
+  `deleted` tinyint(4) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(1000) NOT NULL,
+  `cost` int(11) NOT NULL,
+  `imgSrc` varchar(70) NOT NULL,
   `day` smallint(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `complex_dinner`
+--
+
+INSERT INTO `complex_dinner` (`id`, `placeId`, `deleted`, `name`, `description`, `cost`, `imgSrc`, `day`) VALUES
+(1, 2, 0, '234234dsfsdfsd', 'qwerrr', 100, 'awdawda', 3);
 
 -- --------------------------------------------------------
 
@@ -263,11 +273,11 @@ CREATE TABLE IF NOT EXISTS `places` (
 --
 
 INSERT INTO `places` (`id`, `name`, `ownerId`, `gmap`, `address`, `phones`, `workTime`, `descr`, `type`, `sumRating`, `countRating`, `outdoors`, `cuisine`, `parking`, `smoking`, `wifi`, `avgBill`) VALUES
-(1, 'VivaldiCaffe', 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.4166082006163!2d30.339385631773798!3d53.90657244840632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000:0x3a1deb5578d145d1!2z0J_QsNGA0LzQtdC30LDQvQ!5e0!3m2!1sru!2sru!4v1422629379226', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 0, 0, 1, '&ETH;', 1, 1, 1, 123123),
-(2, 'VivaldiCaffe', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 0, 0, 1, '&ETH;', 1, 1, 1, 123123),
-(3, '&ETH;', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 0, 0, 1, '&ETH;', 1, 1, 1, 123123),
-(4, '&ETH;', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 0, 0, 1, '&ETH;', 1, 1, 1, 123123),
-(5, 'БугуртКафе', 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.4166082006163!2d30.339385631773798!3d53.90657244840632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000:0x3a1deb5578d145d1!2z0J_QsNGA0LzQtdC30LDQvQ!5e0!3m2!1sru!2sru!4v1422629379226', 'Magic Street', '123213123', '123-123', 'descr', 'Магия', 0, 0, 1, 'Итальянская', 1, 1, 1, 123123);
+(1, 'VivaldiCaffe', 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.4166082006163!2d30.339385631773798!3d53.90657244840632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000:0x3a1deb5578d145d1!2z0J_QsNGA0LzQtdC30LDQvQ!5e0!3m2!1sru!2sru!4v1422629379226', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 4, 1, 1, '&ETH;', 1, 1, 1, 123123),
+(2, 'VivaldiCaffe', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 3, 1, 1, '&ETH;', 1, 1, 1, 123123),
+(3, '&ETH;', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 1, 1, 1, '&ETH;', 1, 1, 1, 123123),
+(4, '&ETH;', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 5, 1, 1, '&ETH;', 1, 1, 1, 123123),
+(5, 'БугуртКафе', 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.4166082006163!2d30.339385631773798!3d53.90657244840632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000:0x3a1deb5578d145d1!2z0J_QsNGA0LzQtdC30LDQvQ!5e0!3m2!1sru!2sru!4v1422629379226', 'Magic Street', '123213123', '123-123', 'descr', 'Магия', 4, 1, 1, 'Итальянская', 1, 1, 1, 123123);
 
 -- --------------------------------------------------------
 
@@ -280,7 +290,18 @@ CREATE TABLE IF NOT EXISTS `place_rated` (
   `userId` int(11) NOT NULL,
   `placeId` int(11) NOT NULL,
   `mark` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Дамп данных таблицы `place_rated`
+--
+
+INSERT INTO `place_rated` (`id`, `userId`, `placeId`, `mark`) VALUES
+(1, 1, 2, 3),
+(2, 1, 5, 4),
+(3, 1, 4, 5),
+(4, 1, 1, 4),
+(5, 1, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -392,7 +413,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `phone`, `pwdHash`, `access`, `regDate`, `isActive`, `sessionHash`) VALUES
-(1, 'Ыгар', 'Жоржев', 'clain@sample.com', 375291269934, 'cb6474b4e2f29b95654296bda17da524', 3, '2015-04-01 19:10:20', 0, '306804551f155a2b1d44c5679326a3a3'),
+(1, 'Ыгар', 'Жоржев', 'clain@sample.com', 375291269935, 'cb6474b4e2f29b95654296bda17da524', 3, '2015-04-01 19:10:20', 0, '306804551f155a2b1d44c5679326a3a3'),
 (2, 'Лалка', 'Лалалай', 'clain1@sample.com', 37529126993466, 'cb6474b4e2f29b95654296bda17da524', 1, '2015-04-02 00:00:00', 0, '9687b677556f8bd95c63c78fc9836b99');
 
 --
@@ -473,7 +494,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `complex_dinner`
 --
 ALTER TABLE `complex_dinner`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `corporate_orders`
 --
@@ -498,7 +519,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 -- AUTO_INCREMENT for table `place_rated`
 --
 ALTER TABLE `place_rated`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `place_statistics`
 --
