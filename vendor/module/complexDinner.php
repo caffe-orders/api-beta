@@ -85,19 +85,20 @@ class complexDinner extends Module {
                         $description,
                         $cost,
                         $imgSrc,
-                        $day
+                        $day,
+                        $_SESSION['id']
                 ))
                 {
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(204, 'No content');
+                    $response->SetStatusCode(204, 'Adding error');
                 }
             } 
             else
             {
-                $response->SetStatusCode(400, 'Arguments not found(placeId[int], url[string]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int], name[str],description[str],cost[int],imgSrc[str],day[int]) or Incorrect arguments type');
             }
             return $response;
         });
@@ -134,19 +135,20 @@ class complexDinner extends Module {
                         $description,
                         $cost,
                         $imgSrc,
-                        $day
+                        $day,
+                        $_SESSION['id']
                 ))
                 {
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(204, 'No content');
+                    $response->SetStatusCode(204, 'Update false');
                 }
             } 
             else
             {
-                $response->SetStatusCode(400, 'Arguments not found(placeId[int], url[string]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(id[int],placeId[int], name[str],description[str],cost[int],imgSrc[str],day[int]) or Incorrect arguments type');
             }
             return $response;
         });
@@ -154,24 +156,26 @@ class complexDinner extends Module {
         $this->get('delete', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
-                'id' => 'int'
+                'id' => 'int',
+                'placeId' => 'int'
             );
             if (Module::CheckArgs($parametersArray, $args))
             {
                 $id = $args['id'];
+                $placeId = $args['placeId'];
                 $model = new ComplexDinnerModel();
-                if (isset($_SESSION['id']) && $model->DeleteComplexDinner($id))
+                if (isset($_SESSION['id']) && $model->DeleteComplexDinner($id, $placeId, $_SESSION['id']))
                 {
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(204, 'No content');
+                    $response->SetStatusCode(204, 'Delete error');
                 }
             }
             else
             {
-                $response->SetStatusCode(400, 'Arguments not found(id[int]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(id[int], placeId[int]) or Incorrect arguments type');
             }
             return $response;
         });
@@ -179,24 +183,26 @@ class complexDinner extends Module {
         $this->get('reestablis', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
-                'id' => 'int'
+                'id' => 'int',
+                'placeId' => 'int'
             );
             if (Module::CheckArgs($parametersArray, $args))
             {
                 $id = $args['id'];
+                $placeId = $args['placeId'];
                 $model = new ComplexDinnerModel();
-                if (isset($_SESSION['id']) && $model->ReestablisComplexDinner($id))
+                if (isset($_SESSION['id']) && $model->ReestablisComplexDinner($id, $placeId, $_SESSION['id']))
                 {
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
                 {
-                    $response->SetStatusCode(204, 'No content');
+                    $response->SetStatusCode(204, 'Reestablis error');
                 }
             }
             else
             {
-                $response->SetStatusCode(400, 'Arguments not found(id[int]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(id[int], placeId[int]) or Incorrect arguments type');
             }
             return $response;
         });

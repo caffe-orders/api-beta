@@ -11,124 +11,149 @@ class complexDinnerModel {
         $this->connection = DatabaseProvider::GetConnection();
     }
     
-    public function AddComplexDinner($placeId, $name, $description, $cost, $imgSrc, $day)
+    public function AddComplexDinner($placeId, $name, $description, $cost, $imgSrc, $day, $userId)
     {
         $state = false;
-        $placeModel = new PlacesModel();
-        if($placeModel->GetFullInfo($placeId) != null)
+        if($this->userOwnedPlaces($placeId, $userId))
         {
-            $query = $this->connection->prepare(
-                'INSERT
-                    complex_dinner(
-                        placeId,
-                        deleted,
-                        name,
-                        description,
-                        cost,
-                        imgSrc,
-                        day
-                    )
-                VALUES(
-                    :placeId,
-                    0,
-                    :name,
-                    :description,
-                    :cost,
-                    :imgSrc,
-                    :day
-                )'
-            );
-            $queryArgsList = array(
-                ':placeId' => $placeId,
-                ':name' => $name,
-                ':description' => $description,
-                ':cost' => $cost,
-                ':imgSrc' => $imgSrc,
-                ':day' => $day
-            );
-            if($query->execute($queryArgsList))
+            $placeModel = new PlacesModel();
+            if($placeModel->GetFullInfo($placeId) != null)
             {
-                $state = true;
-            } 
+                $query = $this->connection->prepare(
+                    'INSERT
+                        complex_dinner(
+                            placeId,
+                            deleted,
+                            name,
+                            description,
+                            cost,
+                            imgSrc,
+                            day
+                        )
+                    VALUES(
+                        :placeId,
+                        0,
+                        :name,
+                        :description,
+                        :cost,
+                        :imgSrc,
+                        :day
+                    )'
+                );
+                $queryArgsList = array(
+                    ':placeId' => $placeId,
+                    ':name' => $name,
+                    ':description' => $description,
+                    ':cost' => $cost,
+                    ':imgSrc' => $imgSrc,
+                    ':day' => $day
+                );
+                if($query->execute($queryArgsList))
+                {
+                    $state = true;
+                } 
+            }
         }
         return $state;
     }
     
-    public function UpdateComplexDinner($id,$placeId,$name,$description,$cost,$imgSrc,$day)
+    public function UpdateComplexDinner($id,$placeId,$name,$description,$cost,$imgSrc,$day, $userId)
     {
         $state = false;
-        $placeModel = new PlacesModel();
-        if($placeModel->GetFullInfo($placeId) != null)
+        if($this->userOwnedPlaces($placeId, $userId))
+        {
+            $placeModel = new PlacesModel();
+            if($placeModel->GetFullInfo($placeId) != null)
+            {
+                $query = $this->connection->prepare(
+                    'UPDATE
+                        complex_dinner
+                    SET
+                        placeId = :placeId,
+                        name = :name,
+                        description = :description,
+                        cost = :cost,
+                        imgSrc = :imgSrc,
+                        day = :day
+                    WHERE
+                        id = :id'
+                );
+                $queryArgsList = array(
+                    ':id' => $id,
+                    ':placeId' => $placeId,
+                    ':name' => $name,
+                    ':description' => $description,
+                    ':cost' => $cost,
+                    ':imgSrc' => $imgSrc,
+                    ':day' => $day
+                );
+                if($query->execute($queryArgsList))
+                {
+                    $state = true;
+                } 
+            }
+        }
+        return $state;
+    }
+    
+    public function DeleteComplexDinner($id, $placeId, $userId)
+    {
+        $state = false;
+        if($this->userOwnedPlaces($placeId, $userId))
         {
             $query = $this->connection->prepare(
-                'UPDATE
+                'UPDATE 
                     complex_dinner
                 SET
-                    placeId = :placeId,
-                    name = :name,
-                    description = :description,
-                    cost = :cost,
-                    imgSrc = :imgSrc,
-                    day = :day
+                    deleted = 1
                 WHERE
-                    id = :id'
-            );
-            $queryArgsList = array(
-                ':id' => $id,
-                ':placeId' => $placeId,
-                ':name' => $name,
-                ':description' => $description,
-                ':cost' => $cost,
-                ':imgSrc' => $imgSrc,
-                ':day' => $day
-            );
-            if($query->execute($queryArgsList))
+                    id = :id
+                '
+                );
+            $query->bindValue(':id', (int)$id, PDO::PARAM_INT);
+            if($query->execute())
             {
                 $state = true;
-            } 
+            }
         }
         return $state;
     }
     
-    public function DeleteComplexDinner($id)
+    public function ReestablisComplexDinner($id, $placeId, $userId)
     {
         $state = false;
-        
-        $query = $this->connection->prepare(
-            'UPDATE 
-                complex_dinner
-            SET
-                deleted = 1
-            WHERE
-                id = :id
-            '
-            );
-        $query->bindValue(':id', (int)$id, PDO::PARAM_INT);
-        if($query->execute())
+        if($this->userOwnedPlaces($placeId, $userId))
         {
-            $state = true;
+            $query = $this->connection->prepare(
+                'UPDATE 
+                    complex_dinner
+                SET
+                    deleted = 0
+                WHERE
+                    id = :id
+                '
+                );
+            $query->bindValue(':id', (int)$id, PDO::PARAM_INT);
+            if($query->execute())
+            {
+                $state = true;
+            }
         }
         return $state;
     }
     
-    public function ReestablisComplexDinner($id)
+    private function userOwnedPlaces($placeId, $userId)
     {
-        $state = false;
+        $placeModel = new PlacesModel();
+        $place = $placeModel->GetFullInfo($placeId);
         
-        $query = $this->connection->prepare(
-            'UPDATE 
-                complex_dinner
-            SET
-                deleted = 0
-            WHERE
-                id = :id
-            '
-            );
-        $query->bindValue(':id', (int)$id, PDO::PARAM_INT);
-        if($query->execute())
+        if($place!= null && $place['ownerId'] = $userId)
         {
-            $state = true;
+            return true;
         }
-        return $state;
+        else
+        {
+            return false;
+        }
     }
 }
