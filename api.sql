@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Апр 30 2015 г., 15:48
+-- Время создания: Май 02 2015 г., 09:40
 -- Версия сервера: 5.5.38
 -- Версия PHP: 5.3.13
 
@@ -19,6 +19,17 @@ SET time_zone = "+00:00";
 --
 -- База данных: `api`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `albums`
+--
+
+CREATE TABLE IF NOT EXISTS `albums` (
+  `placeId` int(11) NOT NULL,
+  `url` varchar(70) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -108,8 +119,9 @@ INSERT INTO `comments` (`senderId`, `placeId`, `state`, `text`, `pubDate`, `dele
 CREATE TABLE IF NOT EXISTS `complex_dinner` (
 `id` int(11) NOT NULL,
   `placeId` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
-  `serialisedData` varchar(4000) NOT NULL
+  `status` tinyint(4) NOT NULL,
+  `serialisedData` varchar(4000) NOT NULL,
+  `day` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -199,13 +211,6 @@ CREATE TABLE IF NOT EXISTS `files_token` (
   `deleteDate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Дамп данных таблицы `files_token`
---
-
-INSERT INTO `files_token` (`token`, `sessionHash`, `deleteDate`) VALUES
-('b4860d4092b40a04148171bf11d13762', '3f848383aca7fb2835963842aad617e5', '2015-04-30 13:00:06');
-
 -- --------------------------------------------------------
 
 --
@@ -224,7 +229,8 @@ CREATE TABLE IF NOT EXISTS `menu` (
 
 INSERT INTO `menu` (`placeId`, `dishId`, `deleted`) VALUES
 (3, 11, 0),
-(3, 2, 0);
+(3, 2, 0),
+(3, 8, 0);
 
 -- --------------------------------------------------------
 
@@ -311,8 +317,22 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 `id` int(11) NOT NULL,
   `placeId` int(11) NOT NULL,
   `number` int(11) NOT NULL,
-  `capacity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `capacity` int(11) NOT NULL,
+  `deleted` tinyint(4) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Дамп данных таблицы `rooms`
+--
+
+INSERT INTO `rooms` (`id`, `placeId`, `number`, `capacity`, `deleted`) VALUES
+(1, 1, 1, 323, 0),
+(2, 2, 1, 123, 0),
+(3, 3, 11, 200, 0),
+(4, 1, 2, 100, 0),
+(5, 1, 3, 100, 0),
+(6, 3, 1, 100, 0),
+(7, 3, 12, 200, 0);
 
 -- --------------------------------------------------------
 
@@ -372,7 +392,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `phone`, `pwdHash`, `access`, `regDate`, `isActive`, `sessionHash`) VALUES
-(1, 'Ыгар', 'Жоржев', 'clain@sample.com', 375291269934, 'cb6474b4e2f29b95654296bda17da524', 3, '2015-04-01 19:10:20', 0, '3f848383aca7fb2835963842aad617e5'),
+(1, 'Ыгар', 'Жоржев', 'clain@sample.com', 375291269934, 'cb6474b4e2f29b95654296bda17da524', 3, '2015-04-01 19:10:20', 0, '306804551f155a2b1d44c5679326a3a3'),
 (2, 'Лалка', 'Лалалай', 'clain1@sample.com', 37529126993466, 'cb6474b4e2f29b95654296bda17da524', 1, '2015-04-02 00:00:00', 0, '9687b677556f8bd95c63c78fc9836b99');
 
 --
@@ -488,7 +508,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `tables`
 --
