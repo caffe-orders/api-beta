@@ -19,7 +19,6 @@ class complexDinnerModel {
             name,
             description,
             cost,
-            imgSrc,
             day
         FROM 
              complex_dinner 
