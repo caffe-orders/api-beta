@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Май 02 2015 г., 21:03
+-- Время создания: Май 03 2015 г., 20:46
 -- Версия сервера: 5.5.38
 -- Версия PHP: 5.3.13
 
@@ -30,6 +30,13 @@ CREATE TABLE IF NOT EXISTS `albums` (
   `placeId` int(11) NOT NULL,
   `url` varchar(70) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Дамп данных таблицы `albums`
+--
+
+INSERT INTO `albums` (`placeId`, `url`) VALUES
+(2, '23232');
 
 -- --------------------------------------------------------
 
@@ -108,7 +115,8 @@ INSERT INTO `comments` (`senderId`, `placeId`, `state`, `text`, `pubDate`, `dele
 (1, 4, 1, 'фцвфцв', '2015-04-13', 0),
 (1, 4, 1, 'оарпапл рлоры', '2015-04-13', 0),
 (1, 4, 1, 'цфвфцвфц', '2015-04-13', 0),
-(1, 5, 1, 'вввв', '2015-04-17', 0);
+(1, 5, 1, 'вввв', '2015-04-17', 0),
+(1, 5, 1, 'пустой комент', '2015-05-03', 0);
 
 -- --------------------------------------------------------
 
@@ -123,7 +131,6 @@ CREATE TABLE IF NOT EXISTS `complex_dinner` (
   `name` varchar(50) NOT NULL,
   `description` varchar(1000) NOT NULL,
   `cost` int(11) NOT NULL,
-  `imgSrc` varchar(70) NOT NULL,
   `day` smallint(6) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
@@ -131,8 +138,8 @@ CREATE TABLE IF NOT EXISTS `complex_dinner` (
 -- Дамп данных таблицы `complex_dinner`
 --
 
-INSERT INTO `complex_dinner` (`id`, `placeId`, `deleted`, `name`, `description`, `cost`, `imgSrc`, `day`) VALUES
-(1, 2, 0, '234234dsfsdfsd', 'qwerrr', 100, 'awdawda', 3);
+INSERT INTO `complex_dinner` (`id`, `placeId`, `deleted`, `name`, `description`, `cost`, `day`) VALUES
+(1, 2, 0, '234234dsfsdfsd', '1111', 100, 3);
 
 -- --------------------------------------------------------
 
