@@ -11,6 +11,49 @@ class complexDinnerModel {
         $this->connection = DatabaseProvider::GetConnection();
     }
     
+    public function PublicList($placeId)
+    {
+        $query = $this->connection->prepare(
+        'SELECT
+            id,
+            name,
+            description,
+            cost,
+            imgSrc,
+            day
+        FROM 
+             complex_dinner 
+        WHERE
+            placeId = :placeId
+        AND
+            deleted = 0'
+        );            
+        $queryArgsList = array(
+            ':placeId' => $placeId
+        );
+        $query->execute($queryArgsList);
+        $arr = $query->fetchAll();        
+        return $arr;
+    }
+
+    public function PrivateList($placeId)
+    {
+        $query = $this->connection->prepare(
+        'SELECT
+            *
+        FROM 
+             complex_dinner 
+        WHERE
+            placeId = :placeId'
+        );            
+        $queryArgsList = array(
+            ':placeId' => $placeId
+        );
+        $query->execute($queryArgsList);
+        $arr = $query->fetchAll();        
+        return $arr;
+    }
+    
     public function AddComplexDinner($placeId, $name, $description, $cost, $imgSrc, $day, $userId)
     {
         $state = false;

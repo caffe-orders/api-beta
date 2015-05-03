@@ -53,9 +53,59 @@ class complexDinner extends Module {
     //
     //
     public function SetGetFunctions() {
-        //
-        //return users list GET responce type
-        //
+        
+        $this->get('list', 0, function($args) {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int'
+            );
+            if (Module::CheckArgs($parametersArray, $args))
+            {
+                $placeId = $args['placeId'];
+                $model = new complexDinnerModel();
+                if ($listComplexDinner = $model->PublicList($placeId))
+                {
+                    $response->setJsonContent($listComplexDinner);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'Adding error');
+                }
+            } 
+            else
+            {
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int], name[str],description[str],cost[int],imgSrc[str],day[int]) or Incorrect arguments type');
+            }
+            return $response;
+        });
+        
+        $this->get('fulllist', 0, function($args) {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int'
+            );
+            if (Module::CheckArgs($parametersArray, $args))
+            {
+                $placeId = $args['placeId'];
+                $model = new complexDinnerModel();
+                if ($listComplexDinner = $model->PrivateList($placeId))
+                {
+                    $response->setJsonContent($listComplexDinner);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'Adding error');
+                }
+            } 
+            else
+            {
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int], name[str],description[str],cost[int],imgSrc[str],day[int]) or Incorrect arguments type');
+            }
+            return $response;
+        });
+        
         $this->get('add', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
