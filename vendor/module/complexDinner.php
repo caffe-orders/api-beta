@@ -113,7 +113,6 @@ class complexDinner extends Module {
                 'name' => '',
                 'description' => '',
                 'cost' => 'int',
-                'imgSrc' => '',
                 'day' => 'int'
             );
             if (Module::CheckArgs($parametersArray, $args))
@@ -122,7 +121,6 @@ class complexDinner extends Module {
                 $name = $args['name'];
                 $description = $args['description'];
                 $cost = $args['cost'];
-                $imgSrc = $args['imgSrc'];
                 $day = $args['day'];
                 if($day>= 8 || $day<=0)
                 {
@@ -134,7 +132,6 @@ class complexDinner extends Module {
                         $name,
                         $description,
                         $cost,
-                        $imgSrc,
                         $day,
                         $_SESSION['id']
                 ))
@@ -148,7 +145,7 @@ class complexDinner extends Module {
             } 
             else
             {
-                $response->SetStatusCode(400, 'Arguments not found(placeId[int], name[str],description[str],cost[int],imgSrc[str],day[int]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int], name[str],description[str],cost[int],day[int]) or Incorrect arguments type');
             }
             return $response;
         });
@@ -161,7 +158,6 @@ class complexDinner extends Module {
                 'name' => '',
                 'description' => '',
                 'cost' => 'int',
-                'imgSrc' => '',
                 'day' => 'int'
             );
             if (Module::CheckArgs($parametersArray, $args)) 
@@ -171,7 +167,6 @@ class complexDinner extends Module {
                 $name = $args['name'];
                 $description = $args['description'];
                 $cost = $args['cost'];
-                $imgSrc = $args['imgSrc'];
                 $day = $args['day'];
                 if($day >= 8 || $day<=0)
                 {
@@ -184,7 +179,6 @@ class complexDinner extends Module {
                         $name,
                         $description,
                         $cost,
-                        $imgSrc,
                         $day,
                         $_SESSION['id']
                 ))
@@ -198,7 +192,7 @@ class complexDinner extends Module {
             } 
             else
             {
-                $response->SetStatusCode(400, 'Arguments not found(id[int],placeId[int], name[str],description[str],cost[int],imgSrc[str],day[int]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(id[int],placeId[int], name[str],description[str],cost[int],day[int]) or Incorrect arguments type');
             }
             return $response;
         });

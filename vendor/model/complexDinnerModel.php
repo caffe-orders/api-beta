@@ -54,7 +54,7 @@ class complexDinnerModel {
         return $arr;
     }
     
-    public function AddComplexDinner($placeId, $name, $description, $cost, $imgSrc, $day, $userId)
+    public function AddComplexDinner($placeId, $name, $description, $cost, $day, $userId)
     {
         $state = false;
         if($this->userOwnedPlaces($placeId, $userId))
@@ -70,7 +70,6 @@ class complexDinnerModel {
                             name,
                             description,
                             cost,
-                            imgSrc,
                             day
                         )
                     VALUES(
@@ -79,7 +78,6 @@ class complexDinnerModel {
                         :name,
                         :description,
                         :cost,
-                        :imgSrc,
                         :day
                     )'
                 );
@@ -88,7 +86,6 @@ class complexDinnerModel {
                     ':name' => $name,
                     ':description' => $description,
                     ':cost' => $cost,
-                    ':imgSrc' => $imgSrc,
                     ':day' => $day
                 );
                 if($query->execute($queryArgsList))
@@ -100,7 +97,7 @@ class complexDinnerModel {
         return $state;
     }
     
-    public function UpdateComplexDinner($id,$placeId,$name,$description,$cost,$imgSrc,$day, $userId)
+    public function UpdateComplexDinner($id,$placeId,$name,$description,$cost,$day, $userId)
     {
         $state = false;
         if($this->userOwnedPlaces($placeId, $userId))
@@ -116,7 +113,6 @@ class complexDinnerModel {
                         name = :name,
                         description = :description,
                         cost = :cost,
-                        imgSrc = :imgSrc,
                         day = :day
                     WHERE
                         id = :id'
@@ -127,7 +123,6 @@ class complexDinnerModel {
                     ':name' => $name,
                     ':description' => $description,
                     ':cost' => $cost,
-                    ':imgSrc' => $imgSrc,
                     ':day' => $day
                 );
                 if($query->execute($queryArgsList))
