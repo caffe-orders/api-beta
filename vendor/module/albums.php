@@ -119,6 +119,33 @@ class albums extends Module
             }
             return $response;
         });         
+        
+        $this->get('list', 0, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int'
+            );
+            if(Module::CheckArgs($parametersArray, $args))
+            {                
+                $placeId = $args['placeId'];
+                $model = new AlbumsModel();
+                if($listAlbum = $model->GetAlbum($placeId))
+                {
+                    $response->SetJsonContent($listAlbum);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'No content');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int], url[string]) or Incorrect arguments type');
+            }
+            return $response;
+        });
     }
         
     public function SetPostFunctions()

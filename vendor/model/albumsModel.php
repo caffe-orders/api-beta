@@ -71,6 +71,29 @@ class albumsModel {
         return $state;
     }
     
+    public function GetAlbum($placeId)
+    {
+        $query = $this->connection->prepare(
+        'SELECT
+            *
+        FROM 
+             albums 
+        WHERE
+            placeId = :placeId'
+        );            
+        $queryArgsList = array(
+            ':placeId' => $placeId
+        );
+        $query->execute($queryArgsList);
+        $arr = $query->fetchAll();
+        $returnedArr = array();
+        foreach ($arr as $item)
+        {
+            $returnedArr[] = $item['url'];
+        }
+        return $returnedArr;
+    }
+    
     private function userOwnedPlaces($placeId, $userId)
     {
         $placeModel = new PlacesModel();
