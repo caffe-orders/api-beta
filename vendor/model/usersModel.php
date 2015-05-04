@@ -136,7 +136,8 @@ class UsersModel
                         pwdHash,
                         access,
                         regDate,
-                        isActive
+                        isActive,
+                        sessionHash
                     ) 
                 VALUES
                     (
@@ -147,7 +148,8 @@ class UsersModel
                     :pwdHash,
                     :access,
                     :regDate,
-                    :isActive
+                    :isActive,
+                    :sessionHash
                     )';
             $query = $this->connection->prepare($query);
             $queryArgsList = array(
@@ -158,7 +160,8 @@ class UsersModel
                 ':pwdHash' => md5($password),
                 ':access' => 1,                             
                 ':regDate' => date('Y.m.d'),
-                ':isActive' => 0
+                ':isActive' => 0,
+                ':sessionHash' => ''
             );
             if($query->execute($queryArgsList))
             {
