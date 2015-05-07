@@ -146,7 +146,7 @@ class tablesModel {
         return $state;
     }
     
-    public function ReestablisTable($id, $userId)
+    public function ReestablishTable($id, $userId)
     {
         $state = false;
         ///need check user access

@@ -191,7 +191,7 @@ class MenuModel {
         return $state;
     }
     
-    public function ReestablisDishInMenu($userId, $accessLevel, $placeId, $dishId)
+    public function ReestablishDishInMenu($userId, $accessLevel, $placeId, $dishId)
     {
         $state = false;
         if($accessLevel == 2)

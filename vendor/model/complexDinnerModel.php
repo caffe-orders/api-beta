@@ -156,7 +156,7 @@ class complexDinnerModel {
         return $state;
     }
     
-    public function ReestablisComplexDinner($id, $placeId, $userId)
+    public function ReestablishComplexDinner($id, $placeId, $userId)
     {
         $state = false;
         if($this->userOwnedPlaces($placeId, $userId))

@@ -224,7 +224,7 @@ class complexDinner extends Module {
             return $response;
         });
         
-        $this->get('reestablis', 2, function($args) {
+        $this->get('reestablish', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
                 'id' => 'int',

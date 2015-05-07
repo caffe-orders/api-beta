@@ -134,7 +134,7 @@ class RoomsModel {
         return $state;
     }
     
-    public function ReestablisRoom($roomId)
+    public function ReestablishRoom($roomId)
     {
         $state = false;
         $query = $this->connection->prepare(
