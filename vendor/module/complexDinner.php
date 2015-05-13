@@ -106,7 +106,7 @@ class complexDinner extends Module {
             return $response;
         });
         
-        $this->get('add', 2, function($args) {
+        $this->post('add', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
                 'placeId' => 'int',
@@ -150,7 +150,7 @@ class complexDinner extends Module {
             return $response;
         });
 
-        $this->get('update', 2, function($args) {
+        $this->post('edit', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
                 'id' => 'int',
@@ -196,8 +196,8 @@ class complexDinner extends Module {
             }
             return $response;
         });
-
-        $this->get('delete', 2, function($args) {
+      
+        $this->post('delete', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
                 'id' => 'int',

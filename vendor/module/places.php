@@ -255,6 +255,78 @@ class Places extends Module
         //
         //
         //
+        $this->get('edit', 2, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int',
+                'name' => '',
+                'gmap' => '',
+                'address' => '',
+                'phones' => '',
+                'workTime' => '',
+                'descr' => '',
+                'type' => 'place',
+                'outdoors' => 'bool',
+                'cuisine' => '',
+                'parking' => 'bool',
+                'smoking' => 'bool',
+                'wifi' => 'bool',
+                'avgBill' => 'int'
+            );
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $placeId = $args['placeId'];
+                $model = new PlacesModel();
+                $name = $args['name'];
+                $ownerId = $_SESSION['id'];
+                $gmap = $args['gmap'];
+                $address = $args['address'];
+                $phones = $args['phones'];
+                $workTime = $args['workTime'];
+                $descr = $args['descr'];
+                $type = $args['type'];
+                $outdoors = $args['outdoors'];
+                $cuisine = $args['cuisine'];
+                $parking = $args['parking'];
+                $smoking = $args['smoking'];
+                $wifi = $args['wifi'];
+                $avgBill = $args['avgBill'];
+                if($model->EditPlace(
+                    $placeId,
+                    $ownerId,
+                    $name,
+                    $gmap,
+                    $address,
+                    $phones,
+                    $workTime,
+                    $descr,
+                    $type,
+                    $outdoors,
+                    $cuisine,
+                    $parking,
+                    $smoking,
+                    $wifi,
+                    $avgBill)
+                )
+                {
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed to add new place');
+                }
+            }
+            else
+            {
+                $response->SetStatusCode(400, 'Arguments not found(placeId, name, ownerId, address, phones, workTime, descr, type, outdoors, cuisine, parking, smoking, wifi, avgBill) or Incorrect arguments type');
+            }
+            
+            return $response;
+        });
+        //
+        //
+        //
         $this->post('rate', 1, function($args) 
         {
             $response = new Response();

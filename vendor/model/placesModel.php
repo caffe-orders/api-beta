@@ -56,7 +56,7 @@ class PlacesModel
                 :descr,
                 :type,
                 :sumRating,
-                :countRating, 
+                :countRating,
                 :outdoors,
                 :cuisine,
                 :parking,
@@ -69,13 +69,13 @@ class PlacesModel
             ':name' => $name,
             ':ownerId' => $ownerId,
             ':gmap' => $gmap,
-            ':address' => $address, 
-            ':phones' => $phones, 
-            ':workTime' => $workTime, 
-            ':descr' => $descr,  
-            ':type' => $type, 
+            ':address' => $address,
+            ':phones' => $phones,
+            ':workTime' => $workTime,
+            ':descr' => $descr,
+            ':type' => $type,
             ':sumRating' => 0,
-            ':countRating' => 0, 
+            ':countRating' => 0,
             ':outdoors' => $outdoors,
             ':cuisine' => $cuisine,
             ':parking' => $parking,
@@ -86,7 +86,74 @@ class PlacesModel
         if($query->execute($queryArgsList))
         {
             $state = true;
-        } 
+        }
+        return state;
+    }
+    //
+    //
+    //
+    public function EditPlace(
+        $placeId,
+        $ownerId,
+        $name,
+        $gmap,
+        $address,
+        $phones,
+        $workTime,
+        $descr,
+        $type,
+        $outdoors,
+        $cuisine,
+        $parking,
+        $smoking,
+        $wifi,
+        $avgBill
+    )
+    {
+        $state = false;
+        $query = $this->connection->prepare(
+           'UPDATE
+                places
+            SET
+                name = :name,
+                gmap = :gmap,
+                address = :address,
+                phones = :phones,
+                workTime = :workTime,
+                descr = :descr,
+                type = :type,
+                outdoors = :outdoors,
+                cuisine = :cuisine,
+                parking = :parking,
+                smoking = :smoking,
+                wifi = :wifi,
+                avgBill = :avgBill
+            WHERE
+                id = :placeId
+            AND
+                ownerId = :ownerId'
+        );
+        $queryArgsList = array(
+            ':placeId' => $placeId,
+            ':name' => $name,
+            ':ownerId' => $ownerId,
+            ':gmap' => $gmap,
+            ':address' => $address,
+            ':phones' => $phones,
+            ':workTime' => $workTime,
+            ':descr' => $descr,
+            ':type' => $type,
+            ':outdoors' => $outdoors,
+            ':cuisine' => $cuisine,
+            ':parking' => $parking,
+            ':smoking' => $smoking,
+            ':wifi' => $wifi,
+            ':avgBill' => $avgBill
+        );
+        if($query->execute($queryArgsList))
+        {
+            $state = true;
+        }
         return state;
     }
     //
@@ -201,8 +268,8 @@ class PlacesModel
                 id
             DESC'
         );
-        $queryArgsList = array(  
-            ':type' => $type, 
+        $queryArgsList = array(
+            ':type' => $type,
             ':outdoors' => $outdoors,
             ':cuisine' => $cuisine,
             ':parking' => $parking,
@@ -220,11 +287,11 @@ class PlacesModel
            'SELECT
                 *
             FROM
-                places            
-            WHERE 
+                places
+            WHERE
                 ownerId = :ownerId'
         );
-        $query->bindValue(':ownerId',(int)$userId , PDO::PARAM_INT); 
+        $query->bindValue(':ownerId',(int)$userId , PDO::PARAM_INT);
         $query->execute();
         return $query->fetchAll();
     }
