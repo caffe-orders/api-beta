@@ -63,7 +63,7 @@ class albums extends Module
         //
         //return users list GET responce type
         //
-        $this->post('addimg', 2, function($args)
+        $this->get('addimg', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
