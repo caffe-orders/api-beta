@@ -211,7 +211,7 @@ class Dish extends Module
                 $imgSrc = $args['imgSrc'];
                 $dishCategoryId = $args['dishCategoryId'];
                 
-                if(isset($_SESSION['id']) && $model->AddDish(
+                if($dishId = $model->AddDish(
                         $name,
                         $description,
                         $cost, 
@@ -219,6 +219,7 @@ class Dish extends Module
                         $dishCategoryId 
                 ))
                 {
+                    $response->SetJsonContent($dishId);
                     $response->SetStatusCode(200, 'OK');
                 }
                 else

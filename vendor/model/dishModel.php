@@ -20,7 +20,7 @@ class DishModel {
     //
     public function AddDish($name, $description, $cost, $imgSrc, $dishCategoryId)
     {
-        $state = false;
+        $id = null;
         
         $query1 = $this->connection->prepare(
             'SELECT * FROM dish_category
@@ -58,10 +58,10 @@ class DishModel {
             );
             if($query->execute($queryArgsList))
             {
-                $state = true;
+                $id = $this->connection->lastInsertId();
             } 
         }
-        return $state;
+        return $id;
     }
     
     public function UpdateDish($id, $name, $description, $cost, $imgSrc, $dishCategoryId, $userId, $placeId)
