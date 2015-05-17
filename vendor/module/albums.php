@@ -92,7 +92,7 @@ class albums extends Module
         });
         
         
-        $this->get('deleteimg', 2, function($args)
+        $this->post('deleteimg', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(

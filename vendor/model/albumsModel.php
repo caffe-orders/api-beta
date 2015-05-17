@@ -99,7 +99,7 @@ class albumsModel {
         $placeModel = new PlacesModel();
         $place = $placeModel->GetFullInfo($placeId);
         
-        if($place!= null && $place['ownerId'] = $userId)
+        if($place!= null && $place['ownerId'] == $userId)
         {
             return true;
         }
