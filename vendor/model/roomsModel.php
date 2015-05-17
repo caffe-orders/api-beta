@@ -70,7 +70,7 @@ class RoomsModel {
     {
         $roomsList = $this->GetInfoList($placeId);
         $number = 0;
-        $state = false;
+        $id = null;
         if($roomsList != null)
         {
             foreach($roomsList as $room)
@@ -108,10 +108,10 @@ class RoomsModel {
             );
             if($query->execute($queryArgsList))
             {
-                $state = true;
+                $id = $this->connection->lastInsertId();
             }
         }
-        return $state;
+        return $id;
     }
     
     public function DeleteRoom($roomId)

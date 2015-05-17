@@ -45,7 +45,7 @@ class tablesModel {
         $userId
     )
     {
-        $state = false;
+        $id = null;
         if($this->userOwnedPlaces($placeId, $userId))
         {
             $query = $this->connection->prepare(
@@ -78,10 +78,10 @@ class tablesModel {
             );
             if($query->execute($queryArgsList))
             {
-                $state = true;
+                $id = $this->connection->lastInsertId();
             } 
         }
-        return $state;
+        return $id;
     }
     
     public function UpdateTable(

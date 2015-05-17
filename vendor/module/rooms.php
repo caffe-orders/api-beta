@@ -268,8 +268,9 @@ class Rooms extends Module
                 $placeId = $args['placeId'];
                 $capacity = $args['capacity'];
                 $model = new RoomsModel();
-                if($model->AddRoom($placeId, $capacity))
-                {                    
+                if($roomId = $model->AddRoom($placeId, $capacity))
+                {        
+                    $response->SetJsonContent($roomId);
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
