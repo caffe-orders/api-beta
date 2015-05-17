@@ -67,7 +67,7 @@ class FilesToken extends Module
    
     public function SetPostFunctions()
     {
-        $this->get('add', 2, function($args)
+        $this->post('add', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(

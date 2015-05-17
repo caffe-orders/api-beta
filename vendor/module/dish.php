@@ -192,7 +192,7 @@ class Dish extends Module
     //
     public function SetPostFunctions()
     {
-        $this->get('new', 2, function($args)
+        $this->post('new', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -200,7 +200,7 @@ class Dish extends Module
                 'description' => '',
                 'cost' => 'int',
                 'imgSrc' => '',
-                'dishCategoryId' => 'int'               
+                'dishCategoryId' => 'int'
             ); 
             if(Module::CheckArgs($parametersArray, $args))
             {
