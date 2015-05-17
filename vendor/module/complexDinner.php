@@ -75,7 +75,7 @@ class complexDinner extends Module {
             } 
             else
             {
-                $response->SetStatusCode(400, 'Arguments not found(placeId[int], name[str],description[str],cost[int],imgSrc[str],day[int]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int]) or Incorrect arguments type');
             }
             return $response;
         });
@@ -101,7 +101,7 @@ class complexDinner extends Module {
             } 
             else
             {
-                $response->SetStatusCode(400, 'Arguments not found(placeId[int], name[str],description[str],cost[int],imgSrc[str],day[int]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int]) or Incorrect arguments type');
             }
             return $response;
         });
@@ -224,7 +224,7 @@ class complexDinner extends Module {
             return $response;
         });
         
-        $this->get('reestablish', 2, function($args) {
+        $this->post('reestablish', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
                 'id' => 'int',
