@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Май 03 2015 г., 20:46
+-- Время создания: Май 21 2015 г., 21:43
 -- Версия сервера: 5.5.38
 -- Версия PHP: 5.3.13
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `albums` (
 --
 
 INSERT INTO `albums` (`placeId`, `url`) VALUES
-(2, '23232');
+(4, 'places/4/album/8b2425df448bb056fdc8a211f62e77f2.jpg');
 
 -- --------------------------------------------------------
 
@@ -94,29 +94,30 @@ INSERT INTO `comments` (`senderId`, `placeId`, `state`, `text`, `pubDate`, `dele
 (1, 5, 1, 'wqesrdfghj', '2015-04-05', 1),
 (1, 5, 1, 'wwef', '2015-04-05', 1),
 (1, 5, 1, 'wwef', '2015-04-05', 1),
-(1, 5, 0, 'de', '2015-04-05', 0),
-(1, 5, 1, '4y54', '2015-04-05', 0),
-(1, 5, 1, 'awdawd', '2015-04-06', 0),
-(1, 5, 0, 'ef', '2015-04-06', 0),
-(1, 5, 0, 'ef', '2015-04-06', 0),
-(1, 5, 0, 'sef', '2015-04-06', 0),
-(1, 5, 0, 'sef', '2015-04-06', 0),
-(1, 4, 0, 'zsczc', '2015-04-06', 0),
-(1, 4, 0, 'w3fwfse', '2015-04-07', 0),
-(1, 5, 1, 'awdawd', '2015-04-07', 0),
-(1, 5, 1, 'awdawdawd', '2015-04-07', 0),
-(1, 5, 1, 'alert(&quot;awdawd&quot;);', '2015-04-07', 0),
-(1, 5, 1, 'wadawd345345345', '2015-04-07', 0),
-(1, 5, 1, 'ыфыфш', '2015-04-07', 0),
-(1, 5, 1, 'фцвфцв', '2015-04-12', 0),
-(1, 5, 1, 'фцвфцв', '2015-04-12', 0),
-(1, 5, 1, '1233333333', '2015-04-12', 0),
-(1, 4, 1, 'фцвфцв', '2015-04-12', 0),
-(1, 4, 1, 'фцвфцв', '2015-04-13', 0),
-(1, 4, 1, 'оарпапл рлоры', '2015-04-13', 0),
-(1, 4, 1, 'цфвфцвфц', '2015-04-13', 0),
-(1, 5, 1, 'вввв', '2015-04-17', 0),
-(1, 5, 1, 'пустой комент', '2015-05-03', 0);
+(1, 5, 0, 'de', '2015-04-05', 1),
+(1, 5, 1, '4y54', '2015-04-05', 1),
+(1, 5, 1, 'awdawd', '2015-04-06', 1),
+(1, 5, 0, 'ef', '2015-04-06', 1),
+(1, 5, 0, 'ef', '2015-04-06', 1),
+(1, 5, 0, 'sef', '2015-04-06', 1),
+(1, 5, 0, 'sef', '2015-04-06', 1),
+(1, 4, 0, 'zsczc', '2015-04-06', 1),
+(1, 4, 0, 'w3fwfse', '2015-04-07', 1),
+(1, 5, 1, 'awdawd', '2015-04-07', 1),
+(1, 5, 1, 'awdawdawd', '2015-04-07', 1),
+(1, 5, 1, 'alert(&quot;awdawd&quot;);', '2015-04-07', 1),
+(1, 5, 1, 'wadawd345345345', '2015-04-07', 1),
+(1, 5, 1, 'ыфыфш', '2015-04-07', 1),
+(1, 5, 1, 'фцвфцв', '2015-04-12', 1),
+(1, 5, 1, 'фцвфцв', '2015-04-12', 1),
+(1, 5, 1, '1233333333', '2015-04-12', 1),
+(1, 4, 1, 'фцвфцв', '2015-04-12', 1),
+(1, 4, 1, 'фцвфцв', '2015-04-13', 1),
+(1, 4, 1, 'оарпапл рлоры', '2015-04-13', 1),
+(1, 4, 1, 'цфвфцвфц', '2015-04-13', 1),
+(1, 5, 1, 'вввв', '2015-04-17', 1),
+(1, 5, 1, 'пустой комент', '2015-05-03', 1),
+(1, 5, 1, 'вц', '2015-05-21', 0);
 
 -- --------------------------------------------------------
 
@@ -172,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `dish` (
   `imgSrc` varchar(150) NOT NULL,
   `dishCategoryId` int(11) NOT NULL,
   `deleted` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Дамп данных таблицы `dish`
@@ -189,7 +190,8 @@ INSERT INTO `dish` (`id`, `name`, `description`, `cost`, `imgSrc`, `dishCategory
 (8, 'аааааа', 'awdawd', 123, 'dawda', 2, 0),
 (9, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0),
 (10, 'a3334', 'awdawd', 123, 'dawda', 2, 0),
-(11, 'фцвфцвфцв', 'awdawd', 123, 'dawda', 1, 0);
+(11, 'фцвфцвфцв', 'awdawd', 123, 'dawda', 1, 0),
+(12, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -360,7 +362,7 @@ INSERT INTO `rooms` (`id`, `placeId`, `number`, `capacity`, `deleted`) VALUES
 (4, 1, 2, 100, 0),
 (5, 1, 3, 100, 0),
 (6, 3, 1, 100, 0),
-(7, 3, 12, 200, 0);
+(7, 5, 12, 200, 0);
 
 -- --------------------------------------------------------
 
@@ -377,7 +379,14 @@ CREATE TABLE IF NOT EXISTS `tables` (
   `posY` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `deleted` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `tables`
+--
+
+INSERT INTO `tables` (`id`, `placeId`, `roomId`, `type`, `posX`, `posY`, `status`, `deleted`) VALUES
+(1, 5, 7, 1, 34, 45, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -393,8 +402,16 @@ CREATE TABLE IF NOT EXISTS `table_orders` (
   `tableId` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `activateCode` int(11) NOT NULL,
-  `date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `attempts` int(11) NOT NULL,
+  `dateOrder` datetime NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Дамп данных таблицы `table_orders`
+--
+
+INSERT INTO `table_orders` (`id`, `userId`, `placeId`, `roomId`, `tableId`, `status`, `activateCode`, `attempts`, `dateOrder`) VALUES
+(10, 1, 5, 7, 1, 3, 2761, 1, '2015-05-21 21:11:45');
 
 -- --------------------------------------------------------
 
@@ -408,12 +425,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   `lastName` char(255) NOT NULL,
   `email` char(255) NOT NULL,
   `phone` bigint(20) NOT NULL,
-  `pwdHash` char(255) NOT NULL,
+  `pwdHash` char(255) NOT NULL DEFAULT 'default',
   `access` tinyint(4) NOT NULL,
   `regDate` datetime NOT NULL,
   `isActive` tinyint(1) NOT NULL,
   `sessionHash` char(255) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Дамп данных таблицы `users`
@@ -421,7 +438,11 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `phone`, `pwdHash`, `access`, `regDate`, `isActive`, `sessionHash`) VALUES
 (1, 'Ыгар', 'Жоржев', 'clain@sample.com', 375291269935, 'cb6474b4e2f29b95654296bda17da524', 3, '2015-04-01 19:10:20', 0, '306804551f155a2b1d44c5679326a3a3'),
-(2, 'Лалка', 'Лалалай', 'clain1@sample.com', 37529126993466, 'cb6474b4e2f29b95654296bda17da524', 1, '2015-04-02 00:00:00', 0, '9687b677556f8bd95c63c78fc9836b99');
+(2, 'Лалка', 'Лалалай', 'clain1@sample.com', 37529126993466, 'cb6474b4e2f29b95654296bda17da524', 1, '2015-04-02 00:00:00', 0, '72050a6444374f63ae7230c4861582d4'),
+(3, '', '', 'clain5@mail.con', 123456789123, 'd8ba569e424c8607b2148c600058e7e0', 1, '2015-05-03 00:00:00', 0, ''),
+(4, '', '', 'clain@lal.dl', 123456219121, 'c2b4943e2b0089b7f90a8aca762a91df', 1, '2015-05-03 00:00:00', 0, ''),
+(5, '', '', 'awdwa@mail.ru', 375445378289, 'd26f376ccf6c8edb1a02aa9e29aa6e3f', 1, '2015-05-04 00:00:00', 0, ''),
+(6, '', '', 'dvd2444@mail.ru', 375445378288, '6fa26157733f774d419053fbc6fc0458', 3, '2015-05-04 00:00:00', 0, '2f1c922c6a3cf52b6d26c279a2227e81');
 
 --
 -- Indexes for dumped tables
@@ -511,7 +532,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `dish`
 --
 ALTER TABLE `dish`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `dish_category`
 --
@@ -541,17 +562,17 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 -- AUTO_INCREMENT for table `tables`
 --
 ALTER TABLE `tables`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `table_orders`
 --
 ALTER TABLE `table_orders`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
