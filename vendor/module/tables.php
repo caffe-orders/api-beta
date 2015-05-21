@@ -59,7 +59,33 @@ class tables extends Module {
     //
     public function SetGetFunctions() {
         
-        $this->get('list', 0, function($args) {
+        $this->get('info', 0, function($args) {
+            $response = new Response();
+            $parametersArray = array(
+                'id' => 'int'
+            );
+            if (Module::CheckArgs($parametersArray, $args))
+            {
+                $id = $args['id'];
+                $model = new TablesModel();
+                if ($table = $model->GetTable($id))
+                {
+                    $response->setJsonContent($table);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'Get list error');
+                }
+            } 
+            else
+            {
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int], roomId[int]) or Incorrect arguments type');
+            }
+            return $response;
+        });
+        
+        $this->get('publiclist', 0, function($args) {
             $response = new Response();
             $parametersArray = array(
                 'placeId' => 'int',
@@ -68,8 +94,37 @@ class tables extends Module {
             if (Module::CheckArgs($parametersArray, $args))
             {
                 $placeId = $args['placeId'];
+                $roomId = $args['roomId'];
                 $model = new TablesModel();
-                if ($listTables = $model->GetList($placeId))
+                if ($listTables = $model->GetPublicList($placeId, $roomId))
+                {
+                    $response->setJsonContent($listTables);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'Get list error');
+                }
+            } 
+            else
+            {
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int], roomId[int]) or Incorrect arguments type');
+            }
+            return $response;
+        });
+        
+        $this->get('list', 2, function($args) {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int',
+                'roomId' => 'int'
+            );
+            if (Module::CheckArgs($parametersArray, $args))
+            {
+                $placeId = $args['placeId'];
+                $roomId = $args['roomId'];
+                $model = new TablesModel();
+                if ($listTables = $model->GetList($placeId, $roomId))
                 {
                     $response->setJsonContent($listTables);
                     $response->SetStatusCode(200, 'OK');

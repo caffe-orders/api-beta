@@ -127,7 +127,7 @@ class complexDinner extends Module {
                     $day = 1;
                 }
                 $model = new complexDinnerModel();
-                if (isset($_SESSION['id']) && $model->AddComplexDinner(
+                if (isset($_SESSION['id']) && $id = $model->AddComplexDinner(
                         $placeId,
                         $name,
                         $description,
@@ -136,6 +136,7 @@ class complexDinner extends Module {
                         $_SESSION['id']
                 ))
                 {
+                    $response->SetJsonContent($id);
                     $response->SetStatusCode(200, 'OK');
                 }
                 else

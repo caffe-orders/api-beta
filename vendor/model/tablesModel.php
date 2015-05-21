@@ -18,7 +18,22 @@ class tablesModel {
         $this->connection = DatabaseProvider::GetConnection();
     }
     
-    public function GetList($placeId)
+    public function GetTable($id)
+    {
+        $query = $this->connection->prepare(
+           'SELECT
+                * 
+            FROM
+                tables
+            WHERE
+                id = :id'
+        );
+        $query->bindValue(':id', (int)$id, PDO::PARAM_INT);  
+        $query->execute();
+        return $query->fetch();
+    }
+    
+    public function GetList($placeId,$roomId)
     {
         $query = $this->connection->prepare(
            'SELECT
@@ -28,9 +43,34 @@ class tablesModel {
             WHERE
                 placeId = :placeId
             AND
+                roomId = :roomId'
+        );
+        $query->bindValue(':placeId', (int)$placeId, PDO::PARAM_INT);        
+        $query->bindValue(':roomId', (int)$roomId, PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetchAll();
+    }
+    
+    
+    public function GetPublicList($placeId, $roomId)
+    {
+        $query = $this->connection->prepare(
+           'SELECT
+                type,
+                posX,
+                posY,               
+                status 
+            FROM
+                tables
+            WHERE
+                placeId = :placeId
+            AND
+                roomId = :roomId
+            AND
                 deleted = 0'
         );
         $query->bindValue(':placeId', (int)$placeId, PDO::PARAM_INT);
+        $query->bindValue(':roomId', (int)$roomId, PDO::PARAM_INT);
         
         $query->execute();
         return $query->fetchAll();
@@ -97,7 +137,7 @@ class tablesModel {
         $state = false;
         if($this->userOwnedRooms($placeId, $roomId, $userId))
         {
-            $setRateQuery = $this->connection->prepare(
+            $updateTable = $this->connection->prepare(
                 'UPDATE
                     tables
                  SET
@@ -109,13 +149,13 @@ class tablesModel {
                  WHERE
                     id = :id'
             );
-            $setRateQuery->bindValue(':id',(int)$id , PDO::PARAM_INT);
-            $setRateQuery->bindValue(':placeId',(int)$placeId , PDO::PARAM_INT);
-            $setRateQuery->bindValue(':roomId',(int)$roomId , PDO::PARAM_INT);
-            $setRateQuery->bindValue(':type',(int)$type , PDO::PARAM_INT);
-            $setRateQuery->bindValue(':posX',(int)$posX , PDO::PARAM_INT);
-            $setRateQuery->bindValue(':posY',(int)$posY , PDO::PARAM_INT);
-            if($setRateQuery->execute())
+            $updateTable->bindValue(':id',(int)$id , PDO::PARAM_INT);
+            $updateTable->bindValue(':placeId',(int)$placeId , PDO::PARAM_INT);
+            $updateTable->bindValue(':roomId',(int)$roomId , PDO::PARAM_INT);
+            $updateTable->bindValue(':type',(int)$type , PDO::PARAM_INT);
+            $updateTable->bindValue(':posX',(int)$posX , PDO::PARAM_INT);
+            $updateTable->bindValue(':posY',(int)$posY , PDO::PARAM_INT);
+            if($updateTable->execute())
             {
                 $state = true;
             }
@@ -123,10 +163,64 @@ class tablesModel {
         return $state;
     }
     
+    public function OrderTable($id)
+    {
+         $Query = $this->connection->prepare(
+            'UPDATE
+                tables
+             SET
+               status = 1
+             WHERE
+                id = :id'
+        );
+        $Query->bindValue(':id',(int)$id , PDO::PARAM_INT);
+        if($Query->execute())
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public function ActivateTable($id)
+    {
+         $Query = $this->connection->prepare(
+            'UPDATE
+                tables
+             SET
+               status = 2
+             WHERE
+                id = :id'
+        );
+        $Query->bindValue(':id',(int)$id , PDO::PARAM_INT);
+        if($Query->execute())
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public function FreeTable($id)
+    {
+         $setRateQuery = $this->connection->prepare(
+            'UPDATE
+                tables
+             SET
+               status = 0
+             WHERE
+                id = :id'
+        );
+        $setRateQuery->bindValue(':id',(int)$id , PDO::PARAM_INT);
+        if($setRateQuery->execute())
+        {
+            return true;
+        }
+        return false;
+    }
+    
     public function DeleteTable($id, $userId)
     {
         $state = false;
-        ///need check user access
+        if($this->userOwnedTablle($id, $userId))
         {
             $query = $this->connection->prepare(
                 'UPDATE 
@@ -149,7 +243,7 @@ class tablesModel {
     public function ReestablishTable($id, $userId)
     {
         $state = false;
-        ///need check user access
+        if($this->userOwnedTablle($id, $userId))
         {
             $query = $this->connection->prepare(
                 'UPDATE 
@@ -167,6 +261,15 @@ class tablesModel {
             }
         }
         return $state;
+    }
+    
+    private function  userOwnedTablle($id, $userId)
+    {
+        $table = $this->GetTable($id);
+        if($table != null)
+        {
+            return $this->userOwnedPlaces($table['placeId'], $userId);
+        }
     }
     
     private function userOwnedRooms($placeId, $roomId, $userId)
@@ -195,7 +298,7 @@ class tablesModel {
         $placeModel = new PlacesModel();
         $place = $placeModel->GetFullInfo($placeId);
         
-        if($place!= null && $place['ownerId'] = $userId)
+        if($place!= null && $place['ownerId'] == $userId)
         {
             return true;
         }

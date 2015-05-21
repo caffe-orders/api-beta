@@ -55,7 +55,7 @@ class complexDinnerModel {
     
     public function AddComplexDinner($placeId, $name, $description, $cost, $day, $userId)
     {
-        $state = false;
+        $insertId = null;
         if($this->userOwnedPlaces($placeId, $userId))
         {
             $placeModel = new PlacesModel();
@@ -89,11 +89,11 @@ class complexDinnerModel {
                 );
                 if($query->execute($queryArgsList))
                 {
-                    $state = true;
+                    $insertId = $this->connection->lastInsertId();
                 } 
             }
         }
-        return $state;
+        return $insertId;
     }
     
     public function UpdateComplexDinner($id,$placeId,$name,$description,$cost,$day, $userId)
