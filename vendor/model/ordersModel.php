@@ -44,7 +44,7 @@ class ordersModel {
             $queryArgsList = array(
                 ':userId' => $userId,
                 ':placeId' => $table['placeId'],
-                ':roomId' => $table['$roomId'],
+                ':roomId' => $table['roomId'],
                 ':tableId' => $tableId,
                 ':dateOrder' => $date
             );
