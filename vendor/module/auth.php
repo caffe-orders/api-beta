@@ -1,11 +1,11 @@
 <?php
 class Auth extends Module
-{    
+{
     //
     //return void
     //
     public function __construct()
-    {        
+    {
         $this->SetGetFunctions();
         $this->SetPostFunctions();
     }
@@ -22,10 +22,10 @@ class Auth extends Module
             $response->SetStatusCode(400, 'Not found, or low access level');
             return $response;
         };
-        
+
         switch($functionType)
         {
-            case "get": 
+            case "get":
                 foreach($this->_getFunctionsList as $functionData)
                 {
                     if($functionData['access'] <= $accessLevel && $functionData['name'] == $functionName)
@@ -35,7 +35,7 @@ class Auth extends Module
                     }
                 }
             break;
-            case "post": 
+            case "post":
                 foreach($this->_postFunctionsList as $functionData)
                 {
                     if($functionData['access'] <= $accessLevel && $functionData['name'] == $functionName)
@@ -46,19 +46,19 @@ class Auth extends Module
                 }
             break;
         }
-        
+
         return $outputData($functionArgs);
-    }     
-    
+    }
+
     public function SetGetFunctions()
-    {   
+    {
         $this->post('login', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
                 'email' => 'email',
                 'password' => 'password'
-            ); 
+            );
             if(Module::CheckArgs($parametersArray, $args))
             {
                 $model = new AuthModel();
@@ -68,7 +68,9 @@ class Auth extends Module
                 {
                     $response->SetStatusCode(200, 'OK');
                     $usersModel = new UsersModel();
-                    $response->SetJsonContent($usersModel->GetFullInfo($_SESSION['id']));
+                    $userInfo = $usersModel->GetFullInfo($_SESSION['id']);
+                    unset($userInfo['pwdHash']);
+                    $response->SetJsonContent($userInfo);
                 }
                 else
                 {
@@ -89,11 +91,11 @@ class Auth extends Module
             $response->SetStatusCode(200, 'OK');
             $authModel = new AuthModel();
             $authModel->logOut();
-            
+
             return $response;
         });
     }
-    
+
     public function SetPostFunctions()
     {
     }
