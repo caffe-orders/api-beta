@@ -37,7 +37,14 @@ class UsersModel
     {
         $query = $this->connection->prepare(
             'SELECT 
-                * 
+                id,
+                firstName,
+                lastName,
+                email,
+                phone,
+                access,
+                regDate,
+                isActive
              FROM 
                 users 
              WHERE
