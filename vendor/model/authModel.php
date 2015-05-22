@@ -54,6 +54,8 @@ class AuthModel
     //
     public function LogOut()
     {
+        unset($_SESSION['id']);
+        unset($_SESSION['hash']);
         session_destroy();
     }
 }

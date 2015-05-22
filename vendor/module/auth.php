@@ -81,6 +81,17 @@ class Auth extends Module
             }
             return $response;
         });
+        //
+        //
+        //
+        $this->post('logout', 1, function($args) {
+            $response = new Response();
+            $response->SetStatusCode(200, 'OK');
+            $authModel = new AuthModel();
+            $authModel->logOut();
+            
+            return $response;
+        });
     }
     
     public function SetPostFunctions()
