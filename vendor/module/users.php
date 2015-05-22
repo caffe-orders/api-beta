@@ -57,6 +57,26 @@ class Users extends Module
         //
         //return users list GET responce type
         //
+        $this->get('current', 1, function($args)
+        {
+            $response = new Response();
+            
+            $model = new UsersModel();
+            if(isset($_SESSION['id']) && $usersInfo = $model->GetCurrentInfo($_SESSION['id']))
+            {
+                $response->SetJsonContent($usersInfo);
+                $response->SetStatusCode(200, 'OK');
+            }
+            else
+            {
+                $response->SetStatusCode(204, 'No content');
+            }            
+            return $response;
+        });
+        
+        //
+        //return users list GET responce type
+        //
         $this->get('infolist', 1, function($args)
         {
             $response = new Response();

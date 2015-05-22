@@ -31,6 +31,22 @@ class UsersModel
         $query->execute();
         return $query->fetchAll();
     }
+    
+    
+    public function GetCurrentInfo($userId)
+    {
+        $query = $this->connection->prepare(
+            'SELECT 
+                * 
+             FROM 
+                users 
+             WHERE
+                id = :id'
+        );
+        $query->bindValue(':id', (int)$userId, PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetch();
+    }
     //
     //$id - int
     //return array if data exists, false if no data

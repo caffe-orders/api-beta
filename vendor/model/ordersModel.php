@@ -83,7 +83,9 @@ class ordersModel {
                     WHERE
                         tableId = :tableId
                     AND
-                        status = 2'
+                        status = 2
+                    OR 
+                        status = 1'
                 );
                 $updateOrder->bindValue(':tableId',(int)$tableId , PDO::PARAM_INT);
                 $updateOrder->execute();
@@ -300,5 +302,10 @@ class ordersModel {
         $updateOrder->bindValue(':userId',(int)$userId , PDO::PARAM_INT);
         $updateOrder->bindValue(':code',(int)$code , PDO::PARAM_INT);
         $updateOrder->execute();
+        
+        $userModel = new UsersModel();
+        $user = $userModel->GetFullInfo($userId);
+        
+        Sms::send($code, $user['phone']);
     }
 }

@@ -136,7 +136,7 @@ class complexDinner extends Module {
                         $_SESSION['id']
                 ))
                 {
-                    $response->SetJsonContent($id);
+                    $response->SetJsonContent(array($id));
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
