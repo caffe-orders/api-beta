@@ -141,6 +141,51 @@ class Places extends Module
 			}
 			else
 			{
+				$response->SetStatusCode(400, 'Arguments not found(info[int]) or Incorrect arguments type');
+			}
+
+			return $response;
+		});
+		//
+		//
+		//
+		$this->get('search', 0, function($args)
+		{
+			$response = new Response();
+			$parametersArray = array(
+				'wifi' => 'bool',
+				'outdoors' => 'bool',
+				'parking' => 'bool',
+				'smoking' => 'bool',
+				'type' => '',
+				'cuisine' => '',
+				'limit' => 'int',
+				'offset' => 'int'
+			);
+			if(Module::CheckArgs($parametersArray, $args))
+			{
+				$wifi = $args['wifi'];
+				$outdoors = $args['outdoors'];
+				$parking = $args['parking'];
+				$type = $args['type'];
+				$smoking = $args['smoking'];
+				$cuisine = $args['cuisine'];
+				$limit = $args['limit'];
+				$offset = $args['offset'];
+
+				$model = new PlacesModel();
+				if($placesList = $model->Search($wifi, $outdoors, $parking, $type, $smoking, $cuisine, $limit, $offset))
+				{
+					$response->SetJsonContent($placesList);
+					$response->SetStatusCode(200, 'OK');
+				}
+				else
+				{
+					$response->SetStatusCode(204, 'No content');
+				}
+			}
+			else
+			{
 				$response->SetStatusCode(400, 'Arguments not found(limit,offset) or Incorrect arguments type');
 			}
 
