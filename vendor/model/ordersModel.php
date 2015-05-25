@@ -168,6 +168,30 @@ class ordersModel {
         }
     } 
     
+    public function NotConfirmed($userId)
+    {
+        $query = $this->connection->prepare(
+           'SELECT
+                * 
+            FROM
+                table_orders
+            WHERE
+                userId = :userId
+            AND
+                status = 1'
+        );
+        $query->bindValue(':userId', (int)$userId, PDO::PARAM_INT);      
+        $query->execute();
+        $order = $query->fetch();
+        if($order != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }    
     
     public function SetStatus($status, $userId)
     {

@@ -127,6 +127,29 @@ class orders extends Module {
             }
             return $response;
         });
+        
+        $this->get('notconfirmed', 1, function($args) {
+            $response = new Response();
+            $model = new OrdersModel();
+            if (isset($_SESSION['id']))
+            {
+                if($model->NotConfirmed($_SESSION['id']))
+                {
+                    $response->SetJsonContent(array(true));
+                    $response->SetStatusCode(200, 'Order found'); 
+                }
+                else
+                {
+                    $response->SetJsonContent(array(false));
+                    $response->SetStatusCode(200, 'Orders not found');        
+                }
+            }
+            else
+            {
+                $response->SetStatusCode(300, 'Please authorize');
+            }            
+            return $response;
+        });
     }
 
     public function SetPostFunctions() {
