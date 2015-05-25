@@ -61,6 +61,59 @@ class Dish extends Module
     //
     public function SetGetFunctions()
     {
+        
+        $this->get('placelist', 0, function($args) {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int'
+            );
+            if (Module::CheckArgs($parametersArray, $args))
+            {
+                $placeId = $args['placeId'];
+                $model = new dishModel();
+                if ($listDish = $model->PublicList($placeId))
+                {
+                    $response->setJsonContent($listDish);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'Adding error');
+                }
+            } 
+            else
+            {
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int]) or Incorrect arguments type');
+            }
+            return $response;
+        });
+        
+        $this->get('fullplacelist', 2, function($args) {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int'
+            );
+            if (Module::CheckArgs($parametersArray, $args))
+            {
+                $placeId = $args['placeId'];
+                $model = new dishModel();
+                if ($listDish = $model->PrivateList($placeId))
+                {
+                    $response->setJsonContent($listDish);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'Adding error');
+                }
+            } 
+            else
+            {
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int]) or Incorrect arguments type');
+            }
+            return $response;
+        });
+        
         $this->get('search', 0, function($args)
         {
             $response = new Response();

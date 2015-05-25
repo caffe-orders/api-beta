@@ -11,6 +11,44 @@ class DishModel {
         $this->connection = DatabaseProvider::GetConnection();
     }
     
+     public function PublicList($placeId)
+    {
+        $query = $this->connection->prepare(
+        'SELECT
+           *
+        FROM 
+            dish 
+        WHERE
+            placeId = :placeId
+        AND
+            deleted = 0'
+        );            
+        $queryArgsList = array(
+            ':placeId' => $placeId
+        );
+        $query->execute($queryArgsList);
+        $arr = $query->fetchAll();        
+        return $arr;
+    }
+
+    public function PrivateList($placeId)
+    {
+        $query = $this->connection->prepare(
+        'SELECT
+            *
+        FROM 
+            dish 
+        WHERE
+            placeId = :placeId'
+        );            
+        $queryArgsList = array(
+            ':placeId' => $placeId
+        );
+        $query->execute($queryArgsList);
+        $arr = $query->fetchAll();        
+        return $arr;
+    }   
+    
     //
     //$name             - string
     //$description      - string
