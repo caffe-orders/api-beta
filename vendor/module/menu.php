@@ -99,7 +99,7 @@ class Menu extends Module
             return $response;       
         });
         
-        $this->get('listdish', 0, function($args)
+        $this->get('dishlist', 0, function($args)
         {
             $response = new Response();
             $parametersArray = array(
