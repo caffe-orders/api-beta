@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Май 25 2015 г., 13:56
+-- Время создания: Май 25 2015 г., 16:10
 -- Версия сервера: 5.5.38
 -- Версия PHP: 5.3.13
 
@@ -177,7 +177,6 @@ CREATE TABLE IF NOT EXISTS `dish` (
   `name` varchar(100) NOT NULL,
   `description` varchar(350) NOT NULL,
   `cost` int(11) NOT NULL,
-  `imgSrc` varchar(150) NOT NULL,
   `dishCategoryId` int(11) NOT NULL,
   `deleted` tinyint(1) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
@@ -186,20 +185,20 @@ CREATE TABLE IF NOT EXISTS `dish` (
 -- Дамп данных таблицы `dish`
 --
 
-INSERT INTO `dish` (`id`, `name`, `description`, `cost`, `imgSrc`, `dishCategoryId`, `deleted`) VALUES
-(1, 'a3334', 'awdawd', 123, 'dawda', 2, 0),
-(2, 'a234234', 'awdawd', 123, 'dawda', 1, 0),
-(3, 'a22wwdw234', 'awdawd', 123, 'dawda', 2, 0),
-(4, 'aфцвwdw234', 'awdawd', 123, 'dawda', 1, 0),
-(5, 'wadawd', 'wadwad', 234, '234234', 2, 0),
-(6, 'wadawd', 'wadwad', 234, '234234', 1, 0),
-(7, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0),
-(8, 'аааааа', 'awdawd', 123, 'dawda', 2, 0),
-(9, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0),
-(10, 'a3334', 'awdawd', 123, 'dawda', 2, 0),
-(11, 'фцвфцвфцв', 'awdawd', 123, 'dawda', 1, 0),
-(12, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0),
-(13, 'dish', 'awdawd', 123, 'dishs/b32908324d553a4a32f6abc6dc7495e8.jpg', 1, 0);
+INSERT INTO `dish` (`id`, `name`, `description`, `cost`, `dishCategoryId`, `deleted`) VALUES
+(1, 'a3334', 'awdawd', 123, 2, 0),
+(2, 'a234234', 'awdawd', 123, 1, 0),
+(3, 'a22wwdw234', 'awdawd', 123, 2, 0),
+(4, 'aфцвwdw234', 'awdawd', 123, 1, 0),
+(5, 'wadawd', 'wadwad', 234, 2, 0),
+(6, 'wadawd', 'wadwad', 234, 1, 0),
+(7, 'aфцвwdw234', 'awdawd', 123, 2, 0),
+(8, 'аааааа', 'awdawd', 123, 2, 0),
+(9, 'aфцвwdw234', 'awdawd', 123, 2, 0),
+(10, 'a3334', 'awdawd', 123, 2, 0),
+(11, 'фцвфцвфцв', 'awdawd', 123, 1, 0),
+(12, 'aфцвwdw234', 'awdawd', 123, 2, 0),
+(13, 'dish', 'awdawd', 123, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -297,11 +296,11 @@ CREATE TABLE IF NOT EXISTS `places` (
 --
 
 INSERT INTO `places` (`id`, `name`, `ownerId`, `gmap`, `address`, `phones`, `workTime`, `descr`, `type`, `sumRating`, `countRating`, `outdoors`, `cuisine`, `parking`, `smoking`, `wifi`, `avgBill`) VALUES
-(1, 'VivaldiCaffeеTesst', 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.4166082006163!2d30.339385631773798!3d53.90657244840632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000:0x3a1deb5578d145d1!2z0J_QsNGA0LzQtdC30LDQvQ!5e0!3m2!1sru!2sru!4v1422629379226', 'Magic Street2', '375445378287', '123-123', 'descr full', 'Кафе', 4, 1, 1, '&amp;amp;ETH;', 1, 1, 1, 100000),
+(1, 'VivaldiCaffeеTesst', 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.4166082006163!2d30.339385631773798!3d53.90657244840632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000:0x3a1deb5578d145d1!2z0J_QsNGA0LzQtdC30LDQvQ!5e0!3m2!1sru!2sru!4v1422629379226', 'Magic Street2', '375445378287', '123-123', 'descr full', 'Кафе', 4, 1, 1, 'italian', 1, 1, 1, 100000),
 (2, 'VivaldiCaffe', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 3, 1, 1, '&ETH;', 1, 1, 1, 123123),
 (3, '&ETH;', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 1, 1, 1, '&ETH;', 1, 1, 1, 123123),
 (4, '&ETH;', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 5, 1, 1, '&ETH;', 1, 1, 1, 123123),
-(5, 'БугуртКафе', 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.4166082006163!2d30.339385631773798!3d53.90657244840632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000:0x3a1deb5578d145d1!2z0J_QsNGA0LzQtdC30LDQvQ!5e0!3m2!1sru!2sru!4v1422629379226', 'Magic Street', '123213123', '123-123', 'descr', 'Магия', 4, 1, 1, 'Итальянская', 1, 1, 1, 123123);
+(5, 'БугуртКафе', 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.4166082006163!2d30.339385631773798!3d53.90657244840632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000:0x3a1deb5578d145d1!2z0J_QsNGA0LzQtdC30LDQvQ!5e0!3m2!1sru!2sru!4v1422629379226', 'Magic Street', '123213123', '123-123', 'descr', 'Кафе', 4, 1, 1, 'Итальянская', 1, 1, 1, 123123);
 
 -- --------------------------------------------------------
 

@@ -199,7 +199,6 @@ class Dish extends Module
                 'name' => '',
                 'description' => '',
                 'cost' => 'int',
-                'imgSrc' => '',
                 'dishCategoryId' => 'int'
             ); 
             if(Module::CheckArgs($parametersArray, $args))
@@ -208,14 +207,12 @@ class Dish extends Module
                 $name = $args['name'];
                 $description = $args['description'];
                 $cost = $args['cost'];
-                $imgSrc = $args['imgSrc'];
                 $dishCategoryId = $args['dishCategoryId'];
                 
                 if($dishId = $model->AddDish(
                         $name,
                         $description,
                         $cost, 
-                        $imgSrc, 
                         $dishCategoryId 
                 ))
                 {
@@ -229,7 +226,7 @@ class Dish extends Module
             }
             else
             {                
-                $response->SetStatusCode(400, 'Arguments not found(name[str],description[str],cost[int],imgSrc[str],dishCategoryId[int]) or Incorrect arguments type');
+                $response->SetStatusCode(400, 'Arguments not found(name[str],description[str],cost[int],dishCategoryId[int]) or Incorrect arguments type');
             }
             
             return $response;       
@@ -243,7 +240,6 @@ class Dish extends Module
                 'name' => '',
                 'description' => '',
                 'cost' => 'int',
-                'imgSrc' => '',
                 'dishCategoryId' => 'int'  ,
                 'placeId' => 'int'
             ); 
@@ -254,7 +250,6 @@ class Dish extends Module
                 $name = $args['name'];
                 $description = $args['description'];
                 $cost = $args['cost'];
-                $imgSrc = $args['imgSrc'];
                 $dishCategoryId = $args['dishCategoryId'];
                 $placeId = $args['placeId'];
                         
@@ -263,7 +258,6 @@ class Dish extends Module
                         $name,
                         $description,
                         $cost, 
-                        $imgSrc, 
                         $dishCategoryId,
                         $_SESSION['id'],
                         $placeId

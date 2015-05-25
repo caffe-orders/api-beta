@@ -18,7 +18,7 @@ class DishModel {
     //$imgSrc           - string
     //$dishCategoryId   - int
     //
-    public function AddDish($name, $description, $cost, $imgSrc, $dishCategoryId)
+    public function AddDish($name, $description, $cost, $dishCategoryId)
     {
         $id = null;
         
@@ -36,7 +36,6 @@ class DishModel {
                         name,
                         description,
                         cost,
-                        imgSrc,
                         dishCategoryId,
                         deleted
                     )
@@ -44,7 +43,6 @@ class DishModel {
                     :name,
                     :description,
                     :cost,
-                    :imgSrc,
                     :dishCategoryId,
                     0
                 )'
@@ -53,7 +51,6 @@ class DishModel {
                 ':name' => $name,
                 ':description' => $description,
                 ':cost' => $cost,
-                ':imgSrc' => $imgSrc,
                 ':dishCategoryId' => $dishCategoryId
             );
             if($query->execute($queryArgsList))
@@ -64,7 +61,7 @@ class DishModel {
         return $id;
     }
     
-    public function UpdateDish($id, $name, $description, $cost, $imgSrc, $dishCategoryId, $userId, $placeId)
+    public function UpdateDish($id, $name, $description, $cost, $dishCategoryId, $userId, $placeId)
     {
         $state = false;
         
@@ -123,7 +120,6 @@ class DishModel {
                             name = :name,
                             description = :description,
                             cost = :cost,
-                            imgSrc = :imgSrc,
                             dishCategoryId = :dishCategoryId
                             WHERE
                             id = :id
@@ -134,7 +130,6 @@ class DishModel {
                         ':name' => $name,
                         ':description' => $description,
                         ':cost' => $cost,
-                        ':imgSrc' => $imgSrc,
                         ':dishCategoryId' => $dishCategoryId
                     );
                     if($query->execute($queryArgsList))
@@ -150,7 +145,6 @@ class DishModel {
                             name,
                             description,
                             cost,
-                            imgSrc,
                             dishCategoryId,
                             deleted
                             )
@@ -158,7 +152,6 @@ class DishModel {
                             :name,
                             :description,
                             :cost,
-                            :imgSrc,
                             :dishCategoryId,
                             0
                         )'
@@ -167,7 +160,6 @@ class DishModel {
                         ':name' => $name,
                         ':description' => $description,
                         ':cost' => $cost,
-                        ':imgSrc' => $imgSrc,
                         ':dishCategoryId' => $dishCategoryId
                     );
                     if($query->execute($queryArgsList))
