@@ -219,6 +219,10 @@ class PlacesModel
 	//
 	public function Search($wifi, $outdoors, $parking, $type, $smoking, $cuisine ,$limit, $offset)
 	{
+            if($outdoors == 'true'){$outdoors=1;}else{$outdoors=0;}
+            if($parking == 'true'){$parking=1;}else{$parking=0;}
+            if($smoking == 'true'){$smoking=1;}else{$smoking=0;}
+            if($wifi == 'true'){$wifi=1;}else{$wifi=0;}
             $query = $this->connection->prepare(
                'SELECT
                     id,
@@ -252,14 +256,14 @@ class PlacesModel
                     :offset,
                     :limit'
             );
-            $query->bindValue(':type',      $type ,                PDO::PARAM_STR);
-            $query->bindValue(':outdoors',  (int)($outdoors ? 1 : 0) ,  PDO::PARAM_INT);
-            $query->bindValue(':cuisine',   $cuisine ,             PDO::PARAM_STR);            
-            $query->bindValue(':parking',   (int)($parking ? 1 : 0) ,   PDO::PARAM_INT);
-            $query->bindValue(':smoking',   (int)($smoking ? 1 : 0) ,   PDO::PARAM_INT);
-            $query->bindValue(':wifi',      (int)($wifi ? 1 : 0) ,      PDO::PARAM_INT);
-            $query->bindValue(':offset',    (int)$offset ,              PDO::PARAM_INT);
-            $query->bindValue(':limit',     (int)$limit,                PDO::PARAM_INT);
+            $query->bindValue(':type',      $type ,                    PDO::PARAM_STR);
+            $query->bindValue(':outdoors',  (int)($outdoors),  PDO::PARAM_INT);
+            $query->bindValue(':cuisine',   $cuisine ,                 PDO::PARAM_STR);            
+            $query->bindValue(':parking',   (int)($parking),   PDO::PARAM_INT);
+            $query->bindValue(':smoking',   (int)($smoking),   PDO::PARAM_INT);
+            $query->bindValue(':wifi',      (int)($wifi) ,     PDO::PARAM_INT);
+            $query->bindValue(':offset',    (int)$offset ,             PDO::PARAM_INT);
+            $query->bindValue(':limit',     (int)$limit,               PDO::PARAM_INT);
             $query->execute();
             return $query->fetchAll();
 	}

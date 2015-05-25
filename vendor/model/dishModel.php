@@ -58,7 +58,7 @@ class DishModel {
                 $id = $this->connection->lastInsertId();
             } 
         }
-        return $id;
+        return array('id' => $id);
     }
     
     public function UpdateDish($id, $name, $description, $cost, $dishCategoryId, $userId, $placeId)
