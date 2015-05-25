@@ -213,6 +213,56 @@ class PlacesModel
 		$query->execute();
 		return $query->fetchAll();
 	}
+        //$limit - int
+	//$offset - int
+	//return array if data exists, false if no data
+	//
+	public function Search($wifi, $outdoors, $parking, $type, $smoking, $cuisine ,$limit, $offset)
+	{
+            $query = $this->connection->prepare(
+               'SELECT
+                    id,
+                    name,
+                    address,
+                    phones,
+                    type,
+                    sumRating,
+                    countRating,
+                    cuisine,
+                    wifi,
+                    avgBill
+                FROM
+                    places
+                WHERE                        
+                    type = :type
+                AND
+                    outdoors = :outdoors
+                AND
+                    cuisine = :cuisine
+                AND
+                    parking = :parking
+                AND
+                    smoking = :smoking
+                AND
+                    wifi = :wifi
+                ORDER BY
+                        id
+                DESC
+                LIMIT
+                    :offset,
+                    :limit'
+            );
+            $query->bindValue(':type',      $type ,                PDO::PARAM_STR);
+            $query->bindValue(':outdoors',  (int)($outdoors ? 1 : 0) ,  PDO::PARAM_INT);
+            $query->bindValue(':cuisine',   $cuisine ,             PDO::PARAM_STR);            
+            $query->bindValue(':parking',   (int)($parking ? 1 : 0) ,   PDO::PARAM_INT);
+            $query->bindValue(':smoking',   (int)($smoking ? 1 : 0) ,   PDO::PARAM_INT);
+            $query->bindValue(':wifi',      (int)($wifi ? 1 : 0) ,      PDO::PARAM_INT);
+            $query->bindValue(':offset',    (int)$offset ,              PDO::PARAM_INT);
+            $query->bindValue(':limit',     (int)$limit,                PDO::PARAM_INT);
+            $query->execute();
+            return $query->fetchAll();
+	}
 	//
 	//$id - int
 	//return data if data exists, false if no data
@@ -232,58 +282,7 @@ class PlacesModel
 		return $query->fetch();
 	}
   //
-	//$limit - int
-	//$offset - int
-	//return array if data exists, false if no data
-	//
-	public function Search($wifi, $outdoors, $parking, $type, $smoking, $cuisine ,$limit, $offset)
-	{
-		$query = $this->connection->prepare(
-		   'SELECT
-				id,
-				name,
-				address,
-				phones,
-				type,
-				sumRating,
-				countRating,
-				cuisine,
-				wifi,
-				avgBill
-			FROM
-				places
-			WHERE                        
-				type = :type
-                        AND
-                                outdoors = :outdoors
-                        AND
-				cuisine = :cuisine
-                        AND
-				parking = :parking
-                        AND
-				smoking = :smoking
-			AND
-				wifi = :wifi			
-			ORDER BY
-				id
-			DESC
-                        LIMIT
-				:offset,
-				:limit'
-		);
-		$queryArgsList = array(
-			':type' => $type,
-			':outdoors' => $outdoors ? 1 : 0,
-			':cuisine' => $cuisine,
-			':parking' => $parking ? 1 : 0,
-			':smoking' => $smoking ? 1 : 0,
-			':wifi' => $wifi ? 1 : 0,
-                        ':limit' => $limit,
-                        ':offset' => $offset
-                );
-                $query->execute($queryArgsList);
-		return $query->fetchAll();
-	}
+	
 	//
 	//
 	//
