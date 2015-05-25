@@ -80,7 +80,7 @@ class Dish extends Module
                 }
                 else
                 {
-                    $response->SetStatusCode(400, 'Failed to show serched dish list');
+                    $response->SetStatusCode(240, 'Failed to show serched dish list');
                 }
             }
             else
