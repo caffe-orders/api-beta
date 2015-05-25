@@ -38,7 +38,6 @@ class MenuModel {
                         name,
                         description,
                         cost,
-                        imgSrc,
                         dishCategoryId
                     FROM
                         dish
@@ -81,6 +80,57 @@ class MenuModel {
                 }
             }
             return $dishArray;
+        }
+        else
+        {
+            return null;
+        }
+    }   
+    
+    
+    public function GetListDish($placeId)
+    {
+         $query = $this->connection->prepare(
+            'SELECT
+                dishId
+            FROM
+                menu
+            WHERE
+                placeId = :placeId
+            AND
+                deleted = 0'
+        );
+        $query->bindValue(':placeId', (int)$placeId, PDO::PARAM_INT); 
+        $query->execute();
+        $dishList = $query->fetchAll();
+        if($dishList != null)
+        {
+            $dishMenuList = array();            
+            foreach($dishList as $dish) //ОЧЕНЬ ОЧЕНЬ УЗКОЕ МЕСТО, МНОГО МЕЛКИХ ЗАПРОСОВ ФИКС :D
+            {
+                $query = $this->connection->prepare(
+                    'SELECT
+                        id,
+                        name,
+                        description,
+                        cost,
+                        dishCategoryId
+                    FROM
+                        dish
+                    WHERE
+                        id = :id
+                    AND
+                        deleted = 0'
+                );
+                $query->bindValue(':id', (int)$dish['dishId'], PDO::PARAM_INT); 
+                $query->execute();                
+                if($dishItem = $query->fetch(PDO::FETCH_ASSOC))
+                {
+                    $dishMenuList[$dish['dishId']] = $dishItem;
+                }
+            }
+            
+            return $dishMenuList;
         }
         else
         {

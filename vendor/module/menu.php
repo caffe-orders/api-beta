@@ -98,6 +98,33 @@ class Menu extends Module
             }
             return $response;       
         });
+        
+        $this->get('listdish', 0, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int'               
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $model = new MenuModel();
+                $placeId = $args['placeId'];
+                if($menuInfoList = $model->GetListDish($placeId))
+                {
+                    $response->SetJsonContent($menuInfoList);
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed to show menu list');
+                }
+            }
+            else
+            {
+                $response->SetStatusCode(400, 'Arguments not found(placeId[int]) or Incorrect arguments type');
+            }
+            return $response;       
+        });
     }
     //
     //
