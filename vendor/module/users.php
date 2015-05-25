@@ -399,5 +399,61 @@ class Users extends Module
             
             return $response;
         });
+        
+        $this->post('restore', 0, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'phone' => ''
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $phone = $args['phone'];
+                $model = new UsersModel();
+                if($model->Restore($phone))
+                {
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed restore access, you may be banned, or you have created a request for recovery.');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(phone[str]) or Incorrect arguments type');
+            }
+            
+            return $response;
+        });
+        
+        $this->post('confirm', 0, function($args)
+        {
+            $response = new Response();
+            $parametersArray = array(
+                'code' => '',
+                'newPass' => ''
+            ); 
+            if(Module::CheckArgs($parametersArray, $args))
+            {
+                $code = $args['code'];
+                $pass = $args['newPass'];
+                $model = new UsersModel();
+                if($model->ConfirmRestore($code, $pass))
+                {
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(400, 'Failed restore access');
+                }
+            }
+            else
+            {                
+                $response->SetStatusCode(400, 'Arguments not found(code[str], newPass[str]) or Incorrect arguments type');
+            }
+            
+            return $response;
+        });
     }
 }

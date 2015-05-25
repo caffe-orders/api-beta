@@ -336,5 +336,161 @@ class UsersModel
         }
         return $state; 
     }
+    
+    public function Restore($phone)
+    {
+        $state = false;
+        $getPhoneQuery = $this->connection->prepare(
+           'SELECT
+                *
+            FROM
+                users
+            WHERE
+                phone = ?'
+        );
+        $getPhoneQuery->execute(array($phone));
+        
+        if($userData = $getPhoneQuery->fetch())
+        {
+            if($userData['isActive'] == 0)
+            {
+                $code = rand(10000, 99999);
+                
+                $checkRestoreQuery = $this->connection->prepare(
+                    'SELECT
+                         *
+                     FROM
+                         restore_access
+                     WHERE
+                         phone = ?'
+                );
+                $checkRestoreQuery->execute(array($phone));
+                if($restoreData = $checkRestoreQuery->fetch())
+                {
+                    $date = date("Y-m-d H:i:s", mktime(date("H") - 2, date("i"), date("s"), date("m"), date("d"), date("Y")));
+                    if($restoreData['isActive'] == 0 && $restoreData['date'] < $date)
+                    {
+                        $updateRestoreQuery = $this->connection->prepare(
+                            'UPDATE
+                                restore_access
+                             SET
+                                code = :code,
+                                date = :date,
+                                attempts = 2,
+                                isActive = 1
+                             WHERE
+                                phone = :phone'
+                        );
+                        $queryArgsList = array(
+                            ':phone' => $phone,
+                            ':code' => $code,
+                            ':date' => $date
+                        );
+                        if($updateRestoreQuery->execute($queryArgsList))
+                        {
+                            $state = true;
+                            $message = 'Код для восстановления доступа ' . $code . ' на сайте.';
+                            Sms::send($message, $phone);
+                        }
+                    }
+                }
+                else
+                {
+                    $date = date("Y-m-d H:i:s", mktime(date("H"), date("i"), date("s"), date("m"), date("d"), date("Y")));
+                    $query = 
+                    'INSERT INTO
+                        restore_access(
+                            phone,
+                            code,
+                            date,
+                            attempts,
+                            isActive
+                        ) 
+                    VALUES
+                        (
+                           :phone,
+                           :code,
+                           :date,
+                           3,
+                           1
+                        )';
+                    $restore = $this->connection->prepare($query);
+                    $queryArgsList = array(
+                        ':phone' => $phone,
+                        ':code' => $code,
+                        ':date' => $date
+                    );
+                    if($restore->execute($queryArgsList))
+                    {
+                        $state = true;
+                        $message = 'Код для восстановления доступа ' . $code . ' на сайте.';
+                        Sms::send($message, $phone);
+                    }
+                }
+            }
+        }        
+        return $state;
+    }
+    
+    public function ConfirmRestore($code, $pass)
+    {
+        $state = false;
+        $password = md5($pass);
+        $date = date("Y-m-d H:i:s", mktime(date("H") - 2, date("i"), date("s"), date("m"), date("d"), date("Y")));
+        $checkRestoreQuery = $this->connection->prepare(
+            'SELECT
+                *
+            FROM
+                restore_access
+            WHERE
+                code = :code
+            AND
+                date > :date
+            AND 
+                attempts > 0
+            AND 
+                isActive = 1'
+        );
+        $args = array(
+            ':code' => $code,
+            ':date' => $date
+        );
+        $checkRestoreQuery->execute($args);
+        
+        if($restore = $checkRestoreQuery->fetch())
+        {
+            $updateRestoreQuery = $this->connection->prepare(
+                'UPDATE
+                    restore_access
+                 SET
+                    attempts = 0,
+                    isActive = 0
+                 WHERE
+                    phone = :phone'
+            );
+            $queryArgsList = array(
+                ':phone' => $restore['phone']
+            );
+            $updateRestoreQuery->execute($queryArgsList);
+            
+            $updateUserPass = $this->connection->prepare(
+                'UPDATE
+                    users
+                 SET
+                    pwdHash = :password
+                 WHERE
+                    phone = :phone'
+            );
+            $queryArgs = array(
+                ':phone' => $restore['phone'],
+                ':password' => $password
+            );
+            if($updateUserPass->execute($queryArgs))
+            {
+                $state = true; 
+            }                       
+        }
+        return $state;
+    }
 }
 ?>

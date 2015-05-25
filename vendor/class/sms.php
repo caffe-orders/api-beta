@@ -20,14 +20,14 @@ class Sms
     
     public static function send($message, $phone)
     {
-        /*$xml = Sms::xmlGenerateMessage($message, $phone);
+        $xml = Sms::xmlGenerateMessage($message, $phone);
         $rCurl = curl_init(self::$urlApi);
         curl_setopt($rCurl, CURLOPT_HEADER, 0);
         curl_setopt($rCurl, CURLOPT_POSTFIELDS, $xml);
         curl_setopt($rCurl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($rCurl, CURLOPT_POST, 1);
         $sAnswer = curl_exec($rCurl);
-        curl_close($rCurl);*/
+        curl_close($rCurl);
     }
     
     private static function xmlGenerateMessage($message, $phone)

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Май 21 2015 г., 21:43
+-- Время создания: Май 25 2015 г., 13:56
 -- Версия сервера: 5.5.38
 -- Версия PHP: 5.3.13
 
@@ -36,7 +36,9 @@ CREATE TABLE IF NOT EXISTS `albums` (
 --
 
 INSERT INTO `albums` (`placeId`, `url`) VALUES
-(4, 'places/4/album/8b2425df448bb056fdc8a211f62e77f2.jpg');
+(4, 'places/4/album/8b2425df448bb056fdc8a211f62e77f2.jpg'),
+(1, 'places/1/album/3796e2a5908b6185fd214276bf7bf6e6.jpg'),
+(1, 'places/1/album/98a19c58abbf73e6417afe4805abcbc0.jpg');
 
 -- --------------------------------------------------------
 
@@ -117,7 +119,12 @@ INSERT INTO `comments` (`senderId`, `placeId`, `state`, `text`, `pubDate`, `dele
 (1, 4, 1, 'цфвфцвфц', '2015-04-13', 1),
 (1, 5, 1, 'вввв', '2015-04-17', 1),
 (1, 5, 1, 'пустой комент', '2015-05-03', 1),
-(1, 5, 1, 'вц', '2015-05-21', 0);
+(1, 5, 1, 'вц', '2015-05-21', 0),
+(1, 5, 1, 'awd', '2015-05-22', 0),
+(5, 5, 1, 'wad', '2015-05-22', 0),
+(1, 5, 1, 'wad', '2015-05-22', 0),
+(5, 5, 1, 'ntcn', '2015-05-22', 0),
+(5, 5, 0, 'awd', '2015-05-22', 0);
 
 -- --------------------------------------------------------
 
@@ -173,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `dish` (
   `imgSrc` varchar(150) NOT NULL,
   `dishCategoryId` int(11) NOT NULL,
   `deleted` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Дамп данных таблицы `dish`
@@ -191,7 +198,8 @@ INSERT INTO `dish` (`id`, `name`, `description`, `cost`, `imgSrc`, `dishCategory
 (9, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0),
 (10, 'a3334', 'awdawd', 123, 'dawda', 2, 0),
 (11, 'фцвфцвфцв', 'awdawd', 123, 'dawda', 1, 0),
-(12, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0);
+(12, 'aфцвwdw234', 'awdawd', 123, 'dawda', 2, 0),
+(13, 'dish', 'awdawd', 123, 'dishs/b32908324d553a4a32f6abc6dc7495e8.jpg', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -229,6 +237,13 @@ CREATE TABLE IF NOT EXISTS `files_token` (
   `sessionHash` varchar(64) COLLATE utf8_bin NOT NULL,
   `deleteDate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Дамп данных таблицы `files_token`
+--
+
+INSERT INTO `files_token` (`token`, `sessionHash`, `deleteDate`) VALUES
+('7ea8e2620a84661773336b669f16af6d', '306804551f155a2b1d44c5679326a3a3', '2015-05-23 14:25:24');
 
 -- --------------------------------------------------------
 
@@ -282,7 +297,7 @@ CREATE TABLE IF NOT EXISTS `places` (
 --
 
 INSERT INTO `places` (`id`, `name`, `ownerId`, `gmap`, `address`, `phones`, `workTime`, `descr`, `type`, `sumRating`, `countRating`, `outdoors`, `cuisine`, `parking`, `smoking`, `wifi`, `avgBill`) VALUES
-(1, 'VivaldiCaffe', 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.4166082006163!2d30.339385631773798!3d53.90657244840632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000:0x3a1deb5578d145d1!2z0J_QsNGA0LzQtdC30LDQvQ!5e0!3m2!1sru!2sru!4v1422629379226', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 4, 1, 1, '&ETH;', 1, 1, 1, 123123),
+(1, 'VivaldiCaffeеTesst', 1, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2350.4166082006163!2d30.339385631773798!3d53.90657244840632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000:0x3a1deb5578d145d1!2z0J_QsNGA0LzQtdC30LDQvQ!5e0!3m2!1sru!2sru!4v1422629379226', 'Magic Street2', '375445378287', '123-123', 'descr full', 'Кафе', 4, 1, 1, '&amp;amp;ETH;', 1, 1, 1, 100000),
 (2, 'VivaldiCaffe', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 3, 1, 1, '&ETH;', 1, 1, 1, 123123),
 (3, '&ETH;', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 1, 1, 1, '&ETH;', 1, 1, 1, 123123),
 (4, '&ETH;', 1, '', 'Magic Street', '123213123', '123-123', 'descr', '&ETH;', 5, 1, 1, '&ETH;', 1, 1, 1, 123123),
@@ -340,6 +355,28 @@ CREATE TABLE IF NOT EXISTS `prohibited_names` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `restore_access`
+--
+
+CREATE TABLE IF NOT EXISTS `restore_access` (
+`id` int(11) NOT NULL,
+  `phone` bigint(20) NOT NULL,
+  `code` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `attempts` int(11) NOT NULL,
+  `isActive` int(11) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Дамп данных таблицы `restore_access`
+--
+
+INSERT INTO `restore_access` (`id`, `phone`, `code`, `date`, `attempts`, `isActive`) VALUES
+(8, 375445378289, 77664, '2015-05-25 09:54:05', 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `rooms`
 --
 
@@ -386,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `tables` (
 --
 
 INSERT INTO `tables` (`id`, `placeId`, `roomId`, `type`, `posX`, `posY`, `status`, `deleted`) VALUES
-(1, 5, 7, 1, 34, 45, 0, 0);
+(1, 5, 7, 1, 34, 45, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -404,14 +441,18 @@ CREATE TABLE IF NOT EXISTS `table_orders` (
   `activateCode` int(11) NOT NULL,
   `attempts` int(11) NOT NULL,
   `dateOrder` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
 --
 -- Дамп данных таблицы `table_orders`
 --
 
 INSERT INTO `table_orders` (`id`, `userId`, `placeId`, `roomId`, `tableId`, `status`, `activateCode`, `attempts`, `dateOrder`) VALUES
-(10, 1, 5, 7, 1, 3, 2761, 1, '2015-05-21 21:11:45');
+(22, 1, 5, 7, 1, 3, 4887, 3, '2015-05-22 17:02:59'),
+(23, 1, 5, 7, 1, 3, 6151, 1, '2015-05-22 17:05:28'),
+(24, 1, 5, 7, 1, 3, 5720, 1, '2015-05-22 17:14:38'),
+(26, 1, 5, 7, 1, 3, 3369, 3, '2015-05-22 17:36:29'),
+(27, 1, 5, 7, 1, 2, 1038, 3, '2015-05-25 13:13:46');
 
 -- --------------------------------------------------------
 
@@ -430,19 +471,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `regDate` datetime NOT NULL,
   `isActive` tinyint(1) NOT NULL,
   `sessionHash` char(255) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Дамп данных таблицы `users`
 --
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `phone`, `pwdHash`, `access`, `regDate`, `isActive`, `sessionHash`) VALUES
-(1, 'Ыгар', 'Жоржев', 'clain@sample.com', 375291269935, 'cb6474b4e2f29b95654296bda17da524', 3, '2015-04-01 19:10:20', 0, '306804551f155a2b1d44c5679326a3a3'),
-(2, 'Лалка', 'Лалалай', 'clain1@sample.com', 37529126993466, 'cb6474b4e2f29b95654296bda17da524', 1, '2015-04-02 00:00:00', 0, '72050a6444374f63ae7230c4861582d4'),
-(3, '', '', 'clain5@mail.con', 123456789123, 'd8ba569e424c8607b2148c600058e7e0', 1, '2015-05-03 00:00:00', 0, ''),
-(4, '', '', 'clain@lal.dl', 123456219121, 'c2b4943e2b0089b7f90a8aca762a91df', 1, '2015-05-03 00:00:00', 0, ''),
-(5, '', '', 'awdwa@mail.ru', 375445378289, 'd26f376ccf6c8edb1a02aa9e29aa6e3f', 1, '2015-05-04 00:00:00', 0, ''),
-(6, '', '', 'dvd2444@mail.ru', 375445378288, '6fa26157733f774d419053fbc6fc0458', 3, '2015-05-04 00:00:00', 0, '2f1c922c6a3cf52b6d26c279a2227e81');
+(1, 'Максим', 'Концевой', 'clain@sample.com', 375445378289, 'bd40cc1fed396db7c897e2f4a373270c', 3, '2015-04-01 19:10:20', 0, '306804551f155a2b1d44c5679326a3a3'),
+(5, 'Алексей', 'Алиновский', 'dvd2444@mail.ru', 375445378289, 'bd40cc1fed396db7c897e2f4a373270c', 3, '2015-05-04 00:00:00', 0, '2f1c922c6a3cf52b6d26c279a2227e81');
 
 --
 -- Indexes for dumped tables
@@ -491,6 +528,12 @@ ALTER TABLE `place_statistics`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `restore_access`
+--
+ALTER TABLE `restore_access`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -532,7 +575,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `dish`
 --
 ALTER TABLE `dish`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `dish_category`
 --
@@ -554,6 +597,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 ALTER TABLE `place_statistics`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `restore_access`
+--
+ALTER TABLE `restore_access`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -567,12 +615,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `table_orders`
 --
 ALTER TABLE `table_orders`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
