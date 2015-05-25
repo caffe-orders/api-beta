@@ -266,7 +266,10 @@ class PlacesModel
 				wifi = :wifi			
 			ORDER BY
 				id
-			DESC'
+			DESC
+                        LIMIT
+				:offset,
+				:limit'
 		);
 		$queryArgsList = array(
 			':type' => $type,
@@ -274,8 +277,10 @@ class PlacesModel
 			':cuisine' => $cuisine,
 			':parking' => $parking ? 1 : 0,
 			':smoking' => $smoking ? 1 : 0,
-			':wifi' => $wifi ? 1 : 0
-		);
+			':wifi' => $wifi ? 1 : 0,
+                        ':limit' => $limit,
+                        ':offset' => $offset
+                );
                 $query->execute($queryArgsList);
 		return $query->fetchAll();
 	}
