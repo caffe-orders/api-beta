@@ -236,7 +236,7 @@ class PlacesModel
 	//$offset - int
 	//return array if data exists, false if no data
 	//
-	public function Search($wifi, $outdoors, $parking, $type, $smoking, $cuisine)
+	public function Search($wifi, $outdoors, $parking, $type, $smoking, $cuisine ,$limit, $offset)
 	{
 		$query = $this->connection->prepare(
 		   'SELECT
@@ -252,18 +252,18 @@ class PlacesModel
 				avgBill
 			FROM
 				places
-			WHERE
-				wifi = :wifi
-			AND
-				outdoors = :outdoors
-			AND
-				parking = :parking
-			AND
+			WHERE                        
 				type = :type
-			AND
+                        AND
+                                outdoors = :outdoors
+                        AND
+				cuisine = :cuisine
+                        AND
+				parking = :parking
+                        AND
 				smoking = :smoking
 			AND
-				cuisine = :cuisine
+				wifi = :wifi			
 			ORDER BY
 				id
 			DESC'
@@ -271,11 +271,12 @@ class PlacesModel
 		$queryArgsList = array(
 			':type' => $type,
 			':outdoors' => $outdoors ? 1 : 0,
-			':cuisine' => $cuisine ? 1 : 0,
+			':cuisine' => $cuisine,
 			':parking' => $parking ? 1 : 0,
 			':smoking' => $smoking ? 1 : 0,
 			':wifi' => $wifi ? 1 : 0
 		);
+                $query->execute($queryArgsList);
 		return $query->fetchAll();
 	}
 	//

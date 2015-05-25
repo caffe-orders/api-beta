@@ -157,9 +157,9 @@ class Places extends Module
 				'outdoors' => 'bool',
 				'parking' => 'bool',
 				'smoking' => 'bool',
-				'type' => '',
-				'cuisine' => '',
+				'type' => '',				
 				'limit' => 'int',
+                                'cuisine' => '',
 				'offset' => 'int'
 			);
 			if(Module::CheckArgs($parametersArray, $args))
