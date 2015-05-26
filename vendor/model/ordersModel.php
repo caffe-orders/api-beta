@@ -173,6 +173,30 @@ class ordersModel {
         }
     } 
     
+    public function ListOrders($placeId, $userId)
+    {
+        $orders = null;
+        $placeModel = new PlacesModel();
+        $place = $placeModel->GetFullInfo($placeId);
+        if($place['ownerId'] == $userId)
+        {
+            $query = $this->connection->prepare(
+                'SELECT
+                    * 
+                FROM
+                    table_orders
+                WHERE
+                    placeId = :placeId
+                AND
+                    status < 3'
+            );
+            $query->bindValue(':placeId', (int)$placeId, PDO::PARAM_INT);      
+            $query->execute();
+            $orders = $query->fetchAll();
+        }
+        return $orders;
+    }
+    
     public function NotConfirmed($userId)
     {
         $query = $this->connection->prepare(

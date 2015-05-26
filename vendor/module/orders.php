@@ -52,6 +52,31 @@ class orders extends Module {
     //
     public function SetGetFunctions() {
         
+        $this->get('list', 2, function($args) {
+            $response = new Response();
+            $parametersArray = array(
+                'placeId' => 'int'
+            );
+            if (Module::CheckArgs($parametersArray, $args))
+            {
+                $placeId = $args['placeId'];
+                $model = new OrdersModel();
+                if (isset($_SESSION['id']) && $model->ListOrders($placeId, $_SESSION['id']))
+                {
+                    $response->SetStatusCode(200, 'OK');
+                }
+                else
+                {
+                    $response->SetStatusCode(204, 'Error creating new order');
+                }
+            } 
+            else
+            {
+                $response->SetStatusCode(400, 'Arguments not found(tableId[int]) or Incorrect arguments type');
+            }
+            return $response;
+        });
+        
         $this->get('new', 1, function($args) {
             $response = new Response();
             $parametersArray = array(

@@ -254,21 +254,22 @@ class Dish extends Module
 				$dishCategoryId = $args['dishCategoryId'];
 				$placeId = $args['placeId'];
 
-				if(isset($_SESSION['id']) && $model->UpdateDish(
-						$id,
-						$name,
-						$description,
-						$cost,
-						$dishCategoryId,
-						$_SESSION['id'],
-						$placeId
+				if(isset($_SESSION['id']) && $id = $model->UpdateDish(
+                                        $id,
+                                        $name,
+                                        $description,
+                                        $cost,
+                                        $dishCategoryId,
+                                        $_SESSION['id'],
+                                        $placeId
 				))
 				{
-					$response->SetStatusCode(200, 'OK');
+                                    $response->SetJsonContent($id);
+                                    $response->SetStatusCode(200, 'OK');
 				}
 				else
 				{
-					$response->SetStatusCode(400, 'Failed to update dish');
+                                    $response->SetStatusCode(400, 'Failed to update dish');
 				}
 			}
 			else

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Май 25 2015 г., 16:10
+-- Время создания: Май 26 2015 г., 20:38
 -- Версия сервера: 5.5.38
 -- Версия PHP: 5.3.13
 
@@ -140,14 +140,15 @@ CREATE TABLE IF NOT EXISTS `complex_dinner` (
   `description` varchar(1000) NOT NULL,
   `cost` int(11) NOT NULL,
   `day` smallint(6) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Дамп данных таблицы `complex_dinner`
 --
 
 INSERT INTO `complex_dinner` (`id`, `placeId`, `deleted`, `name`, `description`, `cost`, `day`) VALUES
-(1, 2, 0, '234234dsfsdfsd', '1111', 100, 3);
+(1, 2, 0, '234234dsfsdfsd', '1111', 100, 3),
+(2, 1, 1, 'qwe', 'qweqweqwe', 11111, 3);
 
 -- --------------------------------------------------------
 
@@ -161,9 +162,10 @@ CREATE TABLE IF NOT EXISTS `corporate_orders` (
   `placeId` int(11) NOT NULL,
   `roomId` int(11) NOT NULL,
   `status` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `dateStart` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `dateFinish` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `code` int(11) NOT NULL,
-  `serializedData` varchar(3000) NOT NULL
+  `data` varchar(5000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -179,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `dish` (
   `cost` int(11) NOT NULL,
   `dishCategoryId` int(11) NOT NULL,
   `deleted` tinyint(1) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Дамп данных таблицы `dish`
@@ -198,7 +200,8 @@ INSERT INTO `dish` (`id`, `name`, `description`, `cost`, `dishCategoryId`, `dele
 (10, 'a3334', 'awdawd', 123, 2, 0),
 (11, 'фцвфцвфцв', 'awdawd', 123, 1, 0),
 (12, 'aфцвwdw234', 'awdawd', 123, 2, 0),
-(13, 'dish', 'awdawd', 123, 1, 0);
+(13, 'dish', 'awdawd', 123, 1, 0),
+(14, 'Сметанка в сметанке', 'Сметанка в сметанке лучек', 20000, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -242,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `files_token` (
 --
 
 INSERT INTO `files_token` (`token`, `sessionHash`, `deleteDate`) VALUES
-('7ea8e2620a84661773336b669f16af6d', '306804551f155a2b1d44c5679326a3a3', '2015-05-23 14:25:24');
+('c484804df70b8fa19cd08bfe499db747', '2f1c922c6a3cf52b6d26c279a2227e81', '2015-05-26 18:23:00');
 
 -- --------------------------------------------------------
 
@@ -263,7 +266,10 @@ CREATE TABLE IF NOT EXISTS `menu` (
 INSERT INTO `menu` (`placeId`, `dishId`, `deleted`) VALUES
 (3, 11, 0),
 (3, 2, 0),
-(3, 8, 0);
+(3, 8, 0),
+(3, 1, 0),
+(1, 14, 0),
+(3, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -354,6 +360,21 @@ CREATE TABLE IF NOT EXISTS `prohibited_names` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `registration_requests`
+--
+
+CREATE TABLE IF NOT EXISTS `registration_requests` (
+`id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `commentary` varchar(10000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `restore_access`
 --
 
@@ -371,7 +392,7 @@ CREATE TABLE IF NOT EXISTS `restore_access` (
 --
 
 INSERT INTO `restore_access` (`id`, `phone`, `code`, `date`, `attempts`, `isActive`) VALUES
-(8, 375445378289, 77664, '2015-05-25 09:54:05', 0, 0);
+(8, 375445378289, 79087, '2015-05-26 12:28:18', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -385,7 +406,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `number` int(11) NOT NULL,
   `capacity` int(11) NOT NULL,
   `deleted` tinyint(4) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Дамп данных таблицы `rooms`
@@ -398,7 +419,8 @@ INSERT INTO `rooms` (`id`, `placeId`, `number`, `capacity`, `deleted`) VALUES
 (4, 1, 2, 100, 0),
 (5, 1, 3, 100, 0),
 (6, 3, 1, 100, 0),
-(7, 5, 12, 200, 0);
+(7, 5, 12, 200, 0),
+(8, 1, 4, 100, 1);
 
 -- --------------------------------------------------------
 
@@ -527,6 +549,12 @@ ALTER TABLE `place_statistics`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `registration_requests`
+--
+ALTER TABLE `registration_requests`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `restore_access`
 --
 ALTER TABLE `restore_access`
@@ -564,7 +592,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `complex_dinner`
 --
 ALTER TABLE `complex_dinner`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `corporate_orders`
 --
@@ -574,7 +602,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `dish`
 --
 ALTER TABLE `dish`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `dish_category`
 --
@@ -596,6 +624,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 ALTER TABLE `place_statistics`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `registration_requests`
+--
+ALTER TABLE `registration_requests`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `restore_access`
 --
 ALTER TABLE `restore_access`
@@ -604,7 +637,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `tables`
 --

@@ -63,9 +63,7 @@ class DishModel {
     }
     
     public function UpdateDish($id, $name, $description, $cost, $dishCategoryId, $userId, $placeId)
-    {
-        $state = false;
-        
+    {        
         $queryDish = $this->connection->prepare(
             'SELECT * FROM dish
                 WHERE id = :id'
@@ -94,10 +92,6 @@ class DishModel {
                         $ownedPlace = true;
                     }
                 }
-            }
-            else
-            {
-                $state = false;
             }
             
             if($ownedPlace)
@@ -133,10 +127,7 @@ class DishModel {
                         ':cost' => $cost,
                         ':dishCategoryId' => $dishCategoryId
                     );
-                    if($query->execute($queryArgsList))
-                    {
-                        $state = true;
-                    } 
+                    $query->execute($queryArgsList);
                 }
                 else
                 {                    
@@ -165,7 +156,7 @@ class DishModel {
                     );
                     if($query->execute($queryArgsList))
                     {
-                        $newId = $this->connection->lastInsertId();
+                        $id = $this->connection->lastInsertId();
                         
                         foreach($menu as $menuItem)
                         {
@@ -181,26 +172,18 @@ class DishModel {
                                     '
                                 );
                                  $queryArgsList = array(
-                                    ':dishId' => $newId,
+                                    ':dishId' => $id,
                                     ':placeId' => $placeId,
                                     ':oldDishId' => $id
                                 );
-                                if($query->execute($queryArgsList))
-                                {
-                                    $state = true;
-                                } 
+                                $query->execute($queryArgsList);
                             }
                         }
-                        $state = true;
                     }
                 }
             }
-            else
-            {
-                $state = false;
-            }
         }
-        return $state;
+        return array('id' => $id);
     }
     //
     //$id  - int
