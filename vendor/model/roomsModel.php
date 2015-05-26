@@ -36,7 +36,10 @@ class RoomsModel {
     {
         $query = $this->connection->prepare(
             'SELECT 
-                 * 
+                id,
+                placeId,
+                number,
+                capacity
              FROM 
                  rooms 
              WHERE
@@ -197,7 +200,10 @@ class RoomsModel {
                 );
             if($query->execute($queryArgsList))
             {
-                return array('roomNumber' => $number);
+                return array(
+                    'id' => $id,
+                    'roomNumber' => $number
+                );
             }
         }
         return null;

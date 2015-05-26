@@ -166,7 +166,7 @@ class tables extends Module {
                     $posY = 45;
                 }
                 $model = new TablesModel();
-                if (isset($_SESSION['id']) && $tableId = $model->AddTable(
+                if (isset($_SESSION['id']) && $table = $model->AddTable(
                         $placeId,
                         $roomId,
                         $type,
@@ -175,7 +175,7 @@ class tables extends Module {
                         $_SESSION['id']
                 ))
                 {
-                    $response->SetJsonContent($tableId);
+                    $response->SetJsonContent($table);
                     $response->SetStatusCode(200, 'OK');
                 }
                 else

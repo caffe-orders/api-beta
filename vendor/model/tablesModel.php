@@ -85,7 +85,6 @@ class tablesModel {
         $userId
     )
     {
-        $id = null;
         if($this->userOwnedPlaces($placeId, $userId))
         {
             $query = $this->connection->prepare(
@@ -118,10 +117,20 @@ class tablesModel {
             );
             if($query->execute($queryArgsList))
             {
-                $id = $this->connection->lastInsertId();
+                $id = $this->connection->lastInsertId();                
+                return array(
+                    'id' => $id,
+                    'placeId' => $placeId,
+                    'roomId' =>$roomId,
+                    'type' => $type,
+                    'posX' => $posX,
+                    'posY' => $posY,
+                    'status' => 0,
+                    'deleted' => 0
+                );
             } 
         }
-        return $id;
+        return null;
     }
     
     public function UpdateTable(
