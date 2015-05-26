@@ -85,7 +85,7 @@ class Dish extends Module
 			}
 			else
 			{
-				$response->SetStatusCode(400, 'Arguments not found(limit[str], offset[int]) or Incorrect arguments type');
+				$response->SetStatusCode(400, 'Arguments not found(name[str]) or Incorrect arguments type');
 			}
 
 			return $response;
