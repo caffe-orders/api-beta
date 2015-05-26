@@ -92,7 +92,7 @@ class regRequests extends Module
 			return $response;
 		});
                 
-                $this->get('fullList', 3, function($args)
+                $this->get('fulllist', 3, function($args)
 		{
 			$response = new Response();
 			$parametersArray = array(
