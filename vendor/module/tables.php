@@ -141,7 +141,7 @@ class tables extends Module {
             return $response;
         });        
         
-        $this->get('add', 2, function($args) {
+        $this->post('add', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
                 'placeId' => 'int',
@@ -190,7 +190,7 @@ class tables extends Module {
             return $response;
         });
         
-        $this->get('update', 2, function($args) {
+        $this->post('update', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
                 'id' => 'int',
@@ -241,7 +241,7 @@ class tables extends Module {
             return $response;
         });
 
-        $this->get('delete', 2, function($args) {
+        $this->post('delete', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
                 'id' => 'int'
@@ -266,7 +266,7 @@ class tables extends Module {
             return $response;
         });
         
-        $this->get('reestablish', 2, function($args) {
+        $this->post('reestablish', 2, function($args) {
             $response = new Response();
             $parametersArray = array(
                 'id' => 'int'
