@@ -109,6 +109,10 @@ class RoomsModel {
             if($query->execute($queryArgsList))
             {
                 $id = $this->connection->lastInsertId();
+                return array(
+                    'id' => $id,
+                    'roomNumber' => $number
+                );
             }
         }
         return $id;
@@ -156,7 +160,6 @@ class RoomsModel {
     
     public function UpdateRoom($id, $placeId, $number, $capacity)
     {
-        $state = false;
         $query = $this->connection->prepare(
            'SELECT
                 * 
@@ -194,9 +197,9 @@ class RoomsModel {
                 );
             if($query->execute($queryArgsList))
             {
-                $state = true;
+                return array('roomNumber' => $number);
             }
         }
-        return $state;
+        return null;
     }
 }

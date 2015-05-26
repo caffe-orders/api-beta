@@ -182,8 +182,9 @@ class Rooms extends Module
                 }
                 $capacity = $args['capacity'];
                 $model = new RoomsModel();
-                if($model->UpdateRoom($id, $placeId, $number, $capacity))
-                {                    
+                if($roomNumber = $model->UpdateRoom($id, $placeId, $number, $capacity))
+                {         
+                    $response->SetJsonContent($roomNumber);
                     $response->SetStatusCode(200, 'OK');
                 }
                 else
@@ -268,7 +269,7 @@ class Rooms extends Module
                 $placeId = $args['placeId'];
                 $capacity = $args['capacity'];
                 $model = new RoomsModel();
-                if($roomId = $model->AddRoom($placeId, $capacity))
+                if($roomInfo = $model->AddRoom($placeId, $capacity))
                 {        
                     $response->SetJsonContent($roomId);
                     $response->SetStatusCode(200, 'OK');

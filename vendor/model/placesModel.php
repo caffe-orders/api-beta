@@ -25,69 +25,73 @@ class PlacesModel
 		$avgBill
 	)
 	{
-		$state = false;
-		$query = $this->connection->prepare(
-		   'INSERT
-				places(
-					name,
-					ownerId,
-					gmap,
-					address,
-					phones,
-					workTime,
-					descr,
-					type,
-					sumRating,
-					countRating,
-					outdoors,
-					cuisine,
-					parking,
-					smoking,
-					wifi,
-					avgBill
-				)
-			VALUES(
-				:name,
-				:ownerId,
-				:gmap,
-				:address,
-				:phones,
-				:workTime,
-				:descr,
-				:type,
-				:sumRating,
-				:countRating,
-				:outdoors,
-				:cuisine,
-				:parking,
-				:smoking,
-				:wifi,
-				:avgBill
-			)'
-		);
-		$queryArgsList = array(
-			':name' => $name,
-			':ownerId' => $ownerId,
-			':gmap' => $gmap,
-			':address' => $address,
-			':phones' => $phones,
-			':workTime' => $workTime,
-			':descr' => $descr,
-			':type' => $type,
-			':sumRating' => 0,
-			':countRating' => 0,
-			':outdoors' => $outdoors,
-			':cuisine' => $cuisine,
-			':parking' => $parking,
-			':smoking' => $smoking,
-			':wifi' => $wifi,
-			':avgBill' => $avgBill
-		);
-		if($query->execute($queryArgsList))
-		{
-			$state = true;
-		}
-		return state;
+            $state = false;
+            if($outdoors == 'true'){$outdoors=1;}else{$outdoors=0;}
+            if($parking == 'true'){$parking=1;}else{$parking=0;}
+            if($smoking == 'true'){$smoking=1;}else{$smoking=0;}
+            if($wifi == 'true'){$wifi=1;}else{$wifi=0;}
+            $query = $this->connection->prepare(
+               'INSERT
+                            places(
+                                    name,
+                                    ownerId,
+                                    gmap,
+                                    address,
+                                    phones,
+                                    workTime,
+                                    descr,
+                                    type,
+                                    sumRating,
+                                    countRating,
+                                    outdoors,
+                                    cuisine,
+                                    parking,
+                                    smoking,
+                                    wifi,
+                                    avgBill
+                            )
+                    VALUES(
+                            :name,
+                            :ownerId,
+                            :gmap,
+                            :address,
+                            :phones,
+                            :workTime,
+                            :descr,
+                            :type,
+                            :sumRating,
+                            :countRating,
+                            :outdoors,
+                            :cuisine,
+                            :parking,
+                            :smoking,
+                            :wifi,
+                            :avgBill
+                    )'
+            );
+            $queryArgsList = array(
+                    ':name' => $name,
+                    ':ownerId' => $ownerId,
+                    ':gmap' => $gmap,
+                    ':address' => $address,
+                    ':phones' => $phones,
+                    ':workTime' => $workTime,
+                    ':descr' => $descr,
+                    ':type' => $type,
+                    ':sumRating' => 0,
+                    ':countRating' => 0,
+                    ':outdoors' => $outdoors,
+                    ':cuisine' => $cuisine,
+                    ':parking' => $parking,
+                    ':smoking' => $smoking,
+                    ':wifi' => $wifi,
+                    ':avgBill' => $avgBill
+            );
+            if($query->execute($queryArgsList))
+            {
+                    $state = true;
+            }
+            return state;
 	}
 	//
 	//
@@ -110,51 +114,55 @@ class PlacesModel
 		$avgBill
 	)
 	{
-		$state = false;
-		$query = $this->connection->prepare(
-		   'UPDATE
-				places
-			SET
-				name = :name,
-				gmap = :gmap,
-				address = :address,
-				phones = :phones,
-				workTime = :workTime,
-				descr = :descr,
-				type = :type,
-				outdoors = :outdoors,
-				cuisine = :cuisine,
-				parking = :parking,
-				smoking = :smoking,
-				wifi = :wifi,
-				avgBill = :avgBill
-			WHERE
-				id = :placeId
-			AND
-				ownerId = :ownerId'
-		);
-		$queryArgsList = array(
-			':placeId' => $placeId,
-			':name' => $name,
-			':ownerId' => $ownerId,
-			':gmap' => $gmap,
-			':address' => $address,
-			':phones' => $phones,
-			':workTime' => $workTime,
-			':descr' => $descr,
-			':type' => $type,
-			':outdoors' => $outdoors,
-			':cuisine' => $cuisine,
-			':parking' => $parking,
-			':smoking' => $smoking,
-			':wifi' => $wifi,
-			':avgBill' => $avgBill
-		);
-		if($query->execute($queryArgsList))
-		{
-			$state = true;
-		}
-		return state;
+            $state = false;
+            if($outdoors == 'true'){$outdoors=1;}else{$outdoors=0;}
+            if($parking == 'true'){$parking=1;}else{$parking=0;}
+            if($smoking == 'true'){$smoking=1;}else{$smoking=0;}
+            if($wifi == 'true'){$wifi=1;}else{$wifi=0;}
+            $query = $this->connection->prepare(
+               'UPDATE
+                            places
+                    SET
+                            name = :name,
+                            gmap = :gmap,
+                            address = :address,
+                            phones = :phones,
+                            workTime = :workTime,
+                            descr = :descr,
+                            type = :type,
+                            outdoors = :outdoors,
+                            cuisine = :cuisine,
+                            parking = :parking,
+                            smoking = :smoking,
+                            wifi = :wifi,
+                            avgBill = :avgBill
+                    WHERE
+                            id = :placeId
+                    AND
+                            ownerId = :ownerId'
+            );
+            $queryArgsList = array(
+                    ':placeId' => $placeId,
+                    ':name' => $name,
+                    ':ownerId' => $ownerId,
+                    ':gmap' => $gmap,
+                    ':address' => $address,
+                    ':phones' => $phones,
+                    ':workTime' => $workTime,
+                    ':descr' => $descr,
+                    ':type' => $type,
+                    ':outdoors' => $outdoors,
+                    ':cuisine' => $cuisine,
+                    ':parking' => $parking,
+                    ':smoking' => $smoking,
+                    ':wifi' => $wifi,
+                    ':avgBill' => $avgBill
+            );
+            if($query->execute($queryArgsList))
+            {
+                    $state = true;
+            }
+            return state;
 	}
 	//
 	//$limit - int
