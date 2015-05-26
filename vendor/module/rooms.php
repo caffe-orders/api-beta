@@ -229,7 +229,7 @@ class Rooms extends Module
         //
         //
         //
-        $this->post('reestablis', 2, function($args)
+        $this->post('reestablish', 2, function($args)
         {
             $response = new Response();
             $parametersArray = array(
@@ -239,7 +239,7 @@ class Rooms extends Module
             {
                 $roomId = $args['roomId'];
                 $model = new RoomsModel();
-                if($model->ReestablisRoom($roomId))
+                if($model->ReestablishRoom($roomId))
                 {
                     $response->SetStatusCode(200, 'OK');
                 }
@@ -271,7 +271,7 @@ class Rooms extends Module
                 $model = new RoomsModel();
                 if($roomInfo = $model->AddRoom($placeId, $capacity))
                 {        
-                    $response->SetJsonContent($roomId);
+                    $response->SetJsonContent($roomInfo);
                     $response->SetStatusCode(200, 'OK');
                 }
                 else

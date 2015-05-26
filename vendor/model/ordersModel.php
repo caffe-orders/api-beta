@@ -3,6 +3,11 @@
  * Description of ordersModel
  *
  * @author Broff
+* Статусы заказа
+ * 1 - не подтвержден
+ * 2 - подтвержден пользователем
+ * 3 - был проведен
+ * 5 - отменен
  */
 class ordersModel {
     
