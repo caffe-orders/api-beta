@@ -142,6 +142,9 @@ class corporateModel {
             $place = $placeModel->GetFullInfo($corporate['placeId']);
             if($place['ownerId'] == $userId)
             {
+                $statistic = new StatisticsModel();
+                $statistic->OneCorporate($place['id']);
+            
                 $query = $this->connection->prepare(
                     'UPDATE
                         corporate_orders

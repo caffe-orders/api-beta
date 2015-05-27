@@ -32,42 +32,42 @@ class PlacesModel
             if($wifi == 'true'){$wifi=1;}else{$wifi=0;}
             $query = $this->connection->prepare(
                'INSERT
-                            places(
-                                    name,
-                                    ownerId,
-                                    gmap,
-                                    address,
-                                    phones,
-                                    workTime,
-                                    descr,
-                                    type,
-                                    sumRating,
-                                    countRating,
-                                    outdoors,
-                                    cuisine,
-                                    parking,
-                                    smoking,
-                                    wifi,
-                                    avgBill
-                            )
-                    VALUES(
-                            :name,
-                            :ownerId,
-                            :gmap,
-                            :address,
-                            :phones,
-                            :workTime,
-                            :descr,
-                            :type,
-                            :sumRating,
-                            :countRating,
-                            :outdoors,
-                            :cuisine,
-                            :parking,
-                            :smoking,
-                            :wifi,
-                            :avgBill
-                    )'
+                places(
+                        name,
+                        ownerId,
+                        gmap,
+                        address,
+                        phones,
+                        workTime,
+                        descr,
+                        type,
+                        sumRating,
+                        countRating,
+                        outdoors,
+                        cuisine,
+                        parking,
+                        smoking,
+                        wifi,
+                        avgBill
+                        )
+                VALUES(
+                        :name,
+                        :ownerId,
+                        :gmap,
+                        :address,
+                        :phones,
+                        :workTime,
+                        :descr,
+                        :type,
+                        :sumRating,
+                        :countRating,
+                        :outdoors,
+                        :cuisine,
+                        :parking,
+                        :smoking,
+                        :wifi,
+                        :avgBill
+                )'
             );
             $queryArgsList = array(
                     ':name' => $name,
@@ -281,97 +281,98 @@ class PlacesModel
 	//
 	public function GetFullInfo($id)
 	{
-		$query = $this->connection->prepare(
-		   'SELECT
-				*
-			FROM
-				places
-			WHERE
-				id = :id'
-		);
-		$query->bindValue('id', (int)$id, PDO::PARAM_INT);
-		$query->execute();
-		return $query->fetch();
+            $statistic = new StatisticsModel();
+            $statistic->OneView($id);
+            
+            $query = $this->connection->prepare(
+               'SELECT
+                    *
+                FROM
+                    places
+                WHERE
+                    id = :id'
+            );
+            $query->bindValue('id', (int)$id, PDO::PARAM_INT);
+            $query->execute();
+            return $query->fetch();
 	}
-  //
-	
 	//
 	//
 	//
 	public function GetOwned($userId)
 	{
-		$query = $this->connection->prepare(
-		   'SELECT
-				*
-			FROM
-				places
-			WHERE
-				ownerId = :ownerId'
-		);
-		$query->bindValue(':ownerId',(int)$userId , PDO::PARAM_INT);
-		$query->execute();
-		return $query->fetchAll();
+            $query = $this->connection->prepare(
+            'SELECT
+                *
+            FROM
+                places
+            WHERE
+                ownerId = :ownerId'
+            );
+            $query->bindValue(':ownerId',(int)$userId , PDO::PARAM_INT);
+            $query->execute();
+            return $query->fetchAll();
 	}
 	//
 	//
 	//
 	public function Rate($placeId, $userId, $mark)
 	{
-		$query = $this->connection->prepare(
-		   'SELECT
-				*
-			FROM
-				place_rated
-			WHERE
-				userId = :userId
-			AND
-				placeId = :placeId'
-		);
-		$query->bindValue(':placeId',(int)$placeId , PDO::PARAM_INT);
-		$query->bindValue(':userId',(int)$userId , PDO::PARAM_INT);
-		$query->execute();
-		if($isRated = $query->fetchAll())
-		{
-			return false;
-		}
-		else
-		{
-			$setRateQuery = $this->connection->prepare(
-				'UPDATE
-					places
-				 SET
-					sumRating = sumRating + :mark,
-					countRating = countRating + 1
-				 WHERE
-					id = :placeId'
-			);
-			$setRateQuery->bindValue(':placeId',(int)$placeId , PDO::PARAM_INT);
-			$setRateQuery->bindValue(':mark',(int)$mark , PDO::PARAM_INT);
-			if($setRateQuery->execute())
-			{
-				$addPlaceRateDataQuery = $this->connection->prepare(
-					'INSERT
-						place_rated(
-							userId,
-							placeId,
-							mark
-						)
-					 VALUES(
-						:userId,
-						:placeId,
-						:mark)'
-				);
-				$addPlaceRateDataQuery->bindValue(':placeId',(int)$placeId , PDO::PARAM_INT);
-				$addPlaceRateDataQuery->bindValue(':mark',(int)$mark , PDO::PARAM_INT);
-				$addPlaceRateDataQuery->bindValue(':userId',(int)$userId , PDO::PARAM_INT);
-				$addPlaceRateDataQuery->execute();
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+            $query = $this->connection->prepare(
+               'SELECT
+                    *
+                FROM
+                    place_rated
+                WHERE
+                    userId = :userId
+                AND
+                    placeId = :placeId'
+            );
+            $query->bindValue(':placeId',(int)$placeId , PDO::PARAM_INT);
+            $query->bindValue(':userId',(int)$userId , PDO::PARAM_INT);
+            $query->execute();
+            if($isRated = $query->fetchAll())
+            {
+                return false;
+            }
+            else
+            {
+                $setRateQuery = $this->connection->prepare(
+                    'UPDATE
+                            places
+                     SET
+                            sumRating = sumRating + :mark,
+                            countRating = countRating + 1
+                     WHERE
+                            id = :placeId'
+                );
+                $setRateQuery->bindValue(':placeId',(int)$placeId , PDO::PARAM_INT);
+                $setRateQuery->bindValue(':mark',(int)$mark , PDO::PARAM_INT);
+                if($setRateQuery->execute())
+                {
+                    $addPlaceRateDataQuery = $this->connection->prepare(
+                            'INSERT
+                                    place_rated(
+                                            userId,
+                                            placeId,
+                                            mark
+                                    )
+                             VALUES(
+                                    :userId,
+                                    :placeId,
+                                    :mark)'
+                    );
+                    $addPlaceRateDataQuery->bindValue(':placeId',(int)$placeId , PDO::PARAM_INT);
+                    $addPlaceRateDataQuery->bindValue(':mark',(int)$mark , PDO::PARAM_INT);
+                    $addPlaceRateDataQuery->bindValue(':userId',(int)$userId , PDO::PARAM_INT);
+                    $addPlaceRateDataQuery->execute();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
 	}
 
 }

@@ -122,6 +122,9 @@ class ordersModel {
             {
                 if($order['activateCode'] == $code)
                 {
+                    $statistic = new StatisticsModel();
+                    $statistic->OneOrder($order['placeId']);
+                    
                     $table = new tablesModel();
                     $table->ActivateTable($order['tableId']);
                     $this->SetStatus(2, $userId);
