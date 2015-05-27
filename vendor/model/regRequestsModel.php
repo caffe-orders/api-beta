@@ -8,7 +8,7 @@
  * 1 - подтвержден
  * 2 - удален
  */
-class regRequestsModel {
+class regRequestsModel extends Model {
     
     public function __construct()
     {

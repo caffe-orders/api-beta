@@ -11,7 +11,7 @@
  *
  * @author Broff
  */
-class RoomsModel {
+class RoomsModel extends Model {
     public function __construct()
     {
         $this->connection = DatabaseProvider::GetConnection();

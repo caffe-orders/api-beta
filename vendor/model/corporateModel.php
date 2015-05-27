@@ -11,7 +11,7 @@
  * 3 - был проведен
  * 4 - отменен
  */
-class corporateModel {
+class corporateModel extends Model {
     
     public function __construct()
     {

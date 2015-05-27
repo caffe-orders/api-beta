@@ -1,5 +1,5 @@
 <?php
-class HitsModel
+class HitsModel extends Model
 {
     //
     //

@@ -5,7 +5,7 @@
  * @author Broff
  */
 
-class MenuModel {
+class MenuModel extends Model {
     
     public function __construct()
     {

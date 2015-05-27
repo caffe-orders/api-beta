@@ -4,7 +4,7 @@
  *
  * @author Broff
  */
-class StatisticsModel {
+class StatisticsModel extends Model {
     
     public function __construct()
     {

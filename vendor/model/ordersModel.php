@@ -9,7 +9,7 @@
  * 3 - был проведен
  * 5 - отменен
  */
-class ordersModel {
+class ordersModel extends Model {
     
     public function __construct()
     {

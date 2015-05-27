@@ -11,7 +11,7 @@
  *
  * @author Broff
  */
-class installModel
+class installModel extends Model
 {
     public function start($route = 'resources/api.sql')
     {

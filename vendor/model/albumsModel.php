@@ -11,7 +11,7 @@
  *
  * @author Broff
  */
-class albumsModel {
+class albumsModel extends Model{
         
     public function __construct()
     {

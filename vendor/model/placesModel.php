@@ -1,5 +1,5 @@
 <?php
-class PlacesModel
+class PlacesModel extends Model
 {
 	public function __construct()
 	{

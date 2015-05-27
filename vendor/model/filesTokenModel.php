@@ -11,7 +11,7 @@
  *
  * @author Broff
  */
-class FilesTokenModel {
+class FilesTokenModel extends Model {
     
     public function __construct()
     {

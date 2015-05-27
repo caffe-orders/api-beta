@@ -1,6 +1,6 @@
 <?php
 
-class BackupModel
+class BackupModel extends Model
 {    
     public function Start()
     {

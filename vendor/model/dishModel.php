@@ -4,7 +4,7 @@
  *
  * @author Broff
  */
-class DishModel {
+class DishModel extends Model {
     
     public function __construct()
     {

@@ -11,7 +11,7 @@
  *
  * @author Broff
  */
-class tablesModel {
+class tablesModel extends Model {
     
     public function __construct()
     {

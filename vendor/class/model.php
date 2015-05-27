@@ -1,7 +1,7 @@
 <?php
 class Model
 {
-    protected $connection;
+    public $connection;
 }
     
 ?>

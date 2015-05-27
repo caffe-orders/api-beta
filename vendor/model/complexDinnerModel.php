@@ -4,7 +4,7 @@
  *
  * @author Broff
  */
-class complexDinnerModel {
+class complexDinnerModel extends Model {
     
     public function __construct()
     {

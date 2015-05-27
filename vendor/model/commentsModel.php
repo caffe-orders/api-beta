@@ -1,5 +1,5 @@
 <?php
-class CommentsModel
+class CommentsModel extends Model
 {
     public function __construct()
     {

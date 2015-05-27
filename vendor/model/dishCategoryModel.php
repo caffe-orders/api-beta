@@ -1,5 +1,5 @@
 <?php
-class DishCategoryModel
+class DishCategoryModel extends Model
 {
     public function __construct()
     {
