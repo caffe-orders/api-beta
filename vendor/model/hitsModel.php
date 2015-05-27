@@ -1,9 +1,6 @@
 <?php
 class HitsModel extends Model
 {
-    //
-    //
-    //
     public function GetHitsCount($id)
     {
         $query = $this->connection->prepare(

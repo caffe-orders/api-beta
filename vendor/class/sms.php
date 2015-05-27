@@ -45,7 +45,5 @@ class Sms
             </message>
         </request>';
         return $xml;
-    }
-    
-    
+    }    
 }
