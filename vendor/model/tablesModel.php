@@ -56,6 +56,7 @@ class tablesModel extends Model {
     {
         $query = $this->connection->prepare(
            'SELECT
+                id,
                 type,
                 posX,
                 posY,               
