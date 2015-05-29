@@ -102,7 +102,7 @@ class orders extends Module {
 			return $response;
 		});
 
-		$this->get('reset', 2, function($args) {
+		$this->post('reset', 2, function($args) {
 			$response = new Response();
 			$parametersArray = array(
 				'tableId' => 'int'
@@ -127,7 +127,7 @@ class orders extends Module {
 			return $response;
 		});
 
-		$this->get('confirm', 1, function($args) {
+		$this->post('confirm', 1, function($args) {
 			$response = new Response();
 			$parametersArray = array(
 				'code' => 'int'
